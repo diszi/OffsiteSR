@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OffsiteSR</string>
+    <string name="actLogin_loginButton">BELÉPÉS</string>
+    <string name="actLogin_loginNameHint">Felhasználó név</string>
+    <string name="actLogin_loginPasswordHint">Jelszó</string>
+    <string name="error_isRequired">Kötelező</string>
+    <string name="error_wrongUser">Helytelen Felhasználó</string>
+    <string name="error_authFailed">Azonosítás nem sikerült</string>
+    <string name="error_unknown">Ismeretlen hiba</string>
+    <string name="error_network">Hálózati hiba</string>
+    <string name="error_general">Általános hiba</string>
+    <string name="actDetails_title">Részletek</string>
+    <string name="actList_title">Lista nézet</string>
+    <string name="actDetails_id">Azonosító:</string>
+    <string name="actDetails_description">Leírás:</string>
+    <string name="actDetails_status">Státusz</string>
+    <string name="actDetails_reportDate">Bejelentés ideje:</string>
+    <string name="actDetails_reportedBy">Bejelentő:</string>
+    <string name="actDetails_affectedPerson">Érintett személy:</string>
+    <string name="actDetails_classStructure">Osztály szerkezet:</string>
+    <string name="actDetails_priority">Prioritás:</string>
+    <string name="actDetails_asset">Eszköz:</string>
+    <string name="actDetails_owner">Felelős:</string>
+    <string name="actDetails_worklog">Munkanapló:</string>
+    <string name="menuStatus_inProgress">Folyamatban</string>
+    <string name="menuStatus_pending">Felfüggesztve</string>
+    <string name="menuStatus_queued">Queued</string>
+    <string name="menuStatus_slaHold">SLA Hold</string>
+    <string name="menuTicketList_history">Előzmények</string>
+    <string name="menuTicketList_logOut">Kijelentkezés</string>
+    <string name="menuTicketList_logs">Naplók</string>
+    <string name="menuTicketList_settings">Beállítások</string>
+    <string name="error_noOption">Hibás választás</string>
+    <string name="dialog_cancel">Mégse</string>
+    <string name="dialogSatus_title">Státusz váltás</string>
+    <string name="dialog_save">Mentés</string>
+    <string name="error_failedOperation">Művelet sikertelen</string>
+    <string name="actDetails_saveSuccess">Mentve</string>
+    <string name="dialogSatus_title2">Felelős váltás</string>
+    <string name="dialogWorkLog_title">Munkanapló hozzáadása</string>
+    <string name="dialogWrokLog_shortDesc">Rövid leírás</string>
+    <string name="dialogWorkLog_longDescription">Hosszú leírás</string>
+</resources>

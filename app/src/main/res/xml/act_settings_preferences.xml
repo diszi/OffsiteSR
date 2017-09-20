@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="List">
+        <EditTextPreference
+            android:key="@string/SettingsMaxListItemsKey"
+            android:title="@string/SettingsMaxListItemsTitle"
+            android:summary="@string/SettingsMaxListItemsSummary"
+            android:defaultValue="@string/SettingsMaxListItemsDefault"/>
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="History">
+        <EditTextPreference
+            android:key="@string/SettingsMaxHistoryLengthKey"
+            android:title="@string/SettingsMaxHistoryLengthTitle"
+            android:summary="@string/SettingsMaxHistoryLengthSummary"
+            android:defaultValue="@string/SettingsMaxHistoryLengthDefault"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Logs">
+        <EditTextPreference
+            android:key="@string/SettingsMaxLogMaxSizeKey"
+            android:title="@string/SettingsMaxLogMaxSizeTitle"
+            android:summary="@string/SettingsMaxLogMaxSizeSummary"
+            android:defaultValue="@string/SettingsMaxLogMaxSizeDefault"/>
+        <EditTextPreference
+            android:key="@string/SettingsLogRetentionKey"
+            android:title="@string/SettingsLogRetentionTitle"
+            android:summary="@string/SettingsLogRetentionSummary"
+            android:defaultValue="@string/SettingsLogRetentionDefault"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Security">
+        <EditTextPreference
+            android:key="@string/SettingsScreenLockKey"
+            android:title="@string/SettingsScreenLockTitle"
+            android:summary="@string/SettingsScreenLockSummary"
+            android:defaultValue="@string/SettingsScreenLockDefault"/>
+        <EditTextPreference
+            android:key="@string/SettingsManageUsersKey"
+            android:title="@string/SettingsManageUsersTitle"
+            android:summary="@string/SettingsManageUsersSummary"
+            android:defaultValue="@string/SettingsManageUsersDefault"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Language">
+        <ListPreference
+            android:key="@string/SettingsLanguageKey"
+            android:title="@string/SettingsLanguageTitle"
+            android:summary="@string/SettingsLanguageSummary"
+            android:defaultValue="@string/SettingsLanguageDefault"
+            android:entries="@array/settings_language_options_names"
+            android:entryValues="@array/settings_language_options_values" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

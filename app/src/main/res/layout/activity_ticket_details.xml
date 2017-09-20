@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actDetails_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/actList_title"
+        app:titleTextColor="@android:color/background_light"></android.support.v7.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/actDetails_progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actDetails_toolbar" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:isScrollContainer="false"
+        app:layout_constraintBottom_toTopOf="@+id/actDetails_linearLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actDetails_progressBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_id" />
+
+                <TextView
+                    android:id="@+id/actDetails_id"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_description" />
+
+                <TextView
+                    android:id="@+id/actDetails_description"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/actDetails_editStatusButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@android:color/background_light"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelDetail"
+                        android:text="@string/actDetails_status" />
+
+                    <TextView
+                        android:id="@+id/actDetails_status"
+                        style="@style/TextDetail" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_reportDate" />
+
+                <TextView
+                    android:id="@+id/actDetails_reportDate"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_reportedBy" />
+
+                <TextView
+                    android:id="@+id/actDetails_reportedBy"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_affectedPerson" />
+
+                <TextView
+                    android:id="@+id/actDetails_affectedPerson"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_classStructure" />
+
+                <TextView
+                    android:id="@+id/actDetails_classStructure"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_priority" />
+
+                <TextView
+                    android:id="@+id/actDetails_priority"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/actDetails_editOwnerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@android:color/background_light"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelDetail"
+                        android:text="@string/actDetails_owner" />
+
+                    <TextView
+                        android:id="@+id/actDetails_owner"
+                        style="@style/TextDetail" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <View style="@style/Divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorControlHighlight">
+
+                <TextView
+                    android:id="@+id/actDetails_worklog"
+                    style="@style/LabelDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="@string/actDetails_worklog" />
+
+                <ImageButton
+                    android:id="@+id/actDetails_addWorkLogButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/actDetails_workLogList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/actDetails_linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/actDetails_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textColor="@android:color/background_light"
+            tools:text="dsaffdaaf" />
+
+        <TextView
+            android:id="@+id/actDetails_syncDate"
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="2017.09.21 8:00"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/background_light" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_language_options_names">
+        <item>HU</item>
+        <item>ENG</item>
+    </string-array>
+
+    <string-array name="settings_language_options_values">
+        <item>HU</item>
+        <item>ENG</item>
+    </string-array>
+
+    <string-array name="statuses">
+        <item>QUEUED</item>
+        <item>INPROG</item>
+        <item>PENDING</item>
+        <item>SLAHOLD</item>
+    </string-array>
+</resources>

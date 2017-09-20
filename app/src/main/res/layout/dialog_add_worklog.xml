@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/diagWrokLog_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="400dp"
+    android:minWidth="400dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/diagWrokLog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        tools:text="@string/dialogWorkLog_title" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:text="TextView" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/diagWrokLog_shortDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="@string/dialogWrokLog_shortDesc"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/diagWrokLog_longDesc"
+                android:layout_width="match_parent"
+                android:layout_height="143dp"
+                android:layout_margin="10dp"
+                android:gravity="top"
+                android:hint="@string/dialogWorkLog_longDescription"
+                android:inputType="text"
+                android:lines="6"
+                android:maxLines="10"
+                android:minLines="6"
+                android:singleLine="false"
+                android:textAlignment="gravity" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/diagWrokLog_saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_light"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="@string/dialog_save"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/diagWrokLog_cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_light"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:text="@string/dialog_cancel"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+</LinearLayout>

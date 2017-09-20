@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="hu.d2.offsitesr">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".app.OffsiteSRApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".ui.view.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.view.ticketlist.TicketListActivity" />
+        <activity
+            android:name=".ui.view.ticketdetails.TicketDetailsActivity"
+            android:parentActivityName=".ui.view.ticketlist.TicketListActivity">
+            <meta-data
+                android:name="parentActivityName"
+                android:value=".ui.view.ticketdetails.TicketListActivity"></meta-data>
+        </activity>
+        <activity android:name=".ui.view.settings.SettingsActivity" />
+    </application>
+
+</manifest>

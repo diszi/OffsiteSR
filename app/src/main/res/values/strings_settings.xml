@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- List category -->
+    <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
+    <string name="SettingsMaxListItemsTitle">Max list size</string>
+    <string name="SettingsMaxListItemsSummary">Max %1$s list items</string>
+    <string name="SettingsMaxListItemsDefault">20</string>
+
+    <!-- History category -->
+    <string name="SettingsMaxHistoryLengthKey">settings_history_length</string>
+    <string name="SettingsMaxHistoryLengthTitle">Length</string>
+    <string name="SettingsMaxHistoryLengthSummary">%1$s items in history</string>
+    <string name="SettingsMaxHistoryLengthDefault">30</string>
+
+    <!-- Logs category -->
+    <string name="SettingsMaxLogMaxSizeKey">settings_max_log_size</string>
+    <string name="SettingsMaxLogMaxSizeTitle">Log size</string>
+    <string name="SettingsMaxLogMaxSizeSummary">%1$s MB</string>
+    <string name="SettingsMaxLogMaxSizeDefault">1</string>
+
+    <string name="SettingsLogRetentionKey">settings_log_retention</string>
+    <string name="SettingsLogRetentionTitle">Retention</string>
+    <string name="SettingsLogRetentionSummary">Keep for %1$s days</string>
+    <string name="SettingsLogRetentionDefault">30</string>
+
+    <!-- Security -->
+    <string name="SettingsScreenLockKey">settings_screen_lock</string>
+    <string name="SettingsScreenLockTitle">Screen lock</string>
+    <string name="SettingsScreenLockSummary">Locks after %1$s mins.</string>
+    <string name="SettingsScreenLockDefault">30</string>
+
+    <string name="SettingsManageUsersKey">settings_manage_users</string>
+    <string name="SettingsManageUsersTitle">Manage users</string>
+    <string name="SettingsManageUsersSummary">Selected user %1$s</string>
+    <string name="SettingsManageUsersDefault">None</string>
+
+    <!-- Language -->
+    <string name="SettingsLanguageKey">settings_language</string>
+    <string name="SettingsLanguageTitle">Language</string>
+    <string name="SettingsLanguageSummary">Selected language %1$s</string>
+    <string name="SettingsLanguageDefault">ENG</string>
+
+</resources>

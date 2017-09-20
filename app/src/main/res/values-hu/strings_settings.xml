@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- List category -->
+    <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
+    <string name="SettingsMaxListItemsTitle">Lista hossz</string>
+    <string name="SettingsMaxListItemsSummary">Maximum %1$s lista elem</string>
+    <string name="SettingsMaxListItemsDefault">20</string>
+
+    <!-- History category -->
+    <string name="SettingsMaxHistoryLengthKey">settings_history_length</string>
+    <string name="SettingsMaxHistoryLengthTitle">Hossz</string>
+    <string name="SettingsMaxHistoryLengthSummary">%1$s elem az előzményekben</string>
+    <string name="SettingsMaxHistoryLengthDefault">30</string>
+
+    <!-- Logs category -->
+    <string name="SettingsMaxLogMaxSizeKey">settings_max_log_size</string>
+    <string name="SettingsMaxLogMaxSizeTitle">Log méret</string>
+    <string name="SettingsMaxLogMaxSizeSummary">%1$s MB</string>
+    <string name="SettingsMaxLogMaxSizeDefault">1</string>
+
+    <string name="SettingsLogRetentionKey">settings_log_retention</string>
+    <string name="SettingsLogRetentionTitle">Megőrzés</string>
+    <string name="SettingsLogRetentionSummary">Logok megtartása %1$s napig</string>
+    <string name="SettingsLogRetentionDefault">30</string>
+
+    <!-- Security -->
+    <string name="SettingsScreenLockKey">settings_screen_lock</string>
+    <string name="SettingsScreenLockTitle">Képernyőzár</string>
+    <string name="SettingsScreenLockSummary">Lezár %1$s perc után</string>
+    <string name="SettingsScreenLockDefault">30</string>
+
+    <string name="SettingsManageUsersKey">settings_manage_users</string>
+    <string name="SettingsManageUsersTitle">Felhasználók kezelése</string>
+    <string name="SettingsManageUsersSummary">Aktuális felhasználó %1$s</string>
+    <string name="SettingsManageUsersDefault">None</string>
+
+    <!-- Language -->
+    <string name="SettingsLanguageKey">settings_language</string>
+    <string name="SettingsLanguageTitle">Nyelv</string>
+    <string name="SettingsLanguageSummary">Kiválasztott nyelv %1$s</string>
+    <string name="SettingsLanguageDefault">HU</string>
+
+</resources>

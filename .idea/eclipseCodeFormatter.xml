@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EclipseCodeFormatterProjectSettings">
+    <option name="selectedGlobalProfile">
+      <Settings>
+        <option name="formatter" value="ECLIPSE" />
+        <option name="id" value="1504706773919" />
+        <option name="name" value="EclipseFormatter" />
+        <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../CacTUX_EclipseFormatter_Profile.xml" />
+        <option name="selectedJavaProfile" value="CacTUX" />
+      </Settings>
+    </option>
+  </component>
+</project>

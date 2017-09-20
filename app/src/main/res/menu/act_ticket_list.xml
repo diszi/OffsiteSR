@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuTicketList_history"
+        android:icon="@mipmap/ic_refresh"
+        android:title="@string/menuTicketList_history"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuTicketList_settings"
+        android:title="@string/menuTicketList_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuTicketList_logs"
+        android:title="@string/menuTicketList_logs"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuTicketList_log_out"
+        android:title="@string/menuTicketList_logOut"
+        app:showAsAction="never" />
+
+
+</menu>
