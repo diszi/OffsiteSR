@@ -38,9 +38,9 @@ public class AddWorkLogSOAP {
                 "\n" +
                 "  <max:CREATEBY changed=\" \">"+user+"</max:CREATEBY>\n" +
                 "\n" +
-                "  <maxESCRIPTION changed=\" \">"+shortDesc+"</maxESCRIPTION>\n" +
+                "  <max:DESCRIPTION changed=\" \">"+shortDesc+"</max:DESCRIPTION>\n" +
                 "\n" +
-                "  <maxESCRIPTION_LONGDESCRIPTION changed=\" \">"+longDesc+"</maxESCRIPTION_LONGDESCRIPTION>\n" +
+                "  <max:DESCRIPTION_LONGDESCRIPTION changed=\" \">"+longDesc+"</max:DESCRIPTION_LONGDESCRIPTION>\n" +
                 "\n" +
                 "  <max:LOGTYPE maxvalue=\"WORK\" changed=\" \">WORK</max:LOGTYPE>\n" +
                 "\n" +
