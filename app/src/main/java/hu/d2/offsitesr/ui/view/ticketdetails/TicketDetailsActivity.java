@@ -2,6 +2,7 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.WorkLog;
 import hu.d2.offsitesr.ui.view.component.AddWorkLogDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
@@ -32,6 +34,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	private TicketDetailsPresenter presenter;
 	private TicketDetailsWorkLogAdapter adapter;
 	private ServiceRequestEntity ticket;
+	private TicketHolder ticketHolder;
 
 	private ChooseStatusDialog chooseStatusDialog;
 	private ChooseOwnerDialog chooseOwnerDialog;
@@ -73,8 +76,10 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ticket = (ServiceRequestEntity) getIntent().getExtras()
-				.get(ServiceRequestEntity.SERIALIZABLE_NAME);
+		ticketHolder =(TicketHolder) getIntent().getExtras()
+				.get(TicketHolder.SERIALIZABLE_NAME) ;
+		ticket = ticketHolder.getEntity();
+
 
 		setContentView(R.layout.activity_ticket_details);
 		ButterKnife.bind(this);
@@ -101,6 +106,9 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 	@Override
 	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.putExtra(TicketHolder.SERIALIZABLE_NAME,ticketHolder);
+		setResult(RESULT_OK,intent);
 		super.onBackPressed();
 	}
 
@@ -189,12 +197,14 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	public void updateStatus(String newStatus) {
         ticket.setStatus(newStatus);
 		compStatus.setText(newStatus);
+		ticketHolder.setChanged(true);
 	}
 
     @Override
     public void updateOwner(String newOwner) {
         ticket.setOwner(newOwner);
         compOwner.setText(newOwner);
+		ticketHolder.setChanged(true);
     }
 
     @Override

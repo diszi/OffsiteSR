@@ -1,6 +1,7 @@
 package hu.d2.offsitesr.ui.view.ticketlist;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.model.TicketHolder;
 
 /**
  * Created by csabinko on 2017.09.15..
@@ -32,6 +34,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
     }
 
     public void setTicketList(List<ServiceRequestEntity> ticketList) {
+        Log.d(" ----> ","Ticket List refresh");
 //        this.ticketList.clear();
 //        this.ticketList.addAll(ticketList);
         this.ticketList = ticketList;
@@ -48,7 +51,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
     public void onBindViewHolder(TicketListViewHolder holder, int position) {
         ServiceRequestEntity ticket = ticketList.get(position);
         holder.bind(ticket);
-        holder.itemView.setOnClickListener((v)-> view.launchDetailsView(ticket));
+        holder.itemView.setOnClickListener((v)-> view.launchDetailsView(new TicketHolder(ticket,position)));
     }
 
     @Override

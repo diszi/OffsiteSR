@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.login.LoginActivity;
 import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
@@ -32,6 +33,8 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 import hu.d2.offsitesr.util.UIConstans;
 
 public class TicketListActivity extends AppCompatActivity implements  TicketList{
+
+    public static int TICKET_REQUEST_CODE = 0;
 
     private TicketListPresenter presenter;
     private TicketListAdapter ticketListAdapter;
@@ -111,10 +114,24 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     @Override
-    public void launchDetailsView(ServiceRequestEntity entity) {
+    public void launchDetailsView(TicketHolder entityHolder) {
         Intent intent = new Intent(this, TicketDetailsActivity.class);
-        intent.putExtra(ServiceRequestEntity.SERIALIZABLE_NAME,entity);
-        startActivity(intent);
+        intent.putExtra(TicketHolder.SERIALIZABLE_NAME,entityHolder);
+        startActivityForResult(intent,TICKET_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == TICKET_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                TicketHolder ticketHolder = (TicketHolder) data.getExtras().get(TicketHolder.SERIALIZABLE_NAME);
+                if (ticketHolder.isChanged()){
+                    ticketList.add(ticketHolder.getPosition(),ticketHolder.getEntity());
+                    this.loadList(ticketList);
+                }
+
+            }
+        }
 
     }
 
