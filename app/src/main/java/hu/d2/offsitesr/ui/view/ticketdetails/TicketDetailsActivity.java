@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +64,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	@BindView(R.id.actDetails_worklog)
 	TextView compWorkLog;
 
+	@BindView(R.id.actDetails_scrollView)
+	ScrollView compScrollView;
 	@BindView(R.id.actDetails_workLogList)
 	RecyclerView compWorkLogs;
 	@BindView(R.id.actDetails_addWorkLogButton)
@@ -94,6 +99,9 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		chooseOwnerDialog.setView(this);
 		addWorkLogDialog = new AddWorkLogDialog();
 		addWorkLogDialog.setView(this);
+
+		// recyclerView manual height settings scroll to down automatically, it disable that
+		compScrollView.smoothScrollBy(0,0);
 
 		loadTicketDetails(ticket);
 	}
@@ -129,6 +137,11 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		}
 
 		adapter.setWorkLogs(workLogs);
+
+		// Manually set height
+		int newHeight = workLogs.size() * 195;
+		ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,newHeight);
+		compWorkLogs.setLayoutParams(layoutParams);
 	}
 
 	@Override

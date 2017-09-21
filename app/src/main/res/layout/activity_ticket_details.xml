@@ -31,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/actDetails_toolbar" />
 
     <ScrollView
+        android:id="@+id/actDetails_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:isScrollContainer="false"
@@ -216,6 +217,7 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
             <View style="@style/Divider" />
 
             <RelativeLayout
@@ -246,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"/>
 
 
         </LinearLayout>
