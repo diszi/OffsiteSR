@@ -43,6 +43,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	private ChooseOwnerDialog chooseOwnerDialog;
 	private AddWorkLogDialog addWorkLogDialog;
 
+	private String syncDateString;
+
 	@BindView(R.id.actDetails_id)
 	TextView compId;
 	@BindView(R.id.actDetails_description)
@@ -78,17 +80,24 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	@BindView(R.id.actDetails_progressBar)
 	ProgressBar compProgressBar;
 
+	@BindView(R.id.actDetails_userName)
+	TextView compUserName;
+	@BindView(R.id.actDetails_syncDate)
+	TextView compSyncDate;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ticketHolder =(TicketHolder) getIntent().getExtras()
 				.get(TicketHolder.SERIALIZABLE_NAME) ;
 		ticket = ticketHolder.getEntity();
-
+		syncDateString = getIntent().getStringExtra(UIConstans.SYNC_DATE);
 
 		setContentView(R.layout.activity_ticket_details);
 		ButterKnife.bind(this);
 		this.setupRecyclerView();
+
+		compSyncDate.setText(syncDateString);
 
 		presenter = new TicketDetailsPresenterImpl();
 		presenter.setView(this);
@@ -135,6 +144,9 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		if (!workLogs.isEmpty()) {
 			compWorkLog.setText(getString(R.string.actDetails_worklog) + " (" + workLogs.size() + ") :");
 		}
+
+		String username = getLoggedInUser();
+		compUserName.setText(username);
 
 		adapter.setWorkLogs(workLogs);
 

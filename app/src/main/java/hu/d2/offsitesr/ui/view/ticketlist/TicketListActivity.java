@@ -30,6 +30,7 @@ import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.login.LoginActivity;
 import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
+import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
 
 public class TicketListActivity extends AppCompatActivity implements  TicketList{
@@ -41,6 +42,8 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
 
     private List<ServiceRequestEntity> ticketList;
 
+    private String syncDateString;
+
     @BindView(R.id.actList_toolbar)
     Toolbar compToolBar;
     @BindView(R.id.actList_recyclerView)
@@ -51,6 +54,9 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     ProgressBar compProgressBar;
     @BindView(R.id.actList_userName)
     TextView compUserName;
+    @BindView(R.id.actList_syncDate)
+    TextView compSyncDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +123,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     public void launchDetailsView(TicketHolder entityHolder) {
         Intent intent = new Intent(this, TicketDetailsActivity.class);
         intent.putExtra(TicketHolder.SERIALIZABLE_NAME,entityHolder);
+        intent.putExtra(UIConstans.SYNC_DATE, syncDateString);
         startActivityForResult(intent,TICKET_REQUEST_CODE);
     }
 
@@ -194,5 +201,11 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     public void launchSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void setSyncDate(){
+        this.syncDateString = EnvironmentTool.getCurrentDateString();
+        compSyncDate.setText(syncDateString);
     }
 }

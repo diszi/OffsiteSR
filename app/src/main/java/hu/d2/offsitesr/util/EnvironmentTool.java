@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -19,5 +21,10 @@ public class EnvironmentTool {
         Configuration conf = resources.getConfiguration();
         conf.locale = new Locale(code.toLowerCase());
         resources.updateConfiguration(conf, displayMetrics);
+    }
+
+    public static String getCurrentDateString(){
+        return DateFormat.getDateTimeInstance().format(new Date());
+
     }
 }

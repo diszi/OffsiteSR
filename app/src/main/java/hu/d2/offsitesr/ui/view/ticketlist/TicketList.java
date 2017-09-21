@@ -11,15 +11,17 @@ import hu.d2.offsitesr.ui.model.TicketHolder;
 
 public interface TicketList {
 
-    void showLoading();
+	void showLoading();
 
-    void hideLoading();
+	void hideLoading();
 
-    void showErrorMessage(int messageID);
+	void showErrorMessage(int messageID);
 
-    void launchDetailsView(TicketHolder entityHolder);
+	void launchDetailsView(TicketHolder entityHolder);
 
-    String getLoggedInUser();
+	String getLoggedInUser();
 
-    void loadList(List<ServiceRequestEntity> ticketList);
+	void loadList(List<ServiceRequestEntity> ticketList);
+
+	void setSyncDate();
 }

@@ -55,6 +55,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 .subscribe((ticketList) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
                     view.loadList(ticketList);
+                    view.setSyncDate();
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
                     if (throwable instanceof UIThrowable){
