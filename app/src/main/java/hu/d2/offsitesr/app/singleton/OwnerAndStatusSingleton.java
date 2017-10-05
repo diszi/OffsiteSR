@@ -13,9 +13,11 @@ public class OwnerAndStatusSingleton {
 
     private static String STATUS = "Status";
     private static String OWNER = "Owner";
+    private static String OWNER_GROUP = "OwnerGroup";
 
     private Map<String, String> statuses ;
     private Map<String, String> owners;
+    private Map<String, String> ownerGroups;
 
     public static OwnerAndStatusSingleton getInstance() {
         return ourInstance;
@@ -28,8 +30,16 @@ public class OwnerAndStatusSingleton {
         return statuses;
     }
 
+    public Map<String, String> getOwnerGroups() {
+        return ownerGroups;
+    }
+
     public Map<String, String> getOwners() {
         return owners;
+    }
+
+    public void setOwnerGroups(List<String> ownerGroupsList) {
+        ownerGroups = setMap(OWNER_GROUP,ownerGroupsList);
     }
 
     public void setStatuses(List<String> statusesList) {

@@ -28,6 +28,7 @@ import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.WorkLog;
 import hu.d2.offsitesr.ui.view.component.AddWorkLogDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
+import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.util.UIConstans;
@@ -40,6 +41,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	private TicketHolder ticketHolder;
 
 	private ChooseStatusDialog chooseStatusDialog;
+	private ChooseOwnerGroupDialog chooseOwnerGroupDialog;
 	private ChooseOwnerDialog chooseOwnerDialog;
 	private AddWorkLogDialog addWorkLogDialog;
 
@@ -61,6 +63,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	TextView compClassStructure;
 	@BindView(R.id.actDetails_priority)
 	TextView compPriority;
+	@BindView(R.id.actDetails_ownerGroup)
+	TextView compOwnerGroup;
 	@BindView(R.id.actDetails_owner)
 	TextView compOwner;
 	@BindView(R.id.actDetails_worklog)
@@ -74,6 +78,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	ImageButton compAddWorklogButton;
 	@BindView(R.id.actDetails_editStatusButton)
 	ImageButton compEditStatusButton;
+	@BindView(R.id.actDetails_editOwnerGroupButton)
+	ImageButton compEditOwnerGroupButton;
 	@BindView(R.id.actDetails_editOwnerButton)
 	ImageButton compEditOwnerButton;
 
@@ -104,6 +110,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 		chooseStatusDialog = new ChooseStatusDialog();
 		chooseStatusDialog.setView(this);
+		chooseOwnerGroupDialog = new ChooseOwnerGroupDialog();
+		chooseOwnerGroupDialog.setView(this);
 		chooseOwnerDialog = new ChooseOwnerDialog();
 		chooseOwnerDialog.setView(this);
 		addWorkLogDialog = new AddWorkLogDialog();
@@ -139,6 +147,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		compAffectedPerson.setText(entity.getAffectedPerson());
 		compClassStructure.setText(entity.getClassStructure());
 		compPriority.setText(entity.getPriority());
+		compOwnerGroup.setText(entity.getOwnerGroup());
 		compOwner.setText(entity.getOwner());
 		List<WorkLog> workLogs = entity.getWorkLogs();
 		if (!workLogs.isEmpty()) {
@@ -202,6 +211,13 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
         chooseOwnerDialog.show(fm,"chooseOwner");
     }
 
+	@OnClick(R.id.actDetails_editOwnerGroupButton)
+	public void onClickChooseOwnerGroupButton() {
+		FragmentManager fm = getFragmentManager();
+
+		chooseOwnerGroupDialog.show(fm,"chooseOwnerGroup");
+	}
+
 	@OnClick(R.id.actDetails_addWorkLogButton)
 	public void onClickAddWorkLogButton() {
 		FragmentManager fm = getFragmentManager();
@@ -225,12 +241,24 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		ticketHolder.setChanged(true);
 	}
 
+	@Override
+	public void updateOwnerGroup(String newOwnerGroup) {
+		ticket.setOwnerGroup(newOwnerGroup);
+		compOwnerGroup.setText(newOwnerGroup);
+		ticketHolder.setChanged(true);
+	}
+
     @Override
     public void updateOwner(String newOwner) {
         ticket.setOwner(newOwner);
         compOwner.setText(newOwner);
 		ticketHolder.setChanged(true);
     }
+
+	@Override
+	public void updateOwnerGroupRemote(String ownerGroup) {
+		presenter.updateOwnerGroupRemote(ticket.getTicketId(),ownerGroup);
+	}
 
     @Override
     public void updateOwnerRemote(String owner) {

@@ -12,14 +12,16 @@ import io.reactivex.Observable;
 
 public interface TicketDetailsPresenter {
 
-    public void setView(TicketDetails view);
+	public void setView(TicketDetails view);
 
-    public void onDestroy();
+	public void onDestroy();
 
-    public void updateStatusRemote(String ticketID, String status);
+	public void updateStatusRemote(String ticketID, String status);
 
-    public void updateOwnerRemote(String ticketID, String owner);
+	public void updateOwnerGroupRemote(String ticketID, String ownerGroup);
 
-    public void addWorkLogRemote(String ticketID, String owner,String shortDesc, String longDesc);
+	public void updateOwnerRemote(String ticketID, String owner);
+
+	public void addWorkLogRemote(String ticketID, String owner, String shortDesc, String longDesc);
 
 }

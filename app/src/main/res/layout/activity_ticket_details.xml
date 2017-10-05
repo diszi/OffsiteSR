@@ -194,6 +194,37 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/actDetails_editOwnerGroupButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@android:color/background_light"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelDetail"
+                        android:text="@string/actDetails_ownerGroup" />
+
+                    <TextView
+                        android:id="@+id/actDetails_ownerGroup"
+                        style="@style/TextDetail" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
                     android:id="@+id/actDetails_editOwnerButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

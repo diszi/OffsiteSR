@@ -14,7 +14,7 @@
     <string name="actList_title">Lista nézet</string>
     <string name="actDetails_id">Azonosító:</string>
     <string name="actDetails_description">Leírás:</string>
-    <string name="actDetails_status">Státusz</string>
+    <string name="actDetails_status">Státusz:</string>
     <string name="actDetails_reportDate">Bejelentés ideje:</string>
     <string name="actDetails_reportedBy">Bejelentő:</string>
     <string name="actDetails_affectedPerson">Érintett személy:</string>
@@ -41,4 +41,6 @@
     <string name="dialogWorkLog_title">Munkanapló hozzáadása</string>
     <string name="dialogWrokLog_shortDesc">Rövid leírás</string>
     <string name="dialogWorkLog_longDescription">Hosszú leírás</string>
+    <string name="actDetails_ownerGroup">Felelős csoport:</string>
+    <string name="dialogOwnerGroup_title">Felelős csoport váltás</string>
 </resources>

@@ -40,4 +40,6 @@
     <string name="dialogWorkLog_title">Add WorkLog</string>
     <string name="dialogWrokLog_shortDesc">Short Description</string>
     <string name="dialogWorkLog_longDescription">Long Description</string>
+    <string name="actDetails_ownerGroup">Owner Group:</string>
+    <string name="dialogOwnerGroup_title">Change Owner Group</string>
 </resources>

@@ -14,6 +14,7 @@ public class ServiceRequestEntity implements Serializable{
     private String affectedPerson;
     private String ticketClass;
     private String description;
+    private String ownerGroup;
     private String owner;
     private String reportedBy;
     private String reportDate;
@@ -44,6 +45,14 @@ public class ServiceRequestEntity implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getOwnerGroup() {
+        return ownerGroup;
+    }
+
+    public void setOwnerGroup(String ownerGroup) {
+        this.ownerGroup = ownerGroup;
     }
 
     public String getOwner() {

@@ -9,7 +9,7 @@ public class UpdateOwnerGroupSOAP {
     public static String SOAP_ACTION = "urn:processDocument";
 
 
-    public static String getSoapPayload(String ticketId,String owner){
+    public static String getSoapPayload(String ticketId,String ownerGroup){
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +
                 "   <soapenv:Header/>\n" +
@@ -32,7 +32,7 @@ public class UpdateOwnerGroupSOAP {
                 "\n" +
                 "  <max:TICKETID >"+ticketId+"</max:TICKETID>\n" +
                 "\n" +
-                "<max:OWNER >"+owner+"</max:OWNER>\n" +
+                "<max:OWNERGROUP >"+ownerGroup+"</max:OWNERGROUP>\n" +
                 "\n" +
                 " \n" +
                 "\n" +

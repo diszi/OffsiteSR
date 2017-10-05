@@ -10,6 +10,7 @@ import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
 import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetTicketListSOAP;
+import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
@@ -29,7 +30,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	private Disposable disposable;
     private Disposable disposable2;
     private Observable<List<ServiceRequestEntity>> observable;
-    private Observable<List<String>> observable2;
+    private Observable<OwnerHolder> observable2;
 
 	@Override
 	public void setView(TicketList view) {
@@ -98,9 +99,10 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 
         Log.d("------------------>"," Subscribe to Observable2");
         disposable2 = observable2
-                .subscribe((ownerList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data Owners, count: "+ownerList.size());
-                    OwnerAndStatusSingleton.getInstance().setOwners(ownerList);
+                .subscribe((ownerData) -> { // onNext Consumer
+                    Log.d("------------------>"," Get Data Owners, count: "+ownerData.getOwnerList().size());
+                    OwnerAndStatusSingleton.getInstance().setOwners(ownerData.getOwnerList());
+                    OwnerAndStatusSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
 
                 }, (throwable) -> { // onError Consumer
 //                    int errorMessageCode = R.string.error_general;
@@ -161,8 +163,8 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	}
 
 
-    public Observable<List<String>> createGetOwnerObservable() {
-        Observable<List<String>> result = Observable.create(emitter -> {
+    public Observable<OwnerHolder> createGetOwnerObservable() {
+        Observable<OwnerHolder> result = Observable.create(emitter -> {
             try {
 //                Thread.sleep(2000);
                 Log.d("------------------>"," Start Remote SOAP Call");
@@ -174,8 +176,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
-                        List<String> ownerList = EntityMapper.transformOwnerList(inputStream);
-                        emitter.onNext(ownerList);
+                        emitter.onNext(EntityMapper.transformOwnerDataList(inputStream));
                         emitter.onComplete();
                     } else {
                         emitter.onError(new UIThrowable(R.string.error_network));
@@ -183,10 +184,11 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 
                 } finally {
                     if (connection != null) {
+                        connection.disconnect();
                         if (inputStream != null){
                             inputStream.close();
                         }
-                        connection.disconnect();
+
                     }
                 }
             } catch (Exception ex) {

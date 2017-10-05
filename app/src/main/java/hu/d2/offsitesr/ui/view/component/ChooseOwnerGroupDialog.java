@@ -27,16 +27,16 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 
 	private TicketDetailsActivity view;
 
-	@BindView(R.id.diagOwner_saveButton)
+	@BindView(R.id.diagOwnerGroup_saveButton)
 	Button saveButton;
 
-	@BindView(R.id.diagOwner_cancelButton)
+	@BindView(R.id.diagOwnerGroup_cancelButton)
 	Button cancelButton;
 
-	@BindView(R.id.diagOwner_radioGroup)
+	@BindView(R.id.diagOwnerGroup_radioGroup)
 	RadioGroup radioGroup;
 
-	@BindView(R.id.diagOwner_title)
+	@BindView(R.id.diagOwnerGroup_title)
 	TextView title;
 
 	private Map<String, String> stringMap;
@@ -45,7 +45,7 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-		final View contentView = inflater.inflate(R.layout.dialog_choose_owner, container, false);
+		final View contentView = inflater.inflate(R.layout.dialog_choose_owner_group, container, false);
 
 		ButterKnife.bind(this, contentView);
 
@@ -55,7 +55,7 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
 
-				view.updateOwnerRemote(newData);
+				view.updateOwnerGroupRemote(newData);
 
 				dismiss();
 			}
@@ -66,8 +66,8 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 			dismiss();
 		}));
 
-		stringMap = OwnerAndStatusSingleton.getInstance().getOwners();
-		title.setText(getString(R.string.dialogSatus_title2));
+		stringMap = OwnerAndStatusSingleton.getInstance().getOwnerGroups();
+		title.setText(getString(R.string.dialogOwnerGroup_title));
 
 		stringMap.forEach((key, value) -> {
 			RadioButton radioButton = new RadioButton(contentView.getContext());

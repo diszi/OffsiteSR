@@ -25,6 +25,10 @@ public interface TicketDetails {
 
     void updateStatus(String newStatus);
 
+    void updateOwnerGroup(String newOwnerGroup);
+
+    void updateOwnerGroupRemote(String ownerGroup);
+
     void updateOwner(String newOwner);
 
     void updateOwnerRemote(String owner);

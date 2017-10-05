@@ -18,6 +18,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.WorkLog;
 
@@ -27,11 +28,11 @@ import hu.d2.offsitesr.ui.model.WorkLog;
 
 public class EntityMapper {
 
-	public static List<String> transformOwnerList(InputStream inputStream)
+	public static OwnerHolder transformOwnerDataList(InputStream inputStream)
 			throws ParserConfigurationException, IOException, SAXException {
 
-		List<String> ownerList = new LinkedList<>();
-		Set<String> tmpList = new HashSet<>();
+		List<String> ownerList = new ArrayList<>();
+        List<String> ownerGroupList = new ArrayList<>();
 
 		DocumentBuilder builder = null;
 		Document document = null;
@@ -42,11 +43,12 @@ public class EntityMapper {
 		NodeList srNode = document.getElementsByTagName("PERSONGROUPTEAM");
 		for (int i = 0; i < srNode.getLength(); i++) {
 			Element element =(Element) srNode.item(i);
-			String owner = getNodeValue(element,"RESPPARTY");
-			tmpList.add(owner);
+			String ownerGroup = getNodeValue(element,"RESPPARTYGROUP");
+            String owner = getNodeValue(element,"RESPPARTY");
+            ownerList.add(owner);
+            ownerGroupList.add(ownerGroup);
 		}
-		ownerList.addAll(tmpList);
-		return ownerList;
+		return new OwnerHolder(ownerList,ownerGroupList);
 	}
 
 	public static List<ServiceRequestEntity> transformTicketList(InputStream inputStream)
@@ -74,6 +76,7 @@ public class EntityMapper {
 		ticket.setAffectedPerson(getNodeValue(element, "AFFECTEDPERSON"));
 		ticket.setTicketClass(getNodeValue(element, "CLASS"));
 		ticket.setDescription(getNodeValue(element, "DESCRIPTION"));
+		ticket.setOwnerGroup(getNodeValue(element, "OWNERGROUP"));
 		ticket.setOwner(getNodeValue(element, "OWNER"));
 		ticket.setReportDate(getNodeValue(element,"REPORTDATE"));
 		ticket.setReportedBy(getNodeValue(element, "REPORTEDBY"));
