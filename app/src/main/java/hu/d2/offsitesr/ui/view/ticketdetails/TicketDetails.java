@@ -33,6 +33,10 @@ public interface TicketDetails {
 
     void updateOwnerRemote(String owner);
 
+    void updatePriorityRemote(String priority);
+
+    void updatePriority(String newPriority);
+
     void addWorkLogRemote(String shortDesc, String longDesc);
 
 }

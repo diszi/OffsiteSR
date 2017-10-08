@@ -43,4 +43,21 @@
     <string name="dialogWorkLog_longDescription">Hosszú leírás</string>
     <string name="actDetails_ownerGroup">Felelős csoport:</string>
     <string name="dialogOwnerGroup_title">Felelős csoport váltás</string>
+    <string name="priority_critical">Kritikus</string>
+    <string name="priority_high">Magas</string>
+    <string name="priority_low">Alacsony</string>
+    <string name="priority_medium">Közepes</string>
+    <string name="priority_planning">Tervezett</string>
+    <string name="status_can">Törölt</string>
+    <string name="status_closed">Lezárt</string>
+    <string name="status_comp">Befejezett</string>
+    <string name="status_fail">Meghiúsult</string>
+    <string name="status_inProgress">Folyamatban</string>
+    <string name="status_pending">Felfüggesztett</string>
+    <string name="status_queued">Hozzárendelt</string>
+    <string name="status_resolved">Megoldva</string>
+    <string name="status_slaHold">SLA Felfüggesztett</string>
+    <string name="status_review">Ellenőrzésre</string>
+    <string name="status_wmatl">Várakozik</string>
+    <string name="dialogPriorty_title">Prioritás váltás</string>
 </resources>

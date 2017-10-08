@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**

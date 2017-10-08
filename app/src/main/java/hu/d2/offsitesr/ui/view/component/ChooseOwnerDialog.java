@@ -16,7 +16,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
@@ -66,7 +66,7 @@ public class ChooseOwnerDialog extends DialogFragment {
 			dismiss();
 		}));
 
-		stringMap = OwnerAndStatusSingleton.getInstance().getOwners();
+		stringMap = HolderSingleton.getInstance().getOwners();
 		title.setText(getString(R.string.dialogSatus_title2));
 
 		stringMap.forEach((key, value) -> {

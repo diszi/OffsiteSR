@@ -16,7 +16,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
@@ -54,8 +54,9 @@ public class ChooseStatusDialog extends DialogFragment {
 			RadioButton radioButton = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
+				String sendData = newData.substring(0,newData.indexOf("-")-1);
 
-				view.updateStatusRemote(newData);
+				view.updateStatusRemote(sendData);
 
 				dismiss();
 			}
@@ -66,12 +67,12 @@ public class ChooseStatusDialog extends DialogFragment {
 			dismiss();
 		}));
 
-		stringMap = OwnerAndStatusSingleton.getInstance().getStatuses();
+		stringMap = HolderSingleton.getInstance().getTicketStatuses();
 		title.setText(getString(R.string.dialogSatus_title));
 
 		stringMap.forEach((key, value) -> {
 			RadioButton radioButton = new RadioButton(contentView.getContext());
-			radioButton.setText(value);
+			radioButton.setText(key +" - "+value);
 			radioButton.setPadding(5, 25, 5, 25);
 
 			radioGroup.addView(radioButton);

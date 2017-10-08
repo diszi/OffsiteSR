@@ -10,10 +10,59 @@
         <item>ENG</item>
     </string-array>
 
-    <string-array name="statuses">
+    <string-array name="ticket_status_keys">
         <item>QUEUED</item>
         <item>INPROG</item>
         <item>PENDING</item>
         <item>SLAHOLD</item>
+        <item>RESOLVED</item>
+        <item>CLOSED</item>
     </string-array>
+
+    <string-array name="ticket_status_values">
+        <item>@string/status_queued</item>
+        <item>@string/status_inProgress</item>
+        <item>@string/status_pending</item>
+        <item>@string/status_slaHold</item>
+        <item>@string/status_resolved</item>
+        <item>@string/status_closed</item>
+    </string-array>
+
+    <string-array name="task_status_keys">
+        <item>INPROG</item>
+        <item>CAN</item>
+        <item>FAIL</item>
+        <item>COMP</item>
+        <item>CLOSED</item>
+        <item>WMATL</item>
+        <item>REVIEW</item>
+    </string-array>
+
+    <string-array name="task_status_values">
+        <item>@string/status_inProgress</item>
+        <item>@string/status_can</item>
+        <item>@string/status_fail</item>
+        <item>@string/status_comp</item>
+        <item>@string/status_closed</item>
+        <item>@string/status_wmatl</item>
+        <item>@string/status_review</item>
+    </string-array>
+
+    <string-array name="priority_ids">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="priority_values">
+        <item>@string/priority_critical</item>
+        <item>@string/priority_high</item>
+        <item>@string/priority_medium</item>
+        <item>@string/priority_low</item>
+        <item>@string/priority_planning</item>
+    </string-array>
+
+
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/diagStatus_root"
+    android:id="@+id/diagPrioirty_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:maxHeight="400dp"
@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/diagStatus_title"
+        android:id="@+id/diagPriority_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -34,10 +34,10 @@
             android:orientation="vertical">
 
             <RadioGroup
-                android:id="@+id/diagStatus_radioGroup"
+                android:id="@+id/diagPriority_radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp" >
+                android:padding="5dp">
 
             </RadioGroup>
         </LinearLayout>
@@ -49,7 +49,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/diagStatus_saveButton"
+            android:id="@+id/diagPriority_saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,7 +60,7 @@
             android:textColor="@color/colorAccent" />
 
         <Button
-            android:id="@+id/diagStatus_cancelButton"
+            android:id="@+id/diagPriority_cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

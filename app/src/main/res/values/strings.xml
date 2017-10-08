@@ -42,4 +42,21 @@
     <string name="dialogWorkLog_longDescription">Long Description</string>
     <string name="actDetails_ownerGroup">Owner Group:</string>
     <string name="dialogOwnerGroup_title">Change Owner Group</string>
+    <string name="status_inProgress">In Progress</string>
+    <string name="status_queued">Queued</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_slaHold">SLA Hold</string>
+    <string name="status_resolved">Resolved</string>
+    <string name="status_closed">Closed</string>
+    <string name="priority_critical">Critical</string>
+    <string name="priority_high">High</string>
+    <string name="priority_low">Low</string>
+    <string name="priority_planning">Planning</string>
+    <string name="priority_medium">Medium</string>
+    <string name="status_comp">Completed</string>
+    <string name="status_fail">Failed</string>
+    <string name="status_can">Canceled</string>
+    <string name="status_wmatl">Wating on Material</string>
+    <string name="status_review">Review</string>
+    <string name="dialogPriorty_title">Change Priority</string>
 </resources>

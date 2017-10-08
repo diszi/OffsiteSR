@@ -23,12 +23,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.WorkLog;
 import hu.d2.offsitesr.ui.view.component.AddWorkLogDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
+import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.util.UIConstans;
@@ -43,6 +45,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	private ChooseStatusDialog chooseStatusDialog;
 	private ChooseOwnerGroupDialog chooseOwnerGroupDialog;
 	private ChooseOwnerDialog chooseOwnerDialog;
+	private ChoosePriorityDialog choosePriorityDialog;
 	private AddWorkLogDialog addWorkLogDialog;
 
 	private String syncDateString;
@@ -114,6 +117,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		chooseOwnerGroupDialog.setView(this);
 		chooseOwnerDialog = new ChooseOwnerDialog();
 		chooseOwnerDialog.setView(this);
+		choosePriorityDialog = new ChoosePriorityDialog();
+		choosePriorityDialog.setView(this);
 		addWorkLogDialog = new AddWorkLogDialog();
 		addWorkLogDialog.setView(this);
 
@@ -146,7 +151,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		compReportedBy.setText(entity.getReportedBy());
 		compAffectedPerson.setText(entity.getAffectedPerson());
 		compClassStructure.setText(entity.getClassStructure());
-		compPriority.setText(entity.getPriority());
+		compPriority.setText(HolderSingleton.getInstance().getPriorityValue(entity.getPriority()));
 		compOwnerGroup.setText(entity.getOwnerGroup());
 		compOwner.setText(entity.getOwner());
 		List<WorkLog> workLogs = entity.getWorkLogs();
@@ -218,6 +223,13 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		chooseOwnerGroupDialog.show(fm,"chooseOwnerGroup");
 	}
 
+	@OnClick(R.id.actDetails_editPriorityButton)
+	public void onClickChoosePriorityButton() {
+		FragmentManager fm = getFragmentManager();
+
+		choosePriorityDialog.show(fm,"choosePriority");
+	}
+
 	@OnClick(R.id.actDetails_addWorkLogButton)
 	public void onClickAddWorkLogButton() {
 		FragmentManager fm = getFragmentManager();
@@ -264,6 +276,18 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
     public void updateOwnerRemote(String owner) {
         presenter.updateOwnerRemote(ticket.getTicketId(),owner);
     }
+
+	@Override
+	public void updatePriorityRemote(String priority) {
+		presenter.updatePriorityRemote(ticket.getTicketId(),priority);
+	}
+
+	@Override
+	public void updatePriority(String newPriority) {
+		ticket.setPriority(newPriority);
+		compPriority.setText(HolderSingleton.getInstance().getPriorityValue(newPriority));
+		ticketHolder.setChanged(true);
+	}
 
 	@Override
 	public void addWorkLogRemote(String shortDesc, String longDesc) {

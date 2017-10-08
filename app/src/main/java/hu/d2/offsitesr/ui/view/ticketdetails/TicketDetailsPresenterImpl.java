@@ -9,6 +9,7 @@ import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.remote.AddWorkLogSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerGroupSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerSOAP;
+import hu.d2.offsitesr.remote.UpdatePrioritySOAP;
 import hu.d2.offsitesr.remote.UpdateStatusSOAP;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;
@@ -32,6 +33,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     private Observable<String> observable3;
     private Disposable disposable4;
     private Observable<String> observable4;
+    private Disposable disposable5;
+    private Observable<String> observable5;
 
     @Override
     public void setView(TicketDetails view) {
@@ -55,6 +58,10 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         if (disposable4 != null && !disposable4.isDisposed()) {
             Log.d("------------------>"," Dispose observer");
             disposable4.dispose();
+        }
+        if (disposable5 != null && !disposable5.isDisposed()) {
+            Log.d("------------------>"," Dispose observer");
+            disposable5.dispose();
         }
     }
 
@@ -100,6 +107,35 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     Log.d("------------------>"," Get Data");
 //                    view.loadList(ticketList);
                     view.updateOwner(newOwner);
+                }, (throwable) -> { // onError Consumer
+                    int errorMessageCode = R.string.error_general;
+                    if (throwable instanceof UIThrowable){
+                        UIThrowable uiThrowable = (UIThrowable) throwable;
+                        errorMessageCode = uiThrowable.getMessageId();
+                    }
+
+                    view.showErrorMessage(errorMessageCode);
+                    view.hideLoading();
+                }, () -> { // onComplate Action
+                    view.showSuccessMessage();
+                    view.hideLoading();
+                });
+    }
+
+    @Override
+    public void updatePriorityRemote(String ticketID, String priority) {
+        view.showLoading();
+        if (observable5 == null){
+            Log.d("------------------>"," Observable created");
+            observable5 = createUpdatePriorityObservable(ticketID,priority);
+        }
+
+        Log.d("------------------>"," Subscribe to Observable");
+        disposable5 = observable5
+                .subscribe((newPriority) -> { // onNext Consumer
+                    Log.d("------------------>"," Get Data");
+//                    view.loadList(ticketList);
+                    view.updatePriority(newPriority);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
                     if (throwable instanceof UIThrowable){
@@ -271,6 +307,47 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                         inputStream = connection.getInputStream();
 //                        List<ServiceRequestEntity> ticketList = EntityMapper.transformTicketList(inputStream);
                         emitter.onNext(owner);
+                        emitter.onComplete();
+                    }else if (responseCode == 500) {
+                        emitter.onError(new UIThrowable(R.string.error_failedOperation));
+                    } else {
+                        emitter.onError(new UIThrowable(R.string.error_network));
+                    }
+
+                } finally {
+                    if (connection != null) {
+                        if (inputStream != null){
+                            inputStream.close();
+                        }
+
+                        connection.disconnect();
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e("", "---------->", ex);
+                emitter.onError(new UIThrowable(R.string.error_unknown));
+            }
+
+        });
+
+        return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
+    }
+
+    public Observable<String> createUpdatePriorityObservable(String ticketID, String priority) {
+        Observable<String> result = Observable.create(emitter -> {
+            try {
+//                Thread.sleep(2000);
+                Log.d("------------------>"," Start Remote SOAP Call");
+                HttpURLConnection connection = null;
+                InputStream inputStream = null;
+                try {
+                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdatePrioritySOAP.SOAP_ACTION,String.format(UpdatePrioritySOAP.getSoapPayload(ticketID,priority),view.getLoggedInUser()));
+
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == 200) {
+                        inputStream = connection.getInputStream();
+//                        List<ServiceRequestEntity> ticketList = EntityMapper.transformTicketList(inputStream);
+                        emitter.onNext(priority);
                         emitter.onComplete();
                     }else if (responseCode == 500) {
                         emitter.onError(new UIThrowable(R.string.error_failedOperation));

@@ -23,20 +23,20 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
  * Created by csabinko on 2017.09.19..
  */
 
-public class ChooseOwnerGroupDialog extends DialogFragment {
+public class ChoosePriorityDialog extends DialogFragment {
 
 	private TicketDetailsActivity view;
 
-	@BindView(R.id.diagOwnerGroup_saveButton)
+	@BindView(R.id.diagPriority_saveButton)
 	Button saveButton;
 
-	@BindView(R.id.diagOwnerGroup_cancelButton)
+	@BindView(R.id.diagPriority_cancelButton)
 	Button cancelButton;
 
-	@BindView(R.id.diagOwnerGroup_radioGroup)
+	@BindView(R.id.diagPriority_radioGroup)
 	RadioGroup radioGroup;
 
-	@BindView(R.id.diagOwnerGroup_title)
+	@BindView(R.id.diagPriority_title)
 	TextView title;
 
 	private Map<String, String> stringMap;
@@ -45,7 +45,7 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-		final View contentView = inflater.inflate(R.layout.dialog_choose_owner_group, container, false);
+		final View contentView = inflater.inflate(R.layout.dialog_choose_priority, container, false);
 
 		ButterKnife.bind(this, contentView);
 
@@ -55,7 +55,7 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
 
-				view.updateOwnerGroupRemote(newData);
+				view.updatePriorityRemote(HolderSingleton.getInstance().getPriorityId(newData));
 
 				dismiss();
 			}
@@ -66,8 +66,8 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 			dismiss();
 		}));
 
-		stringMap = HolderSingleton.getInstance().getOwnerGroups();
-		title.setText(getString(R.string.dialogOwnerGroup_title));
+		stringMap = HolderSingleton.getInstance().getPriorities();
+		title.setText(getString(R.string.dialogPriorty_title));
 
 		stringMap.forEach((key, value) -> {
 			RadioButton radioButton = new RadioButton(contentView.getContext());
@@ -82,5 +82,6 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 
 	public void setView(TicketDetailsActivity view) {
 		this.view = view;
+
 	}
 }

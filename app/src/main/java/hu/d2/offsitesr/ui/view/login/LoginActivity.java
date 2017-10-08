@@ -1,10 +1,6 @@
 package hu.d2.offsitesr.ui.view.login;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.util.UIConstans;
 
@@ -130,8 +125,7 @@ public class LoginActivity extends AppCompatActivity implements Login {
     }
 
     private void initApplication(){
-		List<String> statusList = Arrays.asList(getResources().getStringArray(R.array.statuses));
-		OwnerAndStatusSingleton.getInstance().setStatuses(statusList);
+		HolderSingleton.getInstance().setContext(this);
 
 	}
 }

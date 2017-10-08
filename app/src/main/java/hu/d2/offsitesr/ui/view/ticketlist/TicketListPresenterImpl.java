@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.OwnerAndStatusSingleton;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetTicketListSOAP;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
@@ -101,8 +101,8 @@ public class TicketListPresenterImpl implements TicketListPresenter {
         disposable2 = observable2
                 .subscribe((ownerData) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data Owners, count: "+ownerData.getOwnerList().size());
-                    OwnerAndStatusSingleton.getInstance().setOwners(ownerData.getOwnerList());
-                    OwnerAndStatusSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
+                    HolderSingleton.getInstance().setOwners(ownerData.getOwnerList());
+                    HolderSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
 
                 }, (throwable) -> { // onError Consumer
 //                    int errorMessageCode = R.string.error_general;

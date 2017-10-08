@@ -22,6 +22,8 @@ public interface TicketDetailsPresenter {
 
 	public void updateOwnerRemote(String ticketID, String owner);
 
+	public void updatePriorityRemote(String ticketID, String priority);
+
 	public void addWorkLogRemote(String ticketID, String owner, String shortDesc, String longDesc);
 
 }

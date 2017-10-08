@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
+
 /**
  * Created by csabinko on 2017.09.18..
  */
@@ -21,6 +23,12 @@ public class EnvironmentTool {
         Configuration conf = resources.getConfiguration();
         conf.locale = new Locale(code.toLowerCase());
         resources.updateConfiguration(conf, displayMetrics);
+        initApp();
+    }
+
+    private static void initApp(){
+        HolderSingleton.getInstance().createTicketStatusMap();
+        HolderSingleton.getInstance().createPriorityMaps();
     }
 
     public static String getCurrentDateString(){
