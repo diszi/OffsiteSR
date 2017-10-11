@@ -1,16 +1,9 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
-import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,7 +12,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.WorkLog;
 
 /**
@@ -30,10 +22,9 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 	private ArrayList<WorkLog> workLogs = new ArrayList<>();
 
-	private TicketDetails view;
+//	private TicketDetails view;
 
-	public TicketDetailsWorkLogAdapter(TicketDetails view) {
-		this.view = view;
+	public TicketDetailsWorkLogAdapter() {
 	}
 
 	public void setWorkLogs(List<WorkLog> tickets) {
@@ -44,7 +35,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 	@Override
 	public WorkLogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_ticket_details_worklog,
+		View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tab_ticket_details_worklog_row,
 				parent, false);
 		return new WorkLogViewHolder(itemView);
 	}

@@ -29,6 +29,7 @@ public class EnvironmentTool {
     private static void initApp(){
         HolderSingleton.getInstance().createTicketStatusMap();
         HolderSingleton.getInstance().createPriorityMaps();
+        HolderSingleton.getInstance().createTaskStatusMap();
     }
 
     public static String getCurrentDateString(){

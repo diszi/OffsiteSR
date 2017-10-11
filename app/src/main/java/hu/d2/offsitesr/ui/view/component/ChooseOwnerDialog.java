@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
@@ -25,7 +26,6 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 public class ChooseOwnerDialog extends DialogFragment {
 
-	private TicketDetailsActivity view;
 
 	@BindView(R.id.diagOwner_saveButton)
 	Button saveButton;
@@ -55,7 +55,7 @@ public class ChooseOwnerDialog extends DialogFragment {
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
 
-				view.updateOwnerRemote(newData);
+				((TicketDetails)getActivity()).updateOwnerRemote(newData);
 
 				dismiss();
 			}
@@ -80,7 +80,4 @@ public class ChooseOwnerDialog extends DialogFragment {
 		return contentView;
 	}
 
-	public void setView(TicketDetailsActivity view) {
-		this.view = view;
-	}
 }

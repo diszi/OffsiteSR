@@ -22,7 +22,7 @@
     <string name="actDetails_priority">Prioritás:</string>
     <string name="actDetails_asset">Eszköz:</string>
     <string name="actDetails_owner">Felelős:</string>
-    <string name="actDetails_worklog">Munkanapló:</string>
+    <string name="actDetails_worklog">Munkanapló</string>
     <string name="menuStatus_inProgress">Folyamatban</string>
     <string name="menuStatus_pending">Felfüggesztve</string>
     <string name="menuStatus_queued">Queued</string>
@@ -60,4 +60,7 @@
     <string name="status_review">Ellenőrzésre</string>
     <string name="status_wmatl">Várakozik</string>
     <string name="dialogPriorty_title">Prioritás váltás</string>
+    <string name="actDetails_task">Feladatok</string>
+    <string name="hello_blank_fragment"></string>
+    <string name="actDetails_empty">Üres</string>
 </resources>

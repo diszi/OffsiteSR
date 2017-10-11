@@ -105,7 +105,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
                     result = R.mipmap.ic_status_slahold;
                     break;
                 case "CLOSED":
-                    result = R.mipmap.ic_status_resolved;
+                    result = R.mipmap.ic_status_closed;
                     break;
                 case "QUEUED":
                     result = R.mipmap.ic_status_queued;

@@ -25,6 +25,7 @@ public class ServiceRequestEntity implements Serializable{
     private String classStructure;
     private String priority;
     private List<WorkLog> workLogs;
+    private List<Task> tasks;
 
 
     public ServiceRequestEntity() {
@@ -141,5 +142,13 @@ public class ServiceRequestEntity implements Serializable{
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -11,13 +11,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.HolderSingleton;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 
 /**
  * Created by csabinko on 2017.09.19..
@@ -25,7 +24,7 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 public class ChooseStatusDialog extends DialogFragment {
 
-	private TicketDetailsActivity view;
+	public static String SERIALIZABLE_NAME = "List_Serializable";
 
 	@BindView(R.id.diagStatus_saveButton)
 	Button saveButton;
@@ -39,7 +38,16 @@ public class ChooseStatusDialog extends DialogFragment {
 	@BindView(R.id.diagStatus_title)
 	TextView title;
 
-	private Map<String, String> stringMap;
+	private HashMap<String, String> stringMap;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (getArguments() != null) {
+			stringMap = (HashMap<String,String>) getArguments().getSerializable(ChooseStatusDialog.SERIALIZABLE_NAME);
+		}
+	}
 
 	@Nullable
 	@Override
@@ -56,7 +64,7 @@ public class ChooseStatusDialog extends DialogFragment {
 				String newData = radioButton.getText().toString();
 				String sendData = newData.substring(0,newData.indexOf("-")-1);
 
-				view.updateStatusRemote(sendData);
+				((TicketDetails)getActivity()).updateStatusRemote(sendData);
 
 				dismiss();
 			}
@@ -67,7 +75,7 @@ public class ChooseStatusDialog extends DialogFragment {
 			dismiss();
 		}));
 
-		stringMap = HolderSingleton.getInstance().getTicketStatuses();
+//		stringMap = HolderSingleton.getInstance().getTicketStatuses();
 		title.setText(getString(R.string.dialogSatus_title));
 
 		stringMap.forEach((key, value) -> {
@@ -79,10 +87,5 @@ public class ChooseStatusDialog extends DialogFragment {
 		});
 
 		return contentView;
-	}
-
-	public void setView(TicketDetailsActivity view) {
-		this.view = view;
-
 	}
 }

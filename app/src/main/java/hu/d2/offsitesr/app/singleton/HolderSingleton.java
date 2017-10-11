@@ -18,7 +18,8 @@ public class HolderSingleton {
     private static String OWNER = "Owner";
     private static String OWNER_GROUP = "OwnerGroup";
 
-    private Map<String, String> ticketStatuses;
+    private HashMap<String, String> ticketStatuses;
+    private HashMap<String, String> taskStatuses;
     private Map<String, String> owners;
     private Map<String, String> ownerGroups;
     private Map<String, String> priorities;
@@ -37,11 +38,18 @@ public class HolderSingleton {
     private HolderSingleton() {
     }
 
-    public Map<String, String> getTicketStatuses() {
+    public HashMap<String, String> getTicketStatuses() {
         if (ticketStatuses == null){
             createTicketStatusMap();
         }
         return ticketStatuses;
+    }
+
+    public HashMap<String, String> getTaskStatuses() {
+        if (taskStatuses == null){
+            createTaskStatusMap();
+        }
+        return taskStatuses;
     }
 
     public Map<String, String> getOwnerGroups() {
@@ -101,6 +109,19 @@ public class HolderSingleton {
 
             for (int i = 0; i<statusKeys.length;i++){
                 ticketStatuses.put(statusKeys[i],statusValues[i]);
+            }
+
+        }
+    }
+
+    public void createTaskStatusMap(){
+        taskStatuses = new HashMap<>();
+        if (context!=null){
+            String[] statusKeys = context.getResources().getStringArray(R.array.task_status_keys);
+            String[] statusValues = context.getResources().getStringArray(R.array.task_status_values);
+
+            for (int i = 0; i<statusKeys.length;i++){
+                taskStatuses.put(statusKeys[i],statusValues[i]);
             }
 
         }

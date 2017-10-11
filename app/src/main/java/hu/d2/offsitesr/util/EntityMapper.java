@@ -20,6 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.model.Task;
 import hu.d2.offsitesr.ui.model.WorkLog;
 
 /**
@@ -93,6 +94,14 @@ public class EntityMapper {
             workLogs.add(workLog);
         }
         ticket.setWorkLogs(workLogs);
+
+		NodeList tNode = element.getElementsByTagName("WOACTIVITY");
+		List<Task> tasks = new ArrayList<>();
+		for (int i = 0; i < tNode.getLength(); i++) {
+			Task task = transformTask((Element) tNode.item(i));
+			tasks.add(task);
+		}
+		ticket.setTasks(tasks);
 		return ticket;
 	}
 
@@ -106,6 +115,19 @@ public class EntityMapper {
         workLog.setDescription(getNodeValue(element, "DESCRIPTION"));
         return workLog;
     }
+
+    private static Task transformTask(Element element){
+		Task task = new Task();
+		task.setActivity(getNodeValue(element,"WONUM"));
+		task.setSummary(getNodeValue(element,"DESCRIPTION"));
+		task.setOwner(getNodeValue(element,"OWNER"));
+		task.setOwnerGroup(getNodeValue(element,"OWNERGROUP"));
+		task.setLocation(getNodeValue(element,"LOCATION"));
+		task.setAsset(getNodeValue(element,"ASSETNUM"));
+		task.setCi(getNodeValue(element,"CINUM"));
+		task.setStatus(getNodeValue(element,"STATUS"));
+		return task;
+	}
 
 	private static String getNodeValue(Element element, String tag) {
 		return element.getElementsByTagName(tag).item(0).getTextContent();

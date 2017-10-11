@@ -13,6 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
@@ -20,8 +21,6 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
  */
 
 public class AddWorkLogDialog extends DialogFragment {
-
-    private TicketDetailsActivity view;
 
     @BindView(R.id.diagWrokLog_saveButton)
     Button saveButton;
@@ -52,7 +51,7 @@ public class AddWorkLogDialog extends DialogFragment {
             String longDescText = longDesc.getText().toString();
 
 
-                view.addWorkLogRemote(shortDescTxt,longDescText);
+            ((TicketDetails)getActivity()).addWorkLogRemote(shortDescTxt,longDescText);
 
                 dismiss();
 
@@ -65,10 +64,5 @@ public class AddWorkLogDialog extends DialogFragment {
 
         title.setText(getString(R.string.dialogWorkLog_title));
         return contentView;
-    }
-
-    public void setView(TicketDetailsActivity view) {
-        this.view = view;
-
     }
 }
