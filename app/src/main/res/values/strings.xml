@@ -1,4 +1,4 @@
-<resources>
+    <resources>
     <string name="app_name">OffsiteSR</string>
     <string name="actLogin_loginButton">LOG IN</string>
     <string name="actLogin_loginNameHint">Username</string>

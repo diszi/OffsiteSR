@@ -1,10 +1,15 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
+import android.app.FragmentManager;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +17,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.model.Task;
+import hu.d2.offsitesr.ui.model.TicketHolder;
+import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 
 /**
  * Created by csabinko on 2017.09.18..
@@ -22,7 +30,11 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 
 	private ArrayList<Task> tasks = new ArrayList<>();
 
-	public TicketDetailsTaskAdapter() {
+    private TicketDetailsTaskTab ticketDetailsTaskTab;
+
+
+	public TicketDetailsTaskAdapter(TicketDetailsTaskTab ticketTab) {
+		this.ticketDetailsTaskTab = ticketTab;
 	}
 
 	public void setTasks(List<Task> tasks) {
@@ -35,13 +47,26 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 	public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tab_ticket_details_task_row,
 				parent, false);
+
+
+
 		return new TaskViewHolder(itemView);
 	}
 
 	@Override
 	public void onBindViewHolder(TaskViewHolder holder, int position) {
 		Task task = tasks.get(position);
+
+
         holder.bind(task);
+        holder.btnEditStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ticketDetailsTaskTab.onClickOnStatusImageButton();
+            }
+        });
+
+
 	}
 
 	@Override
@@ -71,7 +96,8 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 		TextView compCI;
 		@BindView(R.id.actDetailsTask_status)
 		TextView compStatus;
-
+		@BindView(R.id.actDetails_editStatusButton)
+		ImageButton btnEditStatus;
 
 		public TaskViewHolder(View itemView) {
 			super(itemView);
@@ -87,6 +113,8 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 			compAsset.setText(task.getAsset());
 			compCI.setText(task.getCi());
 			compStatus.setText(task.getStatus());
+
+
 		}
 	}
 }
