@@ -63,4 +63,15 @@
     <string name="actDetails_task">Feladatok</string>
     <string name="hello_blank_fragment"></string>
     <string name="actDetails_empty">Üres</string>
+    <string name="assDetails_custodian">Felelős:</string>
+    <string name="assDetails_description">Leírás:</string>
+    <string name="assDetails_location">Hely:</string>
+    <string name="assDetails_numb"></string>
+    <string name="assDetails_num">Eszköz:</string>
+    <string name="assDetails_pluspcustomer">Ügyfél:</string>
+    <string name="assDetails_serialnum">Sorszám:</string>
+    <string name="assDetails_status">Státusz:</string>
+    <string name="assDetails_user">Felhasználó:</string>
+    <string name="dialogAsset_title">Eszköz részletek</string>
+    <string name="assDetails_errorMsg">Nincs hozzárendelt eszköz</string>
 </resources>

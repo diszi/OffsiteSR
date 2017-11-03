@@ -20,8 +20,20 @@
     <string name="actDetails_classStructure">Class structure:</string>
     <string name="actDetails_priority">Priority:</string>
     <string name="actDetails_asset">Asset:</string>
+        <string name="actDetails_ciNum">Configuration item:</string>
     <string name="actDetails_owner">Owner:</string>
     <string name="actDetails_worklog">Worklog</string>
+
+        <string name="assDetails_num">Asset number:</string>
+        <string name="assDetails_description">Description:</string>
+        <string name="assDetails_status">Status:</string>
+        <string name="assDetails_location">Location:</string>
+        <string name="assDetails_pluspcustomer">Customer:</string>
+        <string name="assDetails_user">User:</string>
+        <string name="assDetails_custodian">Custodian:</string>
+        <string name="assDetails_serialnum">Serial number:</string>
+        <string name="assDetails_errorMsg">No assigned asset</string>
+
     <string name="menuStatus_queued">Queued</string>
     <string name="menuStatus_inProgress">In Progress</string>
     <string name="menuStatus_pending">Pending</string>
@@ -36,6 +48,9 @@
     <string name="dialog_save">Save</string>
     <string name="error_failedOperation">Failed Operation</string>
     <string name="actDetails_saveSuccess">Saved</string>
+
+        <string name="dialogAsset_title">Asset details</string>
+
     <string name="dialogSatus_title2">Change Owner</string>
     <string name="dialogWorkLog_title">Add WorkLog</string>
     <string name="dialogWrokLog_shortDesc">Short Description</string>

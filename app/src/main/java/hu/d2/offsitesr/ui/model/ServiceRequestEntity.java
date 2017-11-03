@@ -19,6 +19,8 @@ public class ServiceRequestEntity implements Serializable{
     private String reportedBy;
     private String reportDate;
     private String status;
+    private String assetNum;
+    private String ciNum;
     private String statusDate;
     private String ticketId;
     private String notes;
@@ -26,6 +28,7 @@ public class ServiceRequestEntity implements Serializable{
     private String priority;
     private List<WorkLog> workLogs;
     private List<Task> tasks;
+    private Asset asset;
 
 
     public ServiceRequestEntity() {
@@ -88,6 +91,26 @@ public class ServiceRequestEntity implements Serializable{
         this.status = status;
     }
 
+    public String getAssetNum() {
+
+        return assetNum;
+    }
+
+    public void setAssetNum(String asset) {
+        this.assetNum =asset;
+    }
+
+
+    public String getCINum() {
+        return ciNum;
+    }
+
+    public void setCINum(String ci) {
+        this.ciNum =ci;
+    }
+
+
+
     public String getStatusDate() {
         return statusDate;
     }
@@ -148,7 +171,16 @@ public class ServiceRequestEntity implements Serializable{
         return tasks;
     }
 
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Asset getAsset(){
+        return asset;
+    }
+
+    public void setAsset(Asset asset){
+        this.asset=asset;
     }
 }

@@ -18,6 +18,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import hu.d2.offsitesr.ui.model.Asset;
+import hu.d2.offsitesr.ui.model.AssetUserCust;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.Task;
@@ -71,6 +73,8 @@ public class EntityMapper {
 		return ticketList;
 	}
 
+
+
 	private static ServiceRequestEntity transformTicket(Element element) {
 		ServiceRequestEntity ticket = new ServiceRequestEntity();
 
@@ -82,10 +86,17 @@ public class EntityMapper {
 		ticket.setReportDate(getNodeValue(element,"REPORTDATE"));
 		ticket.setReportedBy(getNodeValue(element, "REPORTEDBY"));
 		ticket.setStatus(getNodeValue(element, "STATUS"));
+		ticket.setAssetNum(getNodeValue(element, "ASSETNUM"));
+		ticket.setCINum(getNodeValue(element, "CINUM"));
 		ticket.setStatusDate(getNodeValue(element, "STATUSDATE"));
 		ticket.setTicketId(getNodeValue(element, "TICKETID"));
 		ticket.setClassStructure(getNodeValue(element, "CLASSSTRUCTUREID"));
 		ticket.setPriority(getNodeValue(element, "INTERNALPRIORITY"));
+
+		NodeList aNode = element.getElementsByTagName("ASSET");
+		Asset asset = transformAsset((Element) aNode.item(0));
+
+		ticket.setAsset(asset);
 
         NodeList wlNode = element.getElementsByTagName("WORKLOG");
         List<WorkLog> workLogs = new ArrayList<>();
@@ -129,7 +140,55 @@ public class EntityMapper {
 		return task;
 	}
 
+	private  static Asset transformAsset(Element element){
+		Asset asset = null;
+		if (element != null) {
+			asset = new Asset();
+			asset.setAssetNum(getNodeValue(element, "ASSETNUM"));
+			asset.setDescription(getNodeValue(element, "DESCRIPTION"));
+			asset.setStatus(getNodeValue(element, "STATUS"));
+			asset.setLocation(getNodeValue(element, "LOCATION"));
+			asset.setPluspCustomer(getNodeValue(element, "PLUSPCUSTOMER"));
+			asset.setSerialNum(getNodeValue(element, "SERIALNUM"));
+
+
+
+			NodeList aUCNode = element.getElementsByTagName("ASSETUSERCUST");
+			List<AssetUserCust> assetUserCusts = new ArrayList<>();
+			for (int i = 0; i < aUCNode.getLength(); i++) {
+				AssetUserCust assetUserCust = transformAssetUserCust((Element) aUCNode.item(i));
+				assetUserCusts.add(assetUserCust);
+			}
+			asset.setAssetUserCustList(assetUserCusts);
+
+
+
+		}
+		return asset;
+
+
+	}
+
+	private static AssetUserCust transformAssetUserCust(Element element){
+		AssetUserCust assetUserCust=null;
+		if (element != null){
+			assetUserCust = new AssetUserCust();
+			assetUserCust.setIsCustodian(getNodeValueBoolean(element,"ISCUSTODIAN"));
+			assetUserCust.setIsUser(getNodeValueBoolean(element,"ISUSER"));
+			assetUserCust.setIsPrimary(getNodeValueBoolean(element,"ISPRIMARY"));
+			assetUserCust.setLocation(getNodeValue(element,"LOCATION"));
+			assetUserCust.setPersonID(getNodeValue(element,"PERSONID"));
+		}
+		return assetUserCust;
+	}
+
 	private static String getNodeValue(Element element, String tag) {
+
 		return element.getElementsByTagName(tag).item(0).getTextContent();
+	}
+
+
+	private  static boolean getNodeValueBoolean(Element element, String tag){
+		return element.getElementsByTagName(tag).item(0).getTextContent().equals("1") ;
 	}
 }

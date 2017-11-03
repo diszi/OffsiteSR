@@ -78,6 +78,53 @@
 
             <View style="@style/Divider" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/actDetails_assetZoomButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@android:color/background_light"
+                    android:src="@android:drawable/ic_menu_zoom" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelDetail"
+                        android:text="@string/actDetails_asset" />
+
+                    <TextView
+                        android:id="@+id/actDetails_assetNum"
+                        style="@style/TextDetail" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/actDetails_ciNum" />
+
+                <TextView
+                    android:id="@+id/actDetails_ciNum"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

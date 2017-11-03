@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
+import hu.d2.offsitesr.ui.model.Asset;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.view.component.AssetDetailsDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
@@ -34,6 +37,10 @@ public class TicketDetailsTab extends Fragment {
     TextView compDescription;
     @BindView(R.id.actDetails_status)
     TextView compStatus;
+    @BindView(R.id.actDetails_assetNum)
+    TextView compAssetNum;
+    @BindView(R.id.actDetails_ciNum)
+    TextView compCiNum;
     @BindView(R.id.actDetails_reportDate)
     TextView compReportDate;
     @BindView(R.id.actDetails_reportedBy)
@@ -64,6 +71,8 @@ public class TicketDetailsTab extends Fragment {
     private ChooseOwnerDialog chooseOwnerDialog;
     private ChoosePriorityDialog choosePriorityDialog;
 
+    private AssetDetailsDialog assetDetailsDialog;
+
     private ServiceRequestEntity ticket;
 
 //    private OnFragmentInteractionListener mListener;
@@ -77,6 +86,7 @@ public class TicketDetailsTab extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
+
         }
 
     }
@@ -91,6 +101,8 @@ public class TicketDetailsTab extends Fragment {
         chooseOwnerGroupDialog = new ChooseOwnerGroupDialog();
         chooseOwnerDialog = new ChooseOwnerDialog();
         choosePriorityDialog = new ChoosePriorityDialog();
+
+        assetDetailsDialog = new AssetDetailsDialog();
 
         loadTicketDetails(ticket);
 
@@ -140,6 +152,8 @@ public class TicketDetailsTab extends Fragment {
         compId.setText(entity.getTicketId());
         compDescription.setText(entity.getDescription());
         compStatus.setText(entity.getStatus());
+        compAssetNum.setText(entity.getAssetNum());
+        compCiNum.setText(entity.getCINum());
         compReportDate.setText(entity.getReportDate());
         compReportedBy.setText(entity.getReportedBy());
         compAffectedPerson.setText(entity.getAffectedPerson());
@@ -149,6 +163,18 @@ public class TicketDetailsTab extends Fragment {
         compOwner.setText(entity.getOwner());
     }
 
+    @OnClick(R.id.actDetails_assetZoomButton)
+    public void onClickAssetZoomButton(){
+        if (ticket.getAssetNum() == ""){
+            Toast.makeText(getActivity(),getString(R.string.assDetails_errorMsg),Toast.LENGTH_SHORT).show();
+        }else {
+            FragmentManager fm = getActivity().getFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AssetDetailsDialog.SERIALIZABLE_NAME, ticket.getAsset());
+            assetDetailsDialog.setArguments(bundle);
+            assetDetailsDialog.show(fm, "assetDetails");
+        }
+    }
     @OnClick(R.id.actDetails_editStatusButton)
     public void onClickChooseStatusButton() {
         FragmentManager fm = getActivity().getFragmentManager();
