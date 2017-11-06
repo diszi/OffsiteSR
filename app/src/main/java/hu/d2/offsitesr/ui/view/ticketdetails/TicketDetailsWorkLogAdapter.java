@@ -57,10 +57,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 	static class WorkLogViewHolder extends RecyclerView.ViewHolder {
 
-		@BindView(R.id.actDetailsWorklog_ticketId)
-		TextView compTicketId;
-		@BindView(R.id.actDetailsWorklog_class)
-		TextView compClass;
+
 		@BindView(R.id.actDetailsWorklog_createdBy)
 		TextView compCreatedBy;
 		@BindView(R.id.actDetailsWorklog_createdDate)
@@ -74,8 +71,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 		}
 
 		public void bind(WorkLog workLog) {
-			compTicketId.setText(workLog.getId());
-			compClass.setText(workLog.getRecordKey());
+
 			compCreatedBy.setText(workLog.getCreatedBy());
 			compCreatedDate.setText(workLog.getCreatedDate());
 			compSummary.setText(workLog.getDescription());

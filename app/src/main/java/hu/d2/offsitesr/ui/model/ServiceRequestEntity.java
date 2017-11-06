@@ -1,7 +1,10 @@
 package hu.d2.offsitesr.ui.model;
 
 import java.io.Serializable;
+
 import java.util.List;
+
+import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**
  * Created by csabinko on 2017.09.15..
@@ -67,8 +70,10 @@ public class ServiceRequestEntity implements Serializable{
         this.owner = owner;
     }
 
-    public String getReportDate() {
-        return reportDate;
+    public String getReportDate()
+    {
+        return EnvironmentTool.convertDate(reportDate);
+
     }
 
     public void setReportDate(String reportDate) {
@@ -183,4 +188,6 @@ public class ServiceRequestEntity implements Serializable{
     public void setAsset(Asset asset){
         this.asset=asset;
     }
+
+
 }
