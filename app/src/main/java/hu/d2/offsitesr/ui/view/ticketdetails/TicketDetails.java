@@ -39,4 +39,6 @@ public interface TicketDetails {
 
     void addWorkLogRemote(String shortDesc, String longDesc);
 
+    void addFile(String fileName , String pureFileName,String encode, String urlname );
+
 }

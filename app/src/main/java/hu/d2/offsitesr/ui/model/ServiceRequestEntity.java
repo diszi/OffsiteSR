@@ -72,7 +72,7 @@ public class ServiceRequestEntity implements Serializable{
 
     public String getReportDate()
     {
-        return EnvironmentTool.convertDate(reportDate);
+        return EnvironmentTool.convertDateString(reportDate);
 
     }
 
@@ -117,7 +117,8 @@ public class ServiceRequestEntity implements Serializable{
 
 
     public String getStatusDate() {
-        return statusDate;
+
+        return EnvironmentTool.convertDateString( statusDate);
     }
 
     public void setStatusDate(String statusDate) {

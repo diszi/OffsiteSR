@@ -1,8 +1,10 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kosalgeek.android.photoutil.CameraPhoto;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +30,9 @@ import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
+import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  *
@@ -72,8 +81,12 @@ public class TicketDetailsTab extends Fragment {
     private ChoosePriorityDialog choosePriorityDialog;
 
     private AssetDetailsDialog assetDetailsDialog;
+    private SavePictureDialog savePictureDialog;
 
     private ServiceRequestEntity ticket;
+
+    private  static int PICK_FILE_REQUEST_CODE=0;
+    private static int TAKE_PICTURE_REQUEST =1;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -103,6 +116,7 @@ public class TicketDetailsTab extends Fragment {
         choosePriorityDialog = new ChoosePriorityDialog();
 
         assetDetailsDialog = new AssetDetailsDialog();
+        savePictureDialog = new SavePictureDialog();
 
         loadTicketDetails(ticket);
 
@@ -148,6 +162,8 @@ public class TicketDetailsTab extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+
+
     private void loadTicketDetails(ServiceRequestEntity entity) {
         compId.setText(entity.getTicketId());
         compDescription.setText(entity.getDescription());
@@ -162,6 +178,22 @@ public class TicketDetailsTab extends Fragment {
         compOwnerGroup.setText(entity.getOwnerGroup());
         compOwner.setText(entity.getOwner());
     }
+
+    @OnClick(R.id.actDetails_uploadFileButton)
+    public void onClickUploadFileButton(){
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getActivity().startActivityForResult(Intent.createChooser(intent,getString(R.string.actDetails_chooseButton)),PICK_FILE_REQUEST_CODE);
+    }
+
+    @OnClick(R.id.actDetails_takePictureButton)
+    public  void onClickTakePictureButton() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        getActivity().startActivityForResult(intent,TAKE_PICTURE_REQUEST);
+
+    }
+
 
     @OnClick(R.id.actDetails_assetZoomButton)
     public void onClickAssetZoomButton(){

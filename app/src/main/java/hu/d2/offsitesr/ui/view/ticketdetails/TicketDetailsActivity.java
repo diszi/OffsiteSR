@@ -1,29 +1,59 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
+import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
+import hu.d2.offsitesr.util.FileUtils;
 import hu.d2.offsitesr.util.UIConstans;
+
+import static android.R.attr.data;
+import static android.R.attr.endColor;
 
 public class TicketDetailsActivity extends AppCompatActivity implements TicketDetails {
 
 	private TicketDetailsPresenter presenter;
 	private ServiceRequestEntity ticket;
 	private TicketHolder ticketHolder;
+
+	private  SavePictureDialog savePictureDialog;
 
 	private String syncDateString;
 
@@ -32,6 +62,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	TicketDetailsWorkLogTab workLogTab;
 
 	TicketDetailsTaskTab taskTab;
+
 
 
 
@@ -52,6 +83,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
     @BindView(R.id.actDetails_toolbar)
     Toolbar compToolbar;
 
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,6 +101,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+		savePictureDialog = new SavePictureDialog();
 
         compSyncDate.setText(syncDateString);
 
@@ -100,9 +134,67 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		taskTab.setArguments(bundle);
 		adapter.addTab(taskTab,getString(R.string.actDetails_task) + " (" + ticket.getTasks().size() + ")");
 
-
-//		adapter.addFragment(new ContactsFragment(), "Contacts");
 		viewPager.setAdapter(adapter);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		String encodedFile="", path="", fileName="", fileNameWithoutExtension="";
+		Uri selectedFileUri= null;
+		int pos;
+
+		if (requestCode == 0 && resultCode == RESULT_OK && null != data && data.getData() != null) {
+			selectedFileUri =data.getData();
+			path = FileUtils.getPath(this, selectedFileUri);
+			Toast.makeText(TicketDetailsActivity.this,getString(R.string.assDetails_fileSelected)+path,Toast.LENGTH_SHORT).show();
+        	File file = new File(path);
+			fileName = file.getName();
+			pos = fileName.lastIndexOf(".");
+			if (pos > 0){
+				fileNameWithoutExtension = fileName.substring(0,pos);
+			}
+			encodedFile = encodeFile(selectedFileUri);
+
+			this.addFile(fileName, fileNameWithoutExtension, encodedFile, path);
+
+		} //UPLOAD
+		else
+			if (requestCode == 1 && resultCode ==RESULT_OK &&  data.getData() == null){
+				android.app.FragmentManager fm = this.getFragmentManager();
+				Bundle extras = data.getExtras();
+				savePictureDialog.setArguments(extras);
+				savePictureDialog.show(fm,"SaveAndUploadPicture");
+
+			} //TAKE PICTURE
+
+	}
+
+
+	public String encodeFile(Uri fileUri){
+		String encodeBase64 = "";
+		try {
+			InputStream inputStream  = getContentResolver().openInputStream(fileUri);
+			byte[] inputData = getBytes(inputStream);
+			encodeBase64 = Base64.encodeToString(inputData,Base64.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return encodeBase64;
+
+	}
+
+	public byte[] getBytes(InputStream inputStream) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int buffSize = 1024;
+		byte[] buffer = new byte[buffSize];
+		int len = 0;
+		while ((len = inputStream.read(buffer)) != -1){
+			baos.write(buffer,0,len);
+		}
+
+		return baos.toByteArray();
 	}
 
 	@Override
@@ -167,6 +259,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		Toast.makeText(this, getString(R.string.actDetails_saveSuccess), Toast.LENGTH_SHORT).show();
 	}
 
+
 	public String getLoggedInUser() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getString(UIConstans.LOGGED_IN_USER, "Unknown");
 	}
@@ -219,8 +312,20 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		ticketHolder.setChanged(true);
 	}
 
+
+	public void addFile(String fileName ,String pureFileName,String encode, String urlname){
+		if (fileName.length() > 20){
+			fileName = fileName.substring(0, 20);
+		}
+		presenter.addFile(ticket.getTicketId(), fileName, pureFileName, encode, urlname);
+
+	}
+
+
+
 	@Override
 	public void addWorkLogRemote(String shortDesc, String longDesc) {
+
 		presenter.addWorkLogRemote(ticket.getTicketId(),getLoggedInUser(),shortDesc,longDesc);
 	}
 }

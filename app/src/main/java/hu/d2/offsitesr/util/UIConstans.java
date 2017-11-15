@@ -7,4 +7,6 @@ package hu.d2.offsitesr.util;
 public class UIConstans {
     public static String LOGGED_IN_USER = "loggedInUser";
     public static String SYNC_DATE = "SYNCDATE";
+
+    public static String PHOTO_SAVE_DIR="/DCIM/Camera";
 }

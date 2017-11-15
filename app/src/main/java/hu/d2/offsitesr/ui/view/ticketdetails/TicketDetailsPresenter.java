@@ -26,4 +26,5 @@ public interface TicketDetailsPresenter {
 
 	public void addWorkLogRemote(String ticketID, String owner, String shortDesc, String longDesc);
 
+	public void addFile(String tickedID,String fileName, String fileNameWithoutExtension, String encode , String urlname );
 }

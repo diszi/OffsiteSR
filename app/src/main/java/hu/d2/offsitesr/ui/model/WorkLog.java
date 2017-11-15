@@ -47,7 +47,7 @@ public class WorkLog implements Serializable{
 
     public String getCreatedDate() {
 
-        return EnvironmentTool.convertDate(createdDate);
+        return EnvironmentTool.convertDateString(createdDate);
 
     }
 

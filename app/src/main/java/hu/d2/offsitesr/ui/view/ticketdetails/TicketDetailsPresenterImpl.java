@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.remote.AddFileSOAP;
 import hu.d2.offsitesr.remote.AddWorkLogSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerGroupSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerSOAP;
@@ -35,6 +36,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     private Observable<String> observable4;
     private Disposable disposable5;
     private Observable<String> observable5;
+    private Disposable disposable6;
+    private Observable<String> observable6;
 
     @Override
     public void setView(TicketDetails view) {
@@ -62,6 +65,10 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         if (disposable5 != null && !disposable5.isDisposed()) {
             Log.d("------------------>"," Dispose observer");
             disposable5.dispose();
+        }
+        if (disposable6 != null && !disposable6.isDisposed()) {
+            Log.d("------------------>"," Dispose observer");
+            disposable6.dispose();
         }
     }
 
@@ -176,6 +183,32 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     view.hideLoading();
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
+                    view.hideLoading();
+                });
+    }
+
+    public void addFile(String ticketID, String fileName, String fileNameWithoutExtension, String encode, String urlname){
+        view.showLoading();
+        if (observable6 == null) {
+            Log.d("------------------>", " Observable created");
+            observable6 = createAddFileObservable(ticketID,fileName,fileNameWithoutExtension, encode,urlname);
+        }
+        Log.d("------------------>"," Subscribe to Observable");
+        disposable6 = observable6
+                .subscribe((newOwner) -> { // onNext Consumer
+                    Log.d("------------------>"," Get Data");
+
+                }, (throwable) -> { // onError Consumer
+                    int errorMessageCode = R.string.error_general;
+                    if (throwable instanceof UIThrowable){
+                        UIThrowable uiThrowable = (UIThrowable) throwable;
+                        errorMessageCode = uiThrowable.getMessageId();
+                    }
+
+                    view.showErrorMessage(errorMessageCode);
+                    view.hideLoading();
+                }, () -> { // onComplate Action
+                   // view.showSuccessMessage();
                     view.hideLoading();
                 });
     }
@@ -383,7 +416,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 InputStream inputStream = null;
                 try {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
-
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
@@ -414,4 +446,45 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
         return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
+
+    public Observable<String> createAddFileObservable(String ticketID,String fileName , String fileNameWithoutExtension, String encode, String urlname) {
+        Observable<String> result = Observable.create(emitter -> {
+            try {
+//                Thread.sleep(2000);
+                Log.d("------------------>"," Start Remote SOAP Call ");
+                HttpURLConnection connection = null;
+                InputStream inputStream = null;
+                try {
+                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,fileName, fileNameWithoutExtension, encode, urlname),view.getLoggedInUser()));
+
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == 200) {
+                        inputStream = connection.getInputStream();
+                        emitter.onComplete();
+                    }else if (responseCode == 500) {
+                        emitter.onError(new UIThrowable(R.string.error_failedOperation));
+                    } else {
+                        emitter.onError(new UIThrowable(R.string.error_network));
+                    }
+
+                } finally {
+                    if (connection != null) {
+                        if (inputStream != null){
+                            inputStream.close();
+                        }
+
+                        connection.disconnect();
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e("", "---------->", ex);
+                emitter.onError(new UIThrowable(R.string.error_unknown));
+            }
+
+        });
+
+        return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
+    }
+
+
 }

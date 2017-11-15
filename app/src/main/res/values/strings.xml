@@ -1,4 +1,4 @@
-    <resources>
+<resources>
     <string name="app_name">OffsiteSR</string>
     <string name="actLogin_loginButton">LOG IN</string>
     <string name="actLogin_loginNameHint">Username</string>
@@ -9,6 +9,7 @@
     <string name="error_unknown">Unknown Error</string>
     <string name="error_network">Network Error</string>
     <string name="error_general">General Error</string>
+    <string name="actDetails_chooseButton">Choose file to upload...</string>
     <string name="actDetails_title">Details</string>
     <string name="actList_title">List view</string>
     <string name="actDetails_id">Ticket ID:</string>
@@ -20,19 +21,19 @@
     <string name="actDetails_classStructure">Class structure:</string>
     <string name="actDetails_priority">Priority:</string>
     <string name="actDetails_asset">Asset:</string>
-        <string name="actDetails_ciNum">Configuration item:</string>
+    <string name="actDetails_ciNum">Configuration item:</string>
     <string name="actDetails_owner">Owner:</string>
     <string name="actDetails_worklog">Worklog</string>
-
-        <string name="assDetails_num">Asset number:</string>
-        <string name="assDetails_description">Description:</string>
-        <string name="assDetails_status">Status:</string>
-        <string name="assDetails_location">Location:</string>
-        <string name="assDetails_pluspcustomer">Customer:</string>
-        <string name="assDetails_user">User:</string>
-        <string name="assDetails_custodian">Custodian:</string>
-        <string name="assDetails_serialnum">Serial number:</string>
-        <string name="assDetails_errorMsg">No assigned asset</string>
+    <string name="assDetails_fileSelected">File selected:</string>
+    <string name="assDetails_num">Asset number:</string>
+    <string name="assDetails_description">Description:</string>
+    <string name="assDetails_status">Status:</string>
+    <string name="assDetails_location">Location:</string>
+    <string name="assDetails_pluspcustomer">Customer:</string>
+    <string name="assDetails_user">User:</string>
+    <string name="assDetails_custodian">Custodian:</string>
+    <string name="assDetails_serialnum">Serial number:</string>
+    <string name="assDetails_errorMsg">No assigned asset</string>
 
     <string name="menuStatus_queued">Queued</string>
     <string name="menuStatus_inProgress">In Progress</string>
@@ -49,8 +50,8 @@
     <string name="error_failedOperation">Failed Operation</string>
     <string name="actDetails_saveSuccess">Saved</string>
 
-        <string name="dialogAsset_title">Asset details</string>
-
+    <string name="dialogAsset_title">Asset details</string>
+    <string name="dialogSavePicture_title">Save and upload photo</string>
     <string name="dialogSatus_title2">Change Owner</string>
     <string name="dialogWorkLog_title">Add WorkLog</string>
     <string name="dialogWrokLog_shortDesc">Short Description</string>

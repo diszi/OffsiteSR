@@ -10,24 +10,48 @@
         android:layout_height="match_parent"
         android:isScrollContainer="false">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <TextView
-                    style="@style/LabelDetail"
-                    android:text="@string/actDetails_id" />
+                <ImageButton
+                    android:id="@+id/actDetails_uploadFileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/actDetails_takePictureButton"
+                    android:backgroundTint="@android:color/background_light"
+                    android:src="@android:drawable/ic_menu_upload" />
 
-                <TextView
-                    android:id="@+id/actDetails_id"
-                    style="@style/TextDetail" />
-            </LinearLayout>
+                <ImageButton
+                    android:id="@+id/actDetails_takePictureButton"
+
+                    android:layout_width="77dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@android:color/background_light"
+                    android:src="@android:drawable/ic_menu_camera" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelDetail"
+                        android:text="@string/actDetails_id" />
+
+                    <TextView
+                        android:id="@+id/actDetails_id"
+                        style="@style/TextDetail" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <View style="@style/Divider" />
 
