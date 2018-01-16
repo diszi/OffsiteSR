@@ -73,9 +73,11 @@ public class WorkLog implements Serializable{
         this.description = description;
     }
 
+
     public String getLongDescription(){ return longDescription;}
 
     public void setLongDescription(String longDescription){ this.longDescription = longDescription;}
+
 
 
 

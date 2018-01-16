@@ -86,7 +86,10 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
+
             android:backgroundTint="@android:color/transparent"
+
+
             android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 

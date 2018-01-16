@@ -79,12 +79,12 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <!--<ImageButton-->
-            <!--android:id="@+id/actDetails_WorklogZoomButton"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="39dp"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:backgroundTint="@android:color/background_light"-->
-            <!--android:src="@android:drawable/ic_menu_zoom" />-->
+        <!--android:id="@+id/actDetails_WorklogZoomButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="39dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:backgroundTint="@android:color/background_light"-->
+        <!--android:src="@android:drawable/ic_menu_zoom" />-->
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

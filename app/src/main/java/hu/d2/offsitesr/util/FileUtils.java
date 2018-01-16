@@ -109,13 +109,14 @@ public class FileUtils {
 
 
     public static boolean isDownloadsDocument(Uri uri){
-        System.out.println(" Download Folder -> "+uri.getAuthority());
+
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
     public static boolean isGooglePhotosUri(Uri uri){
 
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
+
 
     public static String getExtension(String fileName){
         String extension=null;
@@ -126,4 +127,5 @@ public class FileUtils {
         System.out.println("extension = "+extension);
         return extension;
     }
+
 }

@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import hu.d2.offsitesr.R;
+
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+
 import hu.d2.offsitesr.remote.AddFileSOAP;
 import hu.d2.offsitesr.remote.AddWorkLogSOAP;
 import hu.d2.offsitesr.remote.GetAttachmentsSOAP;
@@ -53,6 +55,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     private Disposable disposable5;
     private Observable<String> observable5;
+
 
     private Disposable disposable6;
     private Observable<String> observable6;
@@ -112,6 +115,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
             Log.d("------------------>"," Dispose observer");
             disposable6.dispose();
         }
+
         if (disposableFile != null && !disposableFile.isDisposed()){
             Log.d("------------------>"," DisposeFile observer");
             disposableFile.dispose();
@@ -248,6 +252,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     // view.showSuccessMessage();
                     view.hideLoading();
                 });
+
     }
 
 
@@ -695,6 +700,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 try {
                     System.out.println("ShortDesc = "+shortDesc+"  ->");
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
+
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
@@ -735,6 +741,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 try {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,fileName, fileNameWithoutExtension, encode, urlname),view.getLoggedInUser()));
 
+
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
@@ -764,6 +771,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
         return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
+
 
 
 }

@@ -32,7 +32,9 @@ public class ServiceRequestEntity implements Serializable{
     private List<WorkLog> workLogs;
     private List<Task> tasks;
     private Asset asset;
+
     private List<Attachment> attachments;
+
 
     public ServiceRequestEntity() {
         // empty
@@ -182,6 +184,7 @@ public class ServiceRequestEntity implements Serializable{
         this.tasks = tasks;
     }
 
+
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
@@ -189,6 +192,7 @@ public class ServiceRequestEntity implements Serializable{
     public List<Attachment> getAttachments() {
         return attachments;
     }
+
 
 
     public Asset getAsset(){

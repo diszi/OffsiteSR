@@ -2,7 +2,9 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
 import android.content.Intent;
+
 import android.content.res.Configuration;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,11 +18,12 @@ import android.support.v4.app.SupportActivity;
 import android.support.v4.view.ViewPager;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Base64OutputStream;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,16 +52,19 @@ import hu.d2.offsitesr.app.singleton.TimerSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
+
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenter;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
+
 import hu.d2.offsitesr.util.FileUtils;
 import hu.d2.offsitesr.util.UIConstans;
 
 import static android.R.attr.data;
 import static android.R.attr.endColor;
-import static android.R.attr.manageSpaceActivity;
+
+
 
 public class TicketDetailsActivity extends AppCompatActivity implements TicketDetails {
 
@@ -66,7 +72,11 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	private TicketDetailsPresenter presenter;
 	private ServiceRequestEntity ticket;
 	private TicketHolder ticketHolder;
+
+
+
 	private  SavePictureDialog savePictureDialog;
+
 	private String syncDateString;
 
 	private int[] tabAttachmentIcon ={
@@ -77,6 +87,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	TicketDetailsWorkLogTab workLogTab;
 	TicketDetailsTaskTab taskTab;
 	TicketDetailsAttachmentTab attachmentTab;
+
 
 
 	@BindView(R.id.actDetails_progressBar)
@@ -117,6 +128,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		savePictureDialog = new SavePictureDialog();
+
         compSyncDate.setText(syncDateString);
 
 		presenter = new TicketDetailsPresenterImpl();
@@ -157,6 +169,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		adapter.addTab(taskTab, getString(R.string.actDetails_task) + " (" + ticket.getTasks().size() + ")");
 
 
+
 		attachmentTab = new TicketDetailsAttachmentTab();
 		attachmentTab.setArguments(bundle);
 		adapter.addTab(attachmentTab, null);
@@ -173,7 +186,9 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		int pos;
 
 		if (requestCode == 0 && resultCode == RESULT_OK && null != data && data.getData() != null) {
+
 			//UPLOAD FILE
+
 			selectedFileUri =data.getData();
 			path = FileUtils.getPath(this, selectedFileUri);
 			Toast.makeText(TicketDetailsActivity.this,getString(R.string.assDetails_fileSelected)+path,Toast.LENGTH_SHORT).show();
@@ -184,6 +199,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 				fileNameWithoutExtension = fileName.substring(0,pos);
 			}
 			encodedFile = encodeFile(selectedFileUri);
+
 			this.addFile(fileName, fileNameWithoutExtension, encodedFile, path);
 
 		}
@@ -203,6 +219,10 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	 * @param fileUri : uri for selected file
 	 * @return : base64 code in string
 	 */
+
+
+
+
 	public String encodeFile(Uri fileUri){
 		String encodeBase64 = "";
 		try {
@@ -216,6 +236,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 	}
 
+
 	/**
 	 *  - convert InputStream parameter into byte format
 	 *
@@ -223,6 +244,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	 * @return : byte
 	 * @throws IOException
 	 */
+
 	public byte[] getBytes(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int buffSize = 1024;
@@ -293,10 +315,12 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		Toast.makeText(this, getString(R.string.actDetails_saveSuccess), Toast.LENGTH_SHORT).show();
 	}
 
+
 	/**
 	 *
 	 * @return logged user name
 	 */
+
 	public String getLoggedInUser() {
 		return SettingsSingleton.getInstance().getUserName();
 	}
@@ -349,6 +373,20 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		ticketHolder.setChanged(true);
 	}
 
+	/**
+	 *	Worklog is added to the ticket
+	 *
+	 * @param shortDesc
+	 * @param longDesc
+	 *
+	 */
+
+
+	@Override
+	public void addWorkLogRemote(String shortDesc, String longDesc) {
+		presenter.addWorkLogRemote(ticket.getTicketId(),getLoggedInUser(),shortDesc,longDesc);
+	}
+
 
 	/**
 	 *
@@ -360,28 +398,19 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	 * @param urlname: file path
 	 *
 	 */
-	public void addFile(String fileName ,String pureFileName,String encode, String urlname){
+	public void addFile(String fileName ,String pureFileName,String encode, String urlname) {
 
-		if (fileName.length() > 20){
+		if (fileName.length() > 20) {
 			fileName = fileName.substring(0, 19);
 		}
-
-		presenter.addFile(ticket.getTicketId(), fileName, pureFileName, encode, urlname);
-
 	}
 
 
-	/**
-	 *	Worklog is added to the ticket
-	 *
-	 * @param shortDesc
-	 * @param longDesc
-	 *
-	 */
-	@Override
-	public void addWorkLogRemote(String shortDesc, String longDesc) {
-		presenter.addWorkLogRemote(ticket.getTicketId(),getLoggedInUser(),shortDesc,longDesc);
-	}
+
+
+
+
+
 
 	/**
 	 *

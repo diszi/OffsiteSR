@@ -24,6 +24,7 @@ import hu.d2.offsitesr.ui.model.Attachment;
 
 import hu.d2.offsitesr.ui.model.DocLinks;
 import hu.d2.offsitesr.ui.model.License;
+
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.Task;
@@ -293,6 +294,7 @@ public class EntityMapper {
 		return docLinks;
 
 	}
+
 	private static ServiceRequestEntity transformTicket(Element element) {
 		ServiceRequestEntity ticket = new ServiceRequestEntity();
 
@@ -403,6 +405,7 @@ public class EntityMapper {
 			}
 			asset.setAssetUserCustList(assetUserCusts);
 
+
 		}
 		return asset;
 
@@ -432,6 +435,7 @@ public class EntityMapper {
 		return element.getElementsByTagName(tag).item(0).getTextContent().equals("1") ;
 	}
 
+
 	/*private static String getNodeValueBase64String(Element element,String tag){
 
 		String fileSize = SettingsSingleton.getInstance().getSizeOfDownloadedFile();
@@ -457,4 +461,5 @@ public class EntityMapper {
 		double resultMB = resultKB/1000;
 		return resultKB;
 	}*/
+
 }

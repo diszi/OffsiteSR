@@ -83,11 +83,14 @@ public class TicketDetailsTab extends Fragment {
     private AssetDetailsDialog assetDetailsDialog;
     private SavePictureDialog savePictureDialog;
 
+
     private ServiceRequestEntity ticket;
 
     private  static int PICK_FILE_REQUEST_CODE=0;
     private static int TAKE_PICTURE_REQUEST =1;
 
+
+//    private OnFragmentInteractionListener mListener;
 
 
     public TicketDetailsTab() {
@@ -119,6 +122,9 @@ public class TicketDetailsTab extends Fragment {
         assetDetailsDialog = new AssetDetailsDialog();
         savePictureDialog = new SavePictureDialog();
 
+
+        assetDetailsDialog = new AssetDetailsDialog();
+        savePictureDialog = new SavePictureDialog();
 
         loadTicketDetails(ticket);
 
@@ -221,9 +227,10 @@ public class TicketDetailsTab extends Fragment {
         }
     }
 
-    /*
-    *   OnClick on pencil icon - show statuses in alert dialog
-    * */
+
+
+
+
     @OnClick(R.id.actDetails_editStatusButton)
     public void onClickChooseStatusButton() {
         FragmentManager fm = getActivity().getFragmentManager();

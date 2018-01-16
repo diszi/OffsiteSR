@@ -72,6 +72,7 @@
     <string name="assDetails_user">Felhasználó:</string>
     <string name="dialogAsset_title">Eszköz részletek</string>
     <string name="assDetails_errorMsg">Nincs hozzárendelt eszköz</string>
+
     <string name="actDetails_attachment">Csatolmányok</string>
     <string name="actDetails_chooseButton">Válaszd ki a feltöltendő fájlt...</string>
     <string name="assDetails_fileSelected">Kiválasztott fájl:</string>
@@ -107,4 +108,5 @@
 
     <string name="menuTicketList_about">Impresszum</string>
     <string name="dialogUpdateApp_offlineMode">Az internetkapcsolat nem elérhető! Csatlakozzon az internethez!</string>
+
 </resources>

@@ -168,7 +168,11 @@
             android:backgroundTint="@android:color/background_light"
             android:paddingEnd="40dp"
             android:paddingLeft="40dp"
+
             android:text="@string/button_cancel"
+
+
+
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 

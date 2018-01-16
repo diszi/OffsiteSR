@@ -42,7 +42,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+
                 android:hint="@string/dialogSavePicture_hint"
+
+
                 android:inputType="text"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="16dp"
@@ -81,7 +84,11 @@
             android:backgroundTint="@android:color/background_light"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
+
             android:text="@string/button_upload"
+
+
+
             android:textColor="@color/colorAccent" />
 
         <Button
@@ -92,7 +99,11 @@
             android:backgroundTint="@android:color/background_light"
             android:paddingEnd="40dp"
             android:paddingLeft="40dp"
+
             android:text="@string/button_cancel"
+
+
+
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 

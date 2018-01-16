@@ -39,8 +39,11 @@ import static android.R.attr.data;
 
 /**
  * Created by szidonia.laszlo on 2017. 11. 10..
+<<<<<<< HEAD
  *
  *   - add picture name + upload
+=======
+>>>>>>> 4076969d3dd138ea01ac183824c5eb0fe2987670
  */
 
 public class SavePictureDialog extends DialogFragment {

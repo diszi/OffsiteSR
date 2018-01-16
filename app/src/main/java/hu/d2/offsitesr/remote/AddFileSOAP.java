@@ -2,6 +2,7 @@ package hu.d2.offsitesr.remote;
 
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 
+
 /**
  * Created by szidonia.laszlo on 2017. 11. 10..
  */
@@ -13,6 +14,7 @@ public class AddFileSOAP {
 
 
     public static String getSoapPayload(String ticketID, String fileName , String fileNameWithoutExtension, String base64, String urlname){
+
 
         System.out.println("WEBURL ------ SOAP = "+SettingsSingleton.getInstance().getWebUrl()+fileName);
 
@@ -40,7 +42,10 @@ public class AddFileSOAP {
                 "\n" +
                 " <max:URLTYPE  >FILE</max:URLTYPE>\n" +
                 "<max:URLNAME  >"+urlname+"</max:URLNAME>\n" +
+
                 "  <max:WEBURL  >"+ SettingsSingleton.getInstance().getWebUrl()+fileName+"</max:WEBURL>          \n" +
+
+
                 "               </max:DOCLINKS>\n" +
                 "            </max:SR>\n" +
                 "         </max:MOB_SR2Set>\n" +

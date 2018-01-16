@@ -26,7 +26,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/actDetails_takePictureButton"
+
                     android:backgroundTint="@android:color/transparent"
+
+
+
                     android:src="@android:drawable/ic_menu_upload" />
 
                 <ImageButton
@@ -35,7 +39,11 @@
                     android:layout_width="77dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+
                     android:backgroundTint="@android:color/transparent"
+
+
+
                     android:src="@android:drawable/ic_menu_camera" />
 
                 <LinearLayout
@@ -111,7 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+
                     android:backgroundTint="@android:color/transparent"
+
+
+
                     android:src="@android:drawable/ic_menu_zoom" />
 
                 <LinearLayout

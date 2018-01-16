@@ -22,11 +22,12 @@ import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
+
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -163,4 +164,17 @@ public class EnvironmentTool {
 
 
     }
+
+    public static String convertDate(String createdDate){
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss"); //datePattern
+        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy.MM.dd. hh:mm");
+        Date destDate  = null;
+        try{
+            destDate = inFormat.parse(createdDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outFormat.format(destDate);
+    }
+
 }

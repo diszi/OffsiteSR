@@ -28,6 +28,7 @@
     <string name="actDetails_ciNum">Configuration item:</string>
     <string name="actDetails_owner">Owner:</string>
     <string name="actDetails_worklog">Worklog</string>
+
     <string name="actDetails_attachment">Attachements</string>
 
     <string name="assDetails_fileSelected">File selected:</string>
@@ -60,7 +61,9 @@
 
     <string name="dialogAsset_title">Asset details</string>
     <string name="dialogSavePicture_title">Save and upload photo</string>
+
     <string name="dialogSavePicture_hint">Picture name</string>
+
     <string name="dialogSatus_title2">Change Owner</string>
     <string name="dialogWorkLog_title">Add WorkLog</string>
     <string name="dialogWrokLog_shortDesc">Short Description</string>
