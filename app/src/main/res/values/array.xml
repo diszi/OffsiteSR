@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="settings_language_options_names">
         <item>HU</item>
         <item>ENG</item>
@@ -8,6 +9,20 @@
     <string-array name="settings_language_options_values">
         <item>HU</item>
         <item>ENG</item>
+    </string-array>
+
+
+    <string name="screen_lock_off">Off</string>
+    <string name="screen_lock_on">On</string>
+
+    <string-array name="settings_log_level_option_names">
+        <item>DEBUG</item>
+        <item>ERROR</item>
+    </string-array>
+
+    <string-array name="settings_log_level_option_values">
+        <item>@string/settings_log_level_debug</item>
+        <item>@string/settings_log_level_error</item>
     </string-array>
 
     <string-array name="ticket_status_keys">

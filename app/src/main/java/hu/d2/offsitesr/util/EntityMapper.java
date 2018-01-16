@@ -1,5 +1,7 @@
 package hu.d2.offsitesr.util;
 
+import android.provider.ContactsContract;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -8,20 +10,26 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import hu.d2.offsitesr.ui.model.Asset;
+import hu.d2.offsitesr.ui.model.AssetUserCust;
+import hu.d2.offsitesr.ui.model.Attachment;
+
+import hu.d2.offsitesr.ui.model.DocLinks;
+import hu.d2.offsitesr.ui.model.License;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.Task;
+import hu.d2.offsitesr.ui.model.Version;
 import hu.d2.offsitesr.ui.model.WorkLog;
+import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
 
 /**
  * Created by csabinko on 2017.09.15..
@@ -52,6 +60,10 @@ public class EntityMapper {
 		return new OwnerHolder(ownerList,ownerGroupList);
 	}
 
+	/*
+	* 	Set ticket details - set ServiceRequestEntity attributes
+	*
+	* */
 	public static List<ServiceRequestEntity> transformTicketList(InputStream inputStream)
 			throws ParserConfigurationException, IOException, SAXException {
 
@@ -63,14 +75,224 @@ public class EntityMapper {
 		document = builder.parse(inputStream);
 
 		NodeList srNode = document.getElementsByTagName("SR");
+
 		for (int i = 0; i < srNode.getLength(); i++) {
 			ServiceRequestEntity dataTicket = transformTicket((Element) srNode.item(i));
 			ticketList.add(dataTicket);
+
 		}
 
 		return ticketList;
 	}
 
+
+	/*
+	*
+	* */
+	public static List<DocLinks> transformAttachmentDocLinksList(InputStream inputStream, String doclinksID) throws ParserConfigurationException, IOException, SAXException {
+		List<DocLinks> attachmentDocLinksList = new LinkedList<>();
+		DocumentBuilder builder = null;
+		Document document = null;
+
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		document = builder.parse(inputStream);
+
+		NodeList srNode = document.getElementsByTagName("SR");
+		for (int i = 0; i < srNode.getLength(); i++) {
+			attachmentDocLinksList = transformTicketAttachmentDocLinks((Element) srNode.item(i),doclinksID);
+		}
+		return attachmentDocLinksList;
+	}
+
+	private static List<DocLinks> transformTicketAttachmentDocLinks(Element element,String doclinksID)
+	{
+		NodeList linkNode = element.getElementsByTagName("DOCLINKS");
+
+		List<DocLinks> attachmentDocLink = new ArrayList<>();
+		for (int i=0;i<linkNode.getLength();i++){
+			DocLinks attachmentDoclink = transformAttachmentDocLinks((Element) linkNode.item(i),doclinksID);
+			attachmentDocLink.add(attachmentDoclink);
+		}
+
+
+		return attachmentDocLink;
+	}
+
+	public static DocLinks transformAttachmentDocLinks(Element element,String doclinksID){
+		DocLinks attachmentDoc = new DocLinks();
+		attachmentDoc.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
+		if (attachmentDoc.getDoclinksID().equals(doclinksID))
+		{
+			//attachmentDoc.setDocumentData(getNodeValueBase64String(element,"DOCUMENTDATA"));
+			attachmentDoc.setDocumentData(getNodeValue(element,"DOCUMENTDATA"));
+			attachmentDoc.setWebURL(getNodeValue(element,"WEBURL"));
+
+		}
+
+
+
+		return attachmentDoc;
+	}
+
+
+	public static List<Attachment> transformAttachmentList(InputStream inputStream, String ticketID) throws ParserConfigurationException, IOException, SAXException {
+		List<Attachment> attachmentDocLinksList = new LinkedList<>();
+		DocumentBuilder builder = null;
+		Document document = null;
+
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		document = builder.parse(inputStream);
+
+		NodeList srNode = document.getElementsByTagName("SR");
+		for (int i = 0; i < srNode.getLength(); i++) {
+			attachmentDocLinksList = transformTicketAttachment((Element) srNode.item(i),ticketID);
+		}
+		return attachmentDocLinksList;
+	}
+
+	private static List<Attachment> transformTicketAttachment(Element element,String ticketID)
+	{
+		NodeList linkNode = element.getElementsByTagName("DOCLINKS");
+
+		List<Attachment> attachmentDocLink = new ArrayList<>();
+		for (int i=0;i<linkNode.getLength();i++){
+			Attachment attachmentDoclink = transformAttachment((Element) linkNode.item(i),ticketID);
+			attachmentDocLink.add(attachmentDoclink);
+		}
+
+		return attachmentDocLink;
+	}
+
+	public static Attachment transformAttachment (Element element,String tickedID){
+		Attachment attachment = new Attachment();
+
+		attachment.setReference(getNodeValue(element,"REFERENCE"));
+
+			attachment.setCreateDate(getNodeValue(element,"CREATEDATE"));
+			attachment.setCreateBy(getNodeValue(element,"CREATEBY"));
+			attachment.setWebURL(getNodeValue(element,"WEBURL"));
+			attachment.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
+
+		return attachment;
+	}
+
+
+
+
+
+	public static List<WorkLog> transformWorkLogList(InputStream inputStream, String recordkey) throws ParserConfigurationException, IOException, SAXException{
+		List<WorkLog> workLogList = new LinkedList<>();
+		DocumentBuilder builder = null;
+		Document document = null;
+
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		document = builder.parse(inputStream);
+
+		NodeList wlNode = document.getElementsByTagName("WORKLOG");
+		for (int i = 0; i < wlNode.getLength(); i++) {
+			WorkLog worklogObj = transformWorkLogRefresh((Element) wlNode.item(i),recordkey);
+			workLogList.add(worklogObj);
+
+		}
+		System.out.println("worklogList.size = "+workLogList.size());
+		return workLogList;
+	}
+
+	private static WorkLog transformWorkLogRefresh(Element element,String recordkey){
+		WorkLog workLog = new WorkLog();
+		workLog.setRecordKey(getNodeValue(element, "RECORDKEY"));
+
+			workLog.setCreatedBy(getNodeValue(element, "CREATEBY"));
+			workLog.setCreatedDate(getNodeValue(element, "CREATEDATE"));
+			workLog.setDescription(getNodeValue(element, "DESCRIPTION"));
+			workLog.setLongDescription(getNodeValue(element,"DESCRIPTION_LONGDESCRIPTION"));
+
+		return workLog;
+
+	}
+
+	public static List<License> transformLicenseData(InputStream inputStream, String IMEInumber)
+			throws ParserConfigurationException, IOException, SAXException {
+
+
+		List<License> licenseList = new LinkedList<>();
+		DocumentBuilder builder = null;
+		Document document = null;
+
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		document = builder.parse(inputStream);
+
+
+		NodeList licenseNode = document.getElementsByTagName("MOB_LIC1");
+
+		System.out.println("   size ="+licenseNode.getLength());
+		for (int i = 0; i < licenseNode.getLength(); i++) {
+			License dataLicense = transformData((Element) licenseNode.item(i));
+			//System.out.println(" -----------------> dataLicense = "+dataLicense +"  PERSONID = "+dataLicense.getPersonID()+" user = "+SettingsSingleton.getInstance().getUserName().toUpperCase() );
+
+			if (dataLicense.getPersonID().equals(SettingsSingleton.getInstance().getUserName().toUpperCase())){
+
+				licenseList.add(dataLicense);
+			}
+		}
+		System.out.println(" list length = "+licenseList.size());
+
+		return licenseList;
+	}
+
+	public static License transformData(Element element){
+		License licenseObj = new License();
+
+		licenseObj.setIMEInumber(getNodeValue(element,"IMEI"));
+		licenseObj.setPersonID(getNodeValue(element,"PERSONID"));
+		System.out.println("   getIMEI = "+licenseObj.getIMEInumber()+"  personID="+licenseObj.getPersonID());
+
+		return licenseObj;
+	}
+
+
+	public static Version transformVersionData(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
+
+		Version versionObj = new Version();
+		DocumentBuilder builder = null;
+		Document document = null;
+
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		document = builder.parse(inputStream);
+
+		NodeList versionUpdate1Node = document.getElementsByTagName("MOB_UPDATE");
+		for (int i = 0; i <  versionUpdate1Node.getLength(); i++) {
+			versionObj = transformVersion((Element) versionUpdate1Node.item(i));
+		}
+
+		System.out.println("Version obj => 1.app name = "+versionObj.getAppName()+"   -   app version nr = "   +versionObj.getVersionNumber()+"   -    app details = "+versionObj.getNewAppDetails());
+		return versionObj;
+	}
+
+	public static Version transformVersion(Element element){
+		Version versionInfo = new Version();
+		versionInfo.setAppName(getNodeValue(element,"APPNAME"));
+		versionInfo.setVersionNumber(getNodeValue(element,"VERSION"));
+
+		NodeList newAppNode = element.getElementsByTagName("DOCLINKS");
+		List<DocLinks> newAppList = new ArrayList<>();
+		for (int i = 0; i < newAppNode.getLength(); i++) {
+			DocLinks doclinks = transformDocumentData((Element) newAppNode.item(i));
+			newAppList.add(doclinks);
+		}
+		versionInfo.setNewAppDetails(newAppList);
+
+
+		return versionInfo;
+	}
+
+	public static DocLinks transformDocumentData(Element element){
+		DocLinks docLinks = new DocLinks();
+		docLinks.setDocumentData(getNodeValue(element,"DOCUMENTDATA"));
+//		System.out.println(" -> documentData = "+docLinks.getDocumentData());
+		return docLinks;
+
+	}
 	private static ServiceRequestEntity transformTicket(Element element) {
 		ServiceRequestEntity ticket = new ServiceRequestEntity();
 
@@ -82,10 +304,18 @@ public class EntityMapper {
 		ticket.setReportDate(getNodeValue(element,"REPORTDATE"));
 		ticket.setReportedBy(getNodeValue(element, "REPORTEDBY"));
 		ticket.setStatus(getNodeValue(element, "STATUS"));
+		ticket.setAssetNum(getNodeValue(element, "ASSETNUM"));
+		ticket.setCINum(getNodeValue(element, "CINUM"));
 		ticket.setStatusDate(getNodeValue(element, "STATUSDATE"));
 		ticket.setTicketId(getNodeValue(element, "TICKETID"));
 		ticket.setClassStructure(getNodeValue(element, "CLASSSTRUCTUREID"));
 		ticket.setPriority(getNodeValue(element, "INTERNALPRIORITY"));
+
+
+		NodeList aNode = element.getElementsByTagName("ASSET");
+		Asset asset = transformAsset((Element) aNode.item(0));
+
+		ticket.setAsset(asset);
 
         NodeList wlNode = element.getElementsByTagName("WORKLOG");
         List<WorkLog> workLogs = new ArrayList<>();
@@ -102,9 +332,30 @@ public class EntityMapper {
 			tasks.add(task);
 		}
 		ticket.setTasks(tasks);
+
+		NodeList dNode = element.getElementsByTagName("DOCLINKS");
+		List<Attachment> attachments = new ArrayList<>();
+		for (int i=0;i<dNode.getLength();i++){
+			Attachment attachment = transformAttachmentDetails((Element) dNode.item(i));
+			attachments.add(attachment);
+		}
+		ticket.setAttachments(attachments);
+
 		return ticket;
 	}
 
+	private static Attachment transformAttachmentDetails(Element element){
+
+		Attachment attachment = new Attachment();
+		//attachment.setDescription(getNodeValue(element,"DESCRIPTION"));
+		attachment.setCreateDate(getNodeValue(element,"CREATEDATE"));
+		attachment.setCreateBy(getNodeValue(element,"CREATEBY"));
+		attachment.setWebURL(getNodeValue(element,"WEBURL"));
+		attachment.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
+		attachment.setReference(getNodeValue(element,"REFERENCE"));
+
+		return attachment;
+	}
     private static WorkLog transformWorkLog(Element element) {
         WorkLog workLog = new WorkLog();
 		workLog.setId(getNodeValue(element,"WORKLOGID"));
@@ -113,6 +364,8 @@ public class EntityMapper {
         workLog.setLogType(getNodeValue(element, "LOGTYPE"));
         workLog.setRecordKey(getNodeValue(element, "RECORDKEY"));
         workLog.setDescription(getNodeValue(element, "DESCRIPTION"));
+		workLog.setLongDescription(getNodeValue(element,"DESCRIPTION_LONGDESCRIPTION"));
+
         return workLog;
     }
 
@@ -129,7 +382,79 @@ public class EntityMapper {
 		return task;
 	}
 
+	private  static Asset transformAsset(Element element){
+		Asset asset = null;
+		if (element != null) {
+			asset = new Asset();
+			asset.setAssetNum(getNodeValue(element, "ASSETNUM"));
+			asset.setDescription(getNodeValue(element, "DESCRIPTION"));
+			asset.setStatus(getNodeValue(element, "STATUS"));
+			asset.setLocation(getNodeValue(element, "LOCATION"));
+			asset.setPluspCustomer(getNodeValue(element, "PLUSPCUSTOMER"));
+			asset.setSerialNum(getNodeValue(element, "SERIALNUM"));
+
+
+
+			NodeList aUCNode = element.getElementsByTagName("ASSETUSERCUST");
+			List<AssetUserCust> assetUserCusts = new ArrayList<>();
+			for (int i = 0; i < aUCNode.getLength(); i++) {
+				AssetUserCust assetUserCust = transformAssetUserCust((Element) aUCNode.item(i));
+				assetUserCusts.add(assetUserCust);
+			}
+			asset.setAssetUserCustList(assetUserCusts);
+
+		}
+		return asset;
+
+
+	}
+
+	private static AssetUserCust transformAssetUserCust(Element element){
+		AssetUserCust assetUserCust=null;
+		if (element != null){
+			assetUserCust = new AssetUserCust();
+			assetUserCust.setIsCustodian(getNodeValueBoolean(element,"ISCUSTODIAN"));
+			assetUserCust.setIsUser(getNodeValueBoolean(element,"ISUSER"));
+			assetUserCust.setIsPrimary(getNodeValueBoolean(element,"ISPRIMARY"));
+			assetUserCust.setLocation(getNodeValue(element,"LOCATION"));
+			assetUserCust.setPersonID(getNodeValue(element,"PERSONID"));
+		}
+		return assetUserCust;
+	}
+
 	private static String getNodeValue(Element element, String tag) {
+
 		return element.getElementsByTagName(tag).item(0).getTextContent();
 	}
+
+
+	private  static boolean getNodeValueBoolean(Element element, String tag){
+		return element.getElementsByTagName(tag).item(0).getTextContent().equals("1") ;
+	}
+
+	/*private static String getNodeValueBase64String(Element element,String tag){
+
+		String fileSize = SettingsSingleton.getInstance().getSizeOfDownloadedFile();
+		System.out.println(" fileSize = "+fileSize);
+		double fileSizeMB = Integer.parseInt(fileSize);
+		double fileSizeKB = fileSizeMB*1000;
+		double fileSizeByte = fileSizeKB*1000;
+		String codeBase64="";
+		if ( getSizeFile(element.getElementsByTagName(tag).item(0).getTextContent()) <= 4000.00 ){
+			codeBase64 = element.getElementsByTagName(tag).item(0).getTextContent();
+			System.out.println("  DOWNLOAD -> OK -----> "+fileSizeByte);
+		}else{
+			codeBase64 = null;
+		}
+		return codeBase64;
+	}
+
+	private static double getSizeFile( String elementDocumentData){
+
+		int lengthCode = elementDocumentData.length();
+		double resultByte = (lengthCode*6)/8;
+		double resultKB = resultByte/1000;
+		double resultMB = resultKB/1000;
+		return resultKB;
+	}*/
 }

@@ -1,6 +1,7 @@
 package hu.d2.offsitesr.app.singleton;
 
 import android.content.Context;
+import android.text.style.DynamicDrawableSpan;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ public class HolderSingleton {
     private static String OWNER = "Owner";
     private static String OWNER_GROUP = "OwnerGroup";
 
+    private String[] selectedStatuses;
     private HashMap<String, String> ticketStatuses;
     private HashMap<String, String> taskStatuses;
     private Map<String, String> owners;
@@ -27,7 +29,9 @@ public class HolderSingleton {
 
     private Context context;
 
+
     public void setContext(Context context) {
+
         this.context = context;
     }
 
@@ -37,6 +41,7 @@ public class HolderSingleton {
 
     private HolderSingleton() {
     }
+
 
     public HashMap<String, String> getTicketStatuses() {
         if (ticketStatuses == null){

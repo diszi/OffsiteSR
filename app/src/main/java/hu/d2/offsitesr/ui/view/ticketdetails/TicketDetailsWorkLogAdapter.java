@@ -1,18 +1,27 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
+import android.app.FragmentManager;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.WorkLog;
+import hu.d2.offsitesr.ui.view.component.WorklogDetailsDialog;
 
 /**
  * Created by csabinko on 2017.09.18..
@@ -20,11 +29,16 @@ import hu.d2.offsitesr.ui.model.WorkLog;
 
 public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDetailsWorkLogAdapter.WorkLogViewHolder> {
 
-	private ArrayList<WorkLog> workLogs = new ArrayList<>();
+	private List<WorkLog> workLogs = new ArrayList<>();
 
-//	private TicketDetails view;
+	private TicketDetailsWorkLogTab ticketDetailsWorkLogTab;
 
-	public TicketDetailsWorkLogAdapter() {
+	//private TicketDetailsActivity activity;
+
+
+
+	public TicketDetailsWorkLogAdapter(TicketDetailsWorkLogTab ticketDetailsWorkLogTab) {
+		this.ticketDetailsWorkLogTab = ticketDetailsWorkLogTab;
 	}
 
 	public void setWorkLogs(List<WorkLog> tickets) {
@@ -32,6 +46,17 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 		this.workLogs.addAll(tickets);
 		this.notifyDataSetChanged();
 	}
+
+
+
+	public void setWorkLogsRefresh(List<WorkLog> worklogList){
+		Log.d("------------------>","Worklog List refresh");
+		this.workLogs = worklogList;
+		this.notifyDataSetChanged();
+
+
+	}
+
 
 	@Override
 	public WorkLogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,8 +67,22 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 	@Override
 	public void onBindViewHolder(WorkLogViewHolder holder, int position) {
+
 		WorkLog workLog = workLogs.get(position);
+
         holder.bind(workLog);
+
+		holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				ticketDetailsWorkLogTab.onClickLongDescButton(workLog);
+				return true;
+			}
+		});
+
+
+
+
 	}
 
 	@Override
@@ -57,10 +96,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 	static class WorkLogViewHolder extends RecyclerView.ViewHolder {
 
-		@BindView(R.id.actDetailsWorklog_ticketId)
-		TextView compTicketId;
-		@BindView(R.id.actDetailsWorklog_class)
-		TextView compClass;
+
 		@BindView(R.id.actDetailsWorklog_createdBy)
 		TextView compCreatedBy;
 		@BindView(R.id.actDetailsWorklog_createdDate)
@@ -68,17 +104,20 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 		@BindView(R.id.actDetailsWorklog_summary)
 		TextView compSummary;
 
+
 		public WorkLogViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
 
 		public void bind(WorkLog workLog) {
-			compTicketId.setText(workLog.getId());
-			compClass.setText(workLog.getRecordKey());
+
 			compCreatedBy.setText(workLog.getCreatedBy());
 			compCreatedDate.setText(workLog.getCreatedDate());
 			compSummary.setText(workLog.getDescription());
+
 		}
+
+
 	}
 }

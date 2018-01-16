@@ -22,6 +22,8 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
  * Created by csabinko on 2017.09.19..
+ *
+ * 	- alert with radio button - choose owner for ticket
  */
 
 public class ChooseOwnerDialog extends DialogFragment {

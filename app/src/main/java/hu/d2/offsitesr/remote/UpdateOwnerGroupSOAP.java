@@ -1,5 +1,9 @@
 package hu.d2.offsitesr.remote;
 
+import java.util.Date;
+
+import hu.d2.offsitesr.util.EnvironmentTool;
+
 /**
  * Created by csabinko on 2017.09.19..
  */
@@ -28,7 +32,7 @@ public class UpdateOwnerGroupSOAP {
                 "\n" +
                 " \n" +
                 "\n" +
-                "      <max:STATUSDATE changed=\"true\">2015-10-27T10:44:59</max:STATUSDATE>\n" +
+                "      <max:STATUSDATE changed=\"true\">"+ EnvironmentTool.setUpdateDate(new Date())+"</max:STATUSDATE>\n" +
                 "\n" +
                 "  <max:TICKETID >"+ticketId+"</max:TICKETID>\n" +
                 "\n" +

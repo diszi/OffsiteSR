@@ -18,6 +18,9 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
  * Created by csabinko on 2017.09.19..
+ *
+ *  - dialog will appear after click on floating action button in worklog page
+ *  - insert short and long descriptions in ....
  */
 
 public class AddWorkLogDialog extends DialogFragment {
@@ -47,11 +50,13 @@ public class AddWorkLogDialog extends DialogFragment {
         ButterKnife.bind(this, contentView);
 
         saveButton.setOnClickListener((v -> {
-            String shortDescTxt = shortDesc.getText().toString();
+            String shortDescText = shortDesc.getText().toString();
             String longDescText = longDesc.getText().toString();
 
+            ((TicketDetails)getActivity()).addWorkLogRemote(shortDescText,longDescText);
 
-            ((TicketDetails)getActivity()).addWorkLogRemote(shortDescTxt,longDescText);
+            shortDesc.setText(null);
+            longDesc.setText(null);
 
                 dismiss();
 

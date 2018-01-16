@@ -4,61 +4,125 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="List">
+        android:title= "@string/SettingsListViewCategoryName">
         <EditTextPreference
             android:key="@string/SettingsMaxListItemsKey"
             android:title="@string/SettingsMaxListItemsTitle"
             android:summary="@string/SettingsMaxListItemsSummary"
-            android:defaultValue="@string/SettingsMaxListItemsDefault"/>
-    </PreferenceCategory>
+            android:inputType="number"
+            ></EditTextPreference>
+
+        <EditTextPreference
+            android:key="@string/SettingsSynchronizeTicketListKey"
+            android:title="@string/SettingsSynchronizeTicketListTitle"
+            android:summary="@string/SettingsSynchronizeTicketListSummary"
+            android:inputType="number"
+            ></EditTextPreference>
+        </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:title="History">
+        android:title="@string/SettingsHistoryCategoryName">
         <EditTextPreference
             android:key="@string/SettingsMaxHistoryLengthKey"
             android:title="@string/SettingsMaxHistoryLengthTitle"
             android:summary="@string/SettingsMaxHistoryLengthSummary"
-            android:defaultValue="@string/SettingsMaxHistoryLengthDefault"/>
+            android:inputType="number"></EditTextPreference>
+
+        <EditTextPreference
+            android:key="@string/SettingsSynchronizeHistoryKey"
+            android:title="@string/SettingsSynchronizeHistoryTitle"
+            android:summary="@string/SettingsSynchronizeHistorySummary"
+            android:inputType="number"></EditTextPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Logs">
+        android:title="@string/SettingsLoggingCategoryName">
         <EditTextPreference
-            android:key="@string/SettingsMaxLogMaxSizeKey"
-            android:title="@string/SettingsMaxLogMaxSizeTitle"
-            android:summary="@string/SettingsMaxLogMaxSizeSummary"
-            android:defaultValue="@string/SettingsMaxLogMaxSizeDefault"/>
+            android:key="@string/SettingsMaxLogSizeKey"
+            android:title="@string/SettingsMaxLogSizeTitle"
+            android:summary="@string/SettingsMaxLogSizeSummary"
+            android:inputType="number"></EditTextPreference>
+
+        <ListPreference
+            android:key="@string/SettingsMaxLogLevelKey"
+            android:title="@string/SettingsMaxLogLevelTitle"
+            android:summary="@string/SettingsMaxLogLevelSummary"
+
+            android:entries="@array/settings_log_level_option_values"
+            android:entryValues="@array/settings_log_level_option_names" />
+
         <EditTextPreference
             android:key="@string/SettingsLogRetentionKey"
             android:title="@string/SettingsLogRetentionTitle"
             android:summary="@string/SettingsLogRetentionSummary"
-            android:defaultValue="@string/SettingsLogRetentionDefault"/>
+            android:inputType="number"></EditTextPreference>
+
     </PreferenceCategory>
 
+
     <PreferenceCategory
-        android:title="Security">
+        android:title="@string/SettingsSecurityCategoryName">
+
+
         <EditTextPreference
+            android:key="@string/SettingsTimeOutKey"
+            android:title="@string/SettingsTimeOutTitle"
+            android:summary="@string/SettingsTimeOutSummary"
+            android:inputType="number"></EditTextPreference>
+
+        <SwitchPreference
             android:key="@string/SettingsScreenLockKey"
             android:title="@string/SettingsScreenLockTitle"
-            android:summary="@string/SettingsScreenLockSummary"
-            android:defaultValue="@string/SettingsScreenLockDefault"/>
-        <EditTextPreference
-            android:key="@string/SettingsManageUsersKey"
-            android:title="@string/SettingsManageUsersTitle"
-            android:summary="@string/SettingsManageUsersSummary"
-            android:defaultValue="@string/SettingsManageUsersDefault"/>
-    </PreferenceCategory>
+            android:summaryOff="@string/screen_lock_off"
+            android:summaryOn="@string/screen_lock_on"
+            >
+
+        </SwitchPreference>
+
+
+            <hu.d2.offsitesr.ui.view.component.QuestionDialogPreference
+            android:key="@string/SettingsResetKey"
+            android:title="@string/SettingsResetTitle">
+                </hu.d2.offsitesr.ui.view.component.QuestionDialogPreference>
+
+
+
+  </PreferenceCategory>
+
 
     <PreferenceCategory
-        android:title="Language">
+        android:title="@string/SettingsQueryLimitsCategoryName">
+
+         <MultiSelectListPreference
+             android:key="@string/SettingsStatusQueryKey"
+             android:title="@string/SettingsStatusQueryTitle"
+             android:summary="@string/SettingsStatusQuerySummary"
+             android:entries="@array/ticket_status_values"
+             android:entryValues="@array/ticket_status_keys">
+          </MultiSelectListPreference>
+
+        <EditTextPreference
+            android:key="@string/SettingsDownloadedFileSizeKey"
+            android:title="@string/SettingsDownloadedFileSizeTitle"
+            android:summary="@string/SettingsDownloadedFileSizeSummary"
+            android:inputType="number"></EditTextPreference>
+
+   </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/SettingsLanguageCategoryName">
         <ListPreference
             android:key="@string/SettingsLanguageKey"
             android:title="@string/SettingsLanguageTitle"
             android:summary="@string/SettingsLanguageSummary"
-            android:defaultValue="@string/SettingsLanguageDefault"
+
             android:entries="@array/settings_language_options_names"
             android:entryValues="@array/settings_language_options_values" />
+
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>

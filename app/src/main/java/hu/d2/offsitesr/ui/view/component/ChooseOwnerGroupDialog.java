@@ -22,6 +22,9 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
  * Created by csabinko on 2017.09.19..
+ *
+ *  - choose owner group for ticket
+ *  
  */
 
 public class ChooseOwnerGroupDialog extends DialogFragment {

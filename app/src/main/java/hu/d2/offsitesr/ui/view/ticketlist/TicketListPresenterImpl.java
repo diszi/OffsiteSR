@@ -8,10 +8,13 @@ import java.util.List;
 
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
+import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetTicketListSOAP;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsWorkLogTab;
 import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;
@@ -27,10 +30,13 @@ import io.reactivex.schedulers.Schedulers;
 public class TicketListPresenterImpl implements TicketListPresenter {
 
 	private TicketList view;
+
+
 	private Disposable disposable;
     private Disposable disposable2;
     private Observable<List<ServiceRequestEntity>> observable;
     private Observable<OwnerHolder> observable2;
+
 
 	@Override
 	public void setView(TicketList view) {
@@ -38,19 +44,26 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	}
 
     @Override
+    public void onDestroy() {
+        if (disposable != null && !disposable.isDisposed()) {
+            Log.d("------------------>"," Dispose observer");
+            disposable.dispose();
+        }
+        if (disposable2 != null && !disposable2.isDisposed()) {
+            Log.d("------------------>"," Dispose observer2");
+            disposable2.dispose();
+        }
+    }
+
+
+    @Override
     public void getTicketList() {
+
         view.showLoading();
         if (observable == null){
             Log.d("------------------>"," Observable created");
             observable = createObservable();
         }
-
-//        if (this.disposable == null){
-//            Log.d("------------------>","     Observer is null");
-//        } else if (this.disposable.isDisposed()){
-//            Log.d("------------------>","     Observer is disposed");
-//        }
-
         Log.d("------------------>"," Subscribe to Observable");
         disposable = observable
                 .subscribe((ticketList) -> { // onNext Consumer
@@ -63,7 +76,6 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                         UIThrowable uiThrowable = (UIThrowable) throwable;
                         errorMessageCode = uiThrowable.getMessageId();
                     }
-
                     view.showErrorMessage(errorMessageCode);
                     view.hideLoading();
                 }, () -> { // onComplate Action
@@ -73,17 +85,6 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 });
     }
 
-    @Override
-	public void onDestroy() {
-		if (disposable != null && !disposable.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-			disposable.dispose();
-		}
-        if (disposable2 != null && !disposable2.isDisposed()) {
-            Log.d("------------------>"," Dispose observer2");
-            disposable2.dispose();
-        }
-	}
 
 	public void getOwners(){
         if (observable2 == null){
@@ -91,16 +92,10 @@ public class TicketListPresenterImpl implements TicketListPresenter {
             observable2 = createGetOwnerObservable();
         }
 
-//        if (this.disposable == null){
-//            Log.d("------------------>","     Observer is null");
-//        } else if (this.disposable.isDisposed()){
-//            Log.d("------------------>","     Observer is disposed");
-//        }
-
         Log.d("------------------>"," Subscribe to Observable2");
         disposable2 = observable2
                 .subscribe((ownerData) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data Owners, count: "+ownerData.getOwnerList().size());
+                    Log.d("------------------>"," Get Data Owners");
                     HolderSingleton.getInstance().setOwners(ownerData.getOwnerList());
                     HolderSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
 
@@ -127,17 +122,17 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	public Observable<List<ServiceRequestEntity>> createObservable() {
         Observable<List<ServiceRequestEntity>> result = Observable.create(emitter -> {
             try {
-//                Thread.sleep(2000);
-                Log.d("------------------>"," Start Remote SOAP Call");
+                Log.d("------------------>"," Start Remote SOAP Call ");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_GET, GetTicketListSOAP.SOAP_ACTION,String.format(GetTicketListSOAP.SOAP_PAYLOAD,view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_GET, GetTicketListSOAP.SOAP_ACTION,String.format(GetTicketListSOAP.getSoapPayload(SettingsSingleton.getInstance().getSelectedStatus(),SettingsSingleton.getInstance().getMaxListValue(),SettingsSingleton.getInstance().getTicketSynchronization()),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         List<ServiceRequestEntity> ticketList = EntityMapper.transformTicketList(inputStream);
+
                         emitter.onNext(ticketList);
                         emitter.onComplete();
                     } else {
@@ -163,15 +158,17 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	}
 
 
+
+
+
     public Observable<OwnerHolder> createGetOwnerObservable() {
         Observable<OwnerHolder> result = Observable.create(emitter -> {
             try {
-//                Thread.sleep(2000);
                 Log.d("------------------>"," Start Remote SOAP Call");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.SOAP_PAYLOAD,view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.SOAP_PAYLOAD,SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -200,4 +197,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 
         return result.observeOn(Schedulers.io()).subscribeOn(Schedulers.io());
     }
+
+
+
 }

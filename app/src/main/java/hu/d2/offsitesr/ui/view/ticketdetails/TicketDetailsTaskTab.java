@@ -77,15 +77,12 @@ public class TicketDetailsTaskTab extends Fragment {
     }
 
 
-	public void onClickAddWorkLogButton() {
-		FragmentManager fm = getActivity().getFragmentManager();
-
-//		addWorkLogDialog.show(fm, "addWorkLog");
-	}
 
 
+    /*
+    *   OnClick on pencil icon - show statuses
+    * */
 	public void onClickOnStatusImageButton(){
-        System.out.println("onClickOnStatusImageButton");
         FragmentManager fm = getActivity().getFragmentManager();
         Bundle bundle = new Bundle();
         bundle.putSerializable(ChooseStatusDialog.SERIALIZABLE_NAME,HolderSingleton.getInstance().getTaskStatuses());

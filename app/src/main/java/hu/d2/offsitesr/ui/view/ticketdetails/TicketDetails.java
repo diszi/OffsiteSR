@@ -2,6 +2,7 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import java.util.List;
 
+import hu.d2.offsitesr.ui.model.Attachment;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 
 /**
@@ -38,5 +39,11 @@ public interface TicketDetails {
     void updatePriority(String newPriority);
 
     void addWorkLogRemote(String shortDesc, String longDesc);
+
+
+    void addFile(String fileName , String pureFileName,String encode, String urlname );
+    void setSyncDate();
+
+
 
 }

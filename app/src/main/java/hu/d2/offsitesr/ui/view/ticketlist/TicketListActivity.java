@@ -2,8 +2,7 @@ package hu.d2.offsitesr.ui.view.ticketlist;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,35 +13,39 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.info.AboutAppActivity;
+import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import hu.d2.offsitesr.app.singleton.TimerSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
+import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
+import hu.d2.offsitesr.ui.view.component.OnBackPressedDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.login.LoginActivity;
 import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
-import hu.d2.offsitesr.util.UIConstans;
 
 public class TicketListActivity extends AppCompatActivity implements  TicketList{
 
     public static int TICKET_REQUEST_CODE = 0;
-
+    //public static int SCREEN_LOCK = 11;
     private TicketListPresenter presenter;
     private TicketListAdapter ticketListAdapter;
-
     private List<ServiceRequestEntity> ticketList;
+    private String  syncDateString;
 
-    private String syncDateString;
+    ChooseStatusDialog chooseStatusDialog;
 
     @BindView(R.id.actList_toolbar)
     Toolbar compToolBar;
@@ -58,42 +61,81 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     TextView compSyncDate;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_list);
-        Log.d("------------------>"," Start Acitvity");
+        Log.d("------------------>","Start Activity");
         ButterKnife.bind(this);
+
+        chooseStatusDialog  = new ChooseStatusDialog();
+
+        EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
+        setScreenLock();
+
+        TimerSingleton.getInstance().setMyActivity(this);
+        TimerSingleton.getInstance().timerStart();
+
 
         this.setupRecyclerView();
 
         presenter = new TicketListPresenterImpl();
         presenter.setView(this);
 
-        String username = getLoggedInUser();
-        compUserName.setText(username);
+        String loggidUserName = getLoggedInUser();
+        compUserName.setText(loggidUserName);
 
         compSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 compSwipeRefreshLayout.setRefreshing(false);
                 presenter.getTicketList();
+                setScreenLock();
+                setSupportActionBar(compToolBar);
             }
         });
-        setSupportActionBar(compToolBar);
 
+
+        setSupportActionBar(compToolBar);
         presenter.getTicketList();
+
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (this.ticketList!=null){
+        if (this.ticketList!=null && this.ticketList.size() != 0){
             ServiceRequestEntity ticket = this.ticketList.get(0);
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        // alert - log out question
+        android.app.FragmentManager fm = getFragmentManager();
+        OnBackPressedDialog alertDialogFragment = new OnBackPressedDialog();
+        alertDialogFragment.show(fm,"AlertDialogFragment");
+    }
+
+
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        TimerSingleton.getInstance().timerStop();
+        TimerSingleton.getInstance().timerStart();
+    }
+
+    @Override
+    protected void onPause() {
+       super.onPause();
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -123,7 +165,6 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     public void launchDetailsView(TicketHolder entityHolder) {
         Intent intent = new Intent(this, TicketDetailsActivity.class);
         intent.putExtra(TicketHolder.SERIALIZABLE_NAME,entityHolder);
-        intent.putExtra(UIConstans.SYNC_DATE, syncDateString);
         startActivityForResult(intent,TICKET_REQUEST_CODE);
     }
 
@@ -140,11 +181,12 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
             }
         }
 
+
+
     }
 
-    @Override
-    public String getLoggedInUser() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString(UIConstans.LOGGED_IN_USER, "Unknown");
+    public String getLoggedInUser(){
+        return SettingsSingleton.getInstance().getUserName();
     }
 
     @Override
@@ -154,6 +196,8 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         compToolBar.setTitle(getString(R.string.actList_title)+" ("+this.ticketList.size()+")");
 
     }
+
+
 
     private void setupRecyclerView() {
         Context context = getApplicationContext();
@@ -182,8 +226,10 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
             case R.id.menuTicketList_settings:
                 this.launchSettings();
                 return true;
+            case R.id.menuTicketList_about:
+                this.launchAboutApp();
+                return true;
             case R.id.menuTicketList_log_out:
-                PreferenceManager.getDefaultSharedPreferences(this).edit().remove(UIConstans.LOGGED_IN_USER).commit();
                 this.launchLogInView();
                 return true;
             default:
@@ -195,6 +241,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
 
     public void launchLogInView() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -203,9 +250,48 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         startActivity(intent);
     }
 
+    public void launchAboutApp(){
+        Intent intent = new Intent(this,AboutAppActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void setSyncDate(){
-        this.syncDateString = EnvironmentTool.getCurrentDateString();
-        compSyncDate.setText(syncDateString);
+        Thread t = new Thread(){
+            public void run(){
+                try{
+                    while(!isInterrupted()){
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long date = System.currentTimeMillis();
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+                                syncDateString = sdf.format(date);
+                                compSyncDate.setText(syncDateString);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+
     }
+
+
+    public void setScreenLock(){
+          if (SettingsSingleton.getInstance().getScreenLockValue() == false){
+            EnvironmentTool.setScreenLockOff(this);
+        }
+        else
+        {
+            EnvironmentTool.setScreenLockOn(this);
+        }
+
+    }
+
+
+
 }

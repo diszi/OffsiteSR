@@ -54,7 +54,7 @@
             android:backgroundTint="@android:color/background_light"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="@string/dialog_save"
+            android:text="@string/button_save"
             android:textColor="@color/colorAccent" />
 
         <Button
@@ -65,7 +65,7 @@
             android:backgroundTint="@android:color/background_light"
             android:paddingEnd="40dp"
             android:paddingLeft="40dp"
-            android:text="@string/dialog_cancel"
+            android:text="@string/button_cancel"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 

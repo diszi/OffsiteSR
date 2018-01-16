@@ -1,43 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- List category -->
+    <!-- List view category -->
+    <string name="SettingsListViewCategoryName">Lista nézet</string>
+
     <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
-    <string name="SettingsMaxListItemsTitle">Lista hossz</string>
+    <string name="SettingsMaxListItemsTitle">Lista hossza</string>
     <string name="SettingsMaxListItemsSummary">Maximum %1$s lista elem</string>
-    <string name="SettingsMaxListItemsDefault">20</string>
+
+    <string name="SettingsSynchronizeTicketListKey">settings_ticket_synchronize</string>
+    <string name="SettingsSynchronizeTicketListTitle"> Lista szinkronizálása</string>
+    <string name="SettingsSynchronizeTicketListSummary">%1$s nap </string>
 
     <!-- History category -->
-    <string name="SettingsMaxHistoryLengthKey">settings_history_length</string>
-    <string name="SettingsMaxHistoryLengthTitle">Hossz</string>
-    <string name="SettingsMaxHistoryLengthSummary">%1$s elem az előzményekben</string>
-    <string name="SettingsMaxHistoryLengthDefault">30</string>
+    <string name="SettingsHistoryCategoryName">Előzmények</string>
 
-    <!-- Logs category -->
-    <string name="SettingsMaxLogMaxSizeKey">settings_max_log_size</string>
-    <string name="SettingsMaxLogMaxSizeTitle">Log méret</string>
-    <string name="SettingsMaxLogMaxSizeSummary">%1$s MB</string>
-    <string name="SettingsMaxLogMaxSizeDefault">1</string>
+    <string name="SettingsMaxHistoryLengthKey">settings_history_length</string>
+    <string name="SettingsMaxHistoryLengthTitle">Előzmények hossza</string>
+    <string name="SettingsMaxHistoryLengthSummary">%1$s elem az előzményekben</string>
+
+    <string name="SettingsSynchronizeHistoryKey">settings_history_synchronize</string>
+    <string name="SettingsSynchronizeHistoryTitle">Előzmények szinkronizálása</string>
+    <string name="SettingsSynchronizeHistorySummary">%1$s nap</string>
+
+    <!-- Logging category -->
+    <string name="SettingsLoggingCategoryName">Naplózás</string>
+
+
+    <string name="SettingsMaxLogSizeKey">settings_max_log_size</string>
+    <string name="SettingsMaxLogSizeTitle">Naplózási méret</string>
+    <string name="SettingsMaxLogSizeSummary">%1$s MB</string>
+
+    <string name="SettingsMaxLogLevelKey">settings_log_level</string>
+    <string name="SettingsMaxLogLevelTitle">Naplózási szint</string>
+    <string name="SettingsMaxLogLevelSummary">%1$s</string>
 
     <string name="SettingsLogRetentionKey">settings_log_retention</string>
     <string name="SettingsLogRetentionTitle">Megőrzés</string>
     <string name="SettingsLogRetentionSummary">Logok megtartása %1$s napig</string>
-    <string name="SettingsLogRetentionDefault">30</string>
 
-    <!-- Security -->
+
+    <!-- Security category-->
+    <string name="SettingsSecurityCategoryName">Biztonsági beállítások</string>
+
+    <string name="SettingsTimeOutKey">settings_time_out</string>
+    <string name="SettingsTimeOutTitle">Automatikus kiléptetés</string>
+    <string name="SettingsTimeOutSummary">%1$s min</string>
+
     <string name="SettingsScreenLockKey">settings_screen_lock</string>
     <string name="SettingsScreenLockTitle">Képernyőzár</string>
     <string name="SettingsScreenLockSummary">Lezár %1$s perc után</string>
-    <string name="SettingsScreenLockDefault">30</string>
 
-    <string name="SettingsManageUsersKey">settings_manage_users</string>
-    <string name="SettingsManageUsersTitle">Felhasználók kezelése</string>
-    <string name="SettingsManageUsersSummary">Aktuális felhasználó %1$s</string>
-    <string name="SettingsManageUsersDefault">None</string>
+    <string name="SettingsResetKey">settings_reset_user_settings</string>
+    <string name="SettingsResetTitle">Beállítások alaphelyzetbe állítása</string>
+    <string name="SettingsResetPositiveButton">Igen</string>
+    <string name="SettingsResetNegativeButton">Nem</string>
+    <string name="SettingsResetQuestion">Biztosan vissza kívánja állítani a felhasználói beállításokat?</string>
+    <string name="SettingsResetPositiveButton2">Ok</string>
+    <string name="SettingsResetTitle2">Megerősítés</string>
+    <string name="SettingsResetMessage">Felhasználói beállítások törölve lesznek. Megerősítéshez kérem kattintson az OK gombra!</string>
 
-    <!-- Language -->
+
+    <!-- Query limits category-->
+    <string name="SettingsQueryLimitsCategoryName">Lekérdezési korlátozások</string>
+
+    <string name="SettingsStatusQueryKey">settings_status</string>
+    <string name="SettingsStatusQueryTitle">Státusz </string>
+    <string name="SettingsStatusQuerySummary">Válassz státuszt </string>
+
+    <string name="SettingsDownloadedFileSizeKey">settings_file_size</string>
+    <string name="SettingsDownloadedFileSizeTitle">Fájl méret</string>
+    <string name="SettingsDownloadedFileSizeSummary">Letölthető fájl maximális mérete: %1$s MB</string>
+
+    <!-- Language category -->
+    <string name="SettingsLanguageCategoryName">Nyelv</string>
+
     <string name="SettingsLanguageKey">settings_language</string>
     <string name="SettingsLanguageTitle">Nyelv</string>
     <string name="SettingsLanguageSummary">Kiválasztott nyelv %1$s</string>
-    <string name="SettingsLanguageDefault">HU</string>
+
+
+    <!--About Application tab-->
+    <string name="InfoAppVersionCategoryName">Általános információ az alkalmazásról</string>
+    <string name="InfoAppVersionKey">info_app_version</string>
+    <string name="InfoAppVersionTitle">Verzió</string>
+    <string name="InfoAppVersionSummary">%1$s</string>
+
+    <string name="InfoAppDateofUpdateKey">info_app_update</string>
+    <string name="InfoAppDateofUpdateTitle">Frissítve</string>
+    <string name="InfoAppDateofUpdateSummary">%1$s</string>
+
+    <string name="InfoAppSizeKey">info_app_size</string>
+    <string name="InfoAppSizeTitle">Méret</string>
+    <string name="InfoAppSizeSummary">%1$s Mb</string>
+
+    <string name="InfoAppCurrentVersionKey">info_app_current_version</string>
+    <string name="InfoAppCurrentVersionTitle">Aktuális változat</string>
+    <string name="InfoAppCurrentVersionSummary">Hivatalos</string>
+
+    <string name="InfoAppRequirementKey">info_app_requirement</string>
+    <string name="InfoAppRequirementTitle">Követelmény</string>
+    <string name="InfoAppRequirementSummary">Android 5.0 +</string>
+
+    <string name="InfoAppPermissionsKey">info_app_permissions</string>
+    <string name="InfoAppPermissionsTitle">Engedélyek</string>
+    <string name="InfoAppPermissionsSummary">Tárhely \nKamera</string>
+
+    <string name="InfoAppDeveloperKey">info_app_developer</string>
+    <string name="InfoAppDeveloperTitle">Fejlesztő</string>
+    <string name="InfoAppDeveloperSummary">Directtwo Kft. - Minden jog fenntartva \n1123 Budapest, Alkotás utca 53 E. ép. II. emelet \nTel: 06-1-808-902 \nFax: +36-1-808-90-29</string>
 
 </resources>

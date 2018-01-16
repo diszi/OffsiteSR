@@ -1,7 +1,10 @@
 package hu.d2.offsitesr.ui.model;
 
 import java.io.Serializable;
+
 import java.util.List;
+
+import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**
  * Created by csabinko on 2017.09.15..
@@ -19,6 +22,8 @@ public class ServiceRequestEntity implements Serializable{
     private String reportedBy;
     private String reportDate;
     private String status;
+    private String assetNum;
+    private String ciNum;
     private String statusDate;
     private String ticketId;
     private String notes;
@@ -26,7 +31,8 @@ public class ServiceRequestEntity implements Serializable{
     private String priority;
     private List<WorkLog> workLogs;
     private List<Task> tasks;
-
+    private Asset asset;
+    private List<Attachment> attachments;
 
     public ServiceRequestEntity() {
         // empty
@@ -64,8 +70,10 @@ public class ServiceRequestEntity implements Serializable{
         this.owner = owner;
     }
 
-    public String getReportDate() {
-        return reportDate;
+    public String getReportDate()
+    {
+        return EnvironmentTool.convertDateString(reportDate);
+
     }
 
     public void setReportDate(String reportDate) {
@@ -88,8 +96,29 @@ public class ServiceRequestEntity implements Serializable{
         this.status = status;
     }
 
+    public String getAssetNum() {
+
+        return assetNum;
+    }
+
+    public void setAssetNum(String asset) {
+        this.assetNum =asset;
+    }
+
+
+    public String getCINum() {
+        return ciNum;
+    }
+
+    public void setCINum(String ci) {
+        this.ciNum =ci;
+    }
+
+
+
     public String getStatusDate() {
-        return statusDate;
+
+        return EnvironmentTool.convertDateString( statusDate);
     }
 
     public void setStatusDate(String statusDate) {
@@ -148,7 +177,27 @@ public class ServiceRequestEntity implements Serializable{
         return tasks;
     }
 
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+
+    public Asset getAsset(){
+        return asset;
+    }
+
+    public void setAsset(Asset asset){
+        this.asset=asset;
+    }
+
+
 }

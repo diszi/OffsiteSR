@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="400dp"
+    android:minWidth="400dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/diagAsset_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:text="TextView" />
+
+    <ScrollView
+        android:id="@+id/actDetails_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_num" />
+
+                <TextView
+                    android:id="@+id/assetDetails_Num"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_description" />
+
+                <TextView
+                    android:id="@+id/assetDetails_description"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_status" />
+
+                <TextView
+                    android:id="@+id/assetDetails_Status"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_location" />
+
+                <TextView
+                    android:id="@+id/assetDetails_Location"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_pluspcustomer" />
+
+                <TextView
+                    android:id="@+id/assetDetails_Pluspcustomer"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+           <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+               <TextView
+                   style="@style/LabelDetail"
+                   android:text="@string/assDetails_serialnum" />
+
+               <TextView
+                   android:id="@+id/assetDetails_SerialNum"
+                   style="@style/TextDetail" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_user" />
+
+                <TextView
+                    android:id="@+id/assetDetails_User"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LabelDetail"
+                    android:text="@string/assDetails_custodian" />
+
+                <TextView
+                    android:id="@+id/assetDetails_Custodian"
+                    style="@style/TextDetail" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/diagAsset_cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_light"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:text="@string/button_cancel"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import hu.d2.offsitesr.R;
@@ -67,12 +68,12 @@ public class LoginPresenterImpl implements LoginPresenter {
 				HttpURLConnection connection = null;
 				try {
 					connection = NetworkTool.createConnection(NetworkTool.LOGIN_URL);
+					
 					String credentials = userName + ":" + password;
 					String base64Credentials = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
 					connection.setRequestProperty("maxauth", base64Credentials);
 
-					// connection.connect();
-
+					connection.connect();
 					int responseCode = connection.getResponseCode();
 					if (responseCode == 200) {
 						emitter.onComplete();

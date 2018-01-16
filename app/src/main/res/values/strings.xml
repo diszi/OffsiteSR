@@ -1,5 +1,9 @@
-    <resources>
+<resources>
     <string name="app_name">OffsiteSR</string>
+    <string name="app_permissionMsg">Please enable all permission</string>
+    <string name="app_permissionGranted">Permission granted</string>
+    <string name="app_permissionEnable">ENABLE</string>
+
     <string name="actLogin_loginButton">LOG IN</string>
     <string name="actLogin_loginNameHint">Username</string>
     <string name="actLogin_loginPasswordHint">Password</string>
@@ -9,6 +13,7 @@
     <string name="error_unknown">Unknown Error</string>
     <string name="error_network">Network Error</string>
     <string name="error_general">General Error</string>
+    <string name="actDetails_chooseButton">Choose file to upload...</string>
     <string name="actDetails_title">Details</string>
     <string name="actList_title">List view</string>
     <string name="actDetails_id">Ticket ID:</string>
@@ -20,8 +25,22 @@
     <string name="actDetails_classStructure">Class structure:</string>
     <string name="actDetails_priority">Priority:</string>
     <string name="actDetails_asset">Asset:</string>
+    <string name="actDetails_ciNum">Configuration item:</string>
     <string name="actDetails_owner">Owner:</string>
     <string name="actDetails_worklog">Worklog</string>
+    <string name="actDetails_attachment">Attachements</string>
+
+    <string name="assDetails_fileSelected">File selected:</string>
+    <string name="assDetails_num">Asset number:</string>
+    <string name="assDetails_description">Description:</string>
+    <string name="assDetails_status">Status:</string>
+    <string name="assDetails_location">Location:</string>
+    <string name="assDetails_pluspcustomer">Customer:</string>
+    <string name="assDetails_user">User:</string>
+    <string name="assDetails_custodian">Custodian:</string>
+    <string name="assDetails_serialnum">Serial number:</string>
+    <string name="assDetails_errorMsg">No assigned asset</string>
+
     <string name="menuStatus_queued">Queued</string>
     <string name="menuStatus_inProgress">In Progress</string>
     <string name="menuStatus_pending">Pending</string>
@@ -29,17 +48,40 @@
     <string name="menuTicketList_settings">Settings</string>
     <string name="menuTicketList_history">History</string>
     <string name="menuTicketList_logs">Logs</string>
+    <string name="menuTicketList_about">About</string>
     <string name="menuTicketList_logOut">Log Out</string>
     <string name="error_noOption">Invalid choose</string>
-    <string name="dialog_cancel">Cancel</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_upload">Upload</string>
     <string name="dialogSatus_title">Change Status</string>
-    <string name="dialog_save">Save</string>
+    <string name="button_save">Save</string>
     <string name="error_failedOperation">Failed Operation</string>
     <string name="actDetails_saveSuccess">Saved</string>
+
+    <string name="dialogAsset_title">Asset details</string>
+    <string name="dialogSavePicture_title">Save and upload photo</string>
+    <string name="dialogSavePicture_hint">Picture name</string>
     <string name="dialogSatus_title2">Change Owner</string>
     <string name="dialogWorkLog_title">Add WorkLog</string>
     <string name="dialogWrokLog_shortDesc">Short Description</string>
     <string name="dialogWorkLog_longDescription">Long Description</string>
+    <string name="dialogWorklog_showLongDesc">No assigned long description</string>
+
+
+    <string name="dialogLicenseError_message">Incorrect user license!</string>
+    <string name="dialogLicense_message">The license agreement expired</string>
+    <string name="dialogLicense_buttonOk">Ok</string>
+
+    <string name="dialogUpdateApp_message">New version is available! Would you like to update the app?</string>
+    <string name="dialogUpdateApp_mobilNetQuestion">Mobile data is active.  Are you sure you want to update the app?</string>
+    <string name="dialogUpdateApp_offlineMode">Internet connection is not available! Connect to the internet!</string>
+    <string name="download_msg">Downloading... </string>
+    <string name="finish_msg">Finishing... </string>
+    <string name="download_resultMessageOk">Update Done</string>
+    <string name="download_resultMessageError">Error: Try Again</string>
+
+    <string name="sharedPreference_getDate">pressNo</string>
+    <string name="sharedPreference_addFileWebUrl">weburl</string>
     <string name="actDetails_ownerGroup">Owner Group:</string>
     <string name="dialogOwnerGroup_title">Change Owner Group</string>
     <string name="status_inProgress">In Progress</string>
@@ -59,9 +101,27 @@
     <string name="status_wmatl">Wating on Material</string>
     <string name="status_review">Review</string>
     <string name="dialogPriorty_title">Change Priority</string>
+    <string name="settings_log_level_debug">Debug</string>
+    <string name="settings_log_level_error">Error</string>
+
+    <string name="buttonYES">Yes</string>
+    <string name="buttonNO">No</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="actDetails_task">Tasks</string>
+
     <string name="actDetails_empty">Empty</string>
+
+    <string name="actAttachment_downloadTitle">Download in Progress...</string>
+    <string name="actAttachment_downloadCompleted">Download completed  </string>
+    <string name="actAttachment_showFile">SHOW FILE</string>
+
+    <string name="defaultValue_language">HU</string>
+    <string name="defaultValue_maxListItems">30</string>
+    <string name="defaultValue_synchronizeTicketList">45</string>
+    <string name="defaultValue_timeOut">30</string>
+    <string name="defaultValue_fileSize">1</string>
+
 </resources>

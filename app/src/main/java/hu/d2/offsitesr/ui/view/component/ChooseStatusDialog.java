@@ -20,6 +20,8 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 
 /**
  * Created by csabinko on 2017.09.19..
+ *
+ *  - change
  */
 
 public class ChooseStatusDialog extends DialogFragment {
@@ -75,7 +77,6 @@ public class ChooseStatusDialog extends DialogFragment {
 			dismiss();
 		}));
 
-//		stringMap = HolderSingleton.getInstance().getTicketStatuses();
 		title.setText(getString(R.string.dialogSatus_title));
 
 		stringMap.forEach((key, value) -> {

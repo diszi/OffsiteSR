@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory
+    android:title= "@string/InfoAppVersionCategoryName">
+
+    <Preference
+        android:key="@string/InfoAppVersionKey"
+        android:title="@string/InfoAppVersionTitle"
+        android:summary="@string/InfoAppVersionSummary"
+        />
+
+    <Preference
+        android:key="@string/InfoAppDateofUpdateKey"
+        android:title="@string/InfoAppDateofUpdateTitle"
+        android:summary="@string/InfoAppDateofUpdateSummary"
+        />
+    <Preference
+        android:key="@string/InfoAppSizeKey"
+        android:title="@string/InfoAppSizeTitle"
+        android:summary="@string/InfoAppSizeSummary"
+        />
+    <Preference
+        android:key="@string/InfoAppCurrentVersionKey"
+        android:title="@string/InfoAppCurrentVersionTitle"
+        android:summary="@string/InfoAppCurrentVersionSummary"
+        />
+    <Preference
+        android:key="@string/InfoAppRequirementKey"
+        android:title="@string/InfoAppRequirementTitle"
+        android:summary="@string/InfoAppRequirementSummary"
+        />
+
+    <Preference
+        android:key="@string/InfoAppPermissionsKey"
+        android:title="@string/InfoAppPermissionsTitle"
+        android:summary="@string/InfoAppPermissionsSummary"
+        />
+    <Preference
+        android:key="@string/InfoAppDeveloperKey"
+        android:title="@string/InfoAppDeveloperTitle"
+        android:summary="@string/InfoAppDeveloperSummary"
+        />
+
+
+
+</PreferenceCategory>
+
+
+</PreferenceScreen>

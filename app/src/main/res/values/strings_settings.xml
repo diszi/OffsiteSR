@@ -1,43 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- List category -->
+    <!-- List view category -->
+    <string name="SettingsListViewCategoryName">List view</string>
+
     <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
-    <string name="SettingsMaxListItemsTitle">Max list size</string>
+    <string name="SettingsMaxListItemsTitle">List size</string>
     <string name="SettingsMaxListItemsSummary">Max %1$s list items</string>
-    <string name="SettingsMaxListItemsDefault">20</string>
+
+    <string name="SettingsSynchronizeTicketListKey">settings_ticket_synchronize</string>
+    <string name="SettingsSynchronizeTicketListTitle">Ticket list synchronization</string>
+    <string name="SettingsSynchronizeTicketListSummary">%1$s days </string>
+
 
     <!-- History category -->
+    <string name="SettingsHistoryCategoryName">History</string>
+
     <string name="SettingsMaxHistoryLengthKey">settings_history_length</string>
     <string name="SettingsMaxHistoryLengthTitle">Length</string>
     <string name="SettingsMaxHistoryLengthSummary">%1$s items in history</string>
-    <string name="SettingsMaxHistoryLengthDefault">30</string>
 
-    <!-- Logs category -->
-    <string name="SettingsMaxLogMaxSizeKey">settings_max_log_size</string>
-    <string name="SettingsMaxLogMaxSizeTitle">Log size</string>
-    <string name="SettingsMaxLogMaxSizeSummary">%1$s MB</string>
-    <string name="SettingsMaxLogMaxSizeDefault">1</string>
+    <string name="SettingsSynchronizeHistoryKey">settings_history_synchronize</string>
+    <string name="SettingsSynchronizeHistoryTitle">History synchronization</string>
+    <string name="SettingsSynchronizeHistorySummary">%1$s days</string>
+
+
+    <!-- Logging category -->
+    <string name="SettingsLoggingCategoryName">Logging</string>
+
+    <string name="SettingsMaxLogSizeKey">settings_max_log_size</string>
+    <string name="SettingsMaxLogSizeTitle">Log size</string>
+    <string name="SettingsMaxLogSizeSummary">%1$s MB</string>
+
+    <string name="SettingsMaxLogLevelKey">settings_log_level</string>
+    <string name="SettingsMaxLogLevelTitle">Log level</string>
+    <string name="SettingsMaxLogLevelSummary">%1$s</string>
 
     <string name="SettingsLogRetentionKey">settings_log_retention</string>
     <string name="SettingsLogRetentionTitle">Retention</string>
     <string name="SettingsLogRetentionSummary">Keep for %1$s days</string>
-    <string name="SettingsLogRetentionDefault">30</string>
 
-    <!-- Security -->
+
+
+    <!-- Security category-->
+    <string name="SettingsSecurityCategoryName">Security</string>
+
+    <string name="SettingsTimeOutKey">settings_time_out</string>
+    <string name="SettingsTimeOutTitle">Time out</string>
+    <string name="SettingsTimeOutSummary">%1$s min</string>
+
     <string name="SettingsScreenLockKey">settings_screen_lock</string>
     <string name="SettingsScreenLockTitle">Screen lock</string>
-    <string name="SettingsScreenLockSummary">Locks after %1$s mins.</string>
-    <string name="SettingsScreenLockDefault">30</string>
+    <string name="SettingsScreenLockSummary">Screen lock after %1$s min</string>
 
-    <string name="SettingsManageUsersKey">settings_manage_users</string>
-    <string name="SettingsManageUsersTitle">Manage users</string>
-    <string name="SettingsManageUsersSummary">Selected user %1$s</string>
-    <string name="SettingsManageUsersDefault">None</string>
 
-    <!-- Language -->
+    <string name="SettingsResetKey">settings_reset_user_settings</string>
+    <string name="SettingsResetTitle">Reset user settings</string>
+    <string name="SettingsResetPositiveButton">Yes</string>
+    <string name="SettingsResetNegativeButton">No</string>
+    <string name="SettingsResetQuestion">Are you sure you want to reset user settings?</string>
+    <string name="SettingsResetPositiveButton2">Ok</string>
+    <string name="SettingsResetTitle2">Confirmation</string>
+    <string name="SettingsResetMessage">User settings will be deleted. To confirm, please click OK!</string>
+
+    <!-- Query limits category-->
+    <string name="SettingsQueryLimitsCategoryName">Ticket query limits</string>
+
+    <string name="SettingsStatusQueryKey">settings_status</string>
+    <string name="SettingsStatusQueryTitle">Status</string>
+    <string name="SettingsStatusQuerySummary">Choose status </string>
+
+    <string name="SettingsDownloadedFileSizeKey">settings_file_size</string>
+    <string name="SettingsDownloadedFileSizeTitle">Size of file</string>
+    <string name="SettingsDownloadedFileSizeSummary">The maximum size of the downloadable file: %1$s MB</string>
+
+    <!-- Language category -->
+    <string name="SettingsLanguageCategoryName">Language</string>
     <string name="SettingsLanguageKey">settings_language</string>
     <string name="SettingsLanguageTitle">Language</string>
     <string name="SettingsLanguageSummary">Selected language %1$s</string>
-    <string name="SettingsLanguageDefault">ENG</string>
 
+
+    <!--About Application tab-->
+    <string name="InfoAppVersionCategoryName">General information about application</string>
+    <string name="InfoAppVersionKey">info_app_version</string>
+    <string name="InfoAppVersionTitle">Version</string>
+    <string name="InfoAppVersionSummary">%1$s</string>
+
+    <string name="InfoAppDateofUpdateKey">info_app_update</string>
+    <string name="InfoAppDateofUpdateTitle">Date of update</string>
+    <string name="InfoAppDateofUpdateSummary">%1$s</string>
+    
+    <string name="InfoAppSizeKey">info_app_size</string>
+    <string name="InfoAppSizeTitle">Size</string>
+    <string name="InfoAppSizeSummary">%1$s Mb</string>
+
+    <string name="InfoAppCurrentVersionKey">info_app_current_version</string>
+    <string name="InfoAppCurrentVersionTitle">Current version</string>
+    <string name="InfoAppCurrentVersionSummary">Official</string>
+
+    <string name="InfoAppRequirementKey">info_app_requirement</string>
+    <string name="InfoAppRequirementTitle">Requirement</string>
+    <string name="InfoAppRequirementSummary">Android 5.0 +</string>
+
+    <string name="InfoAppPermissionsKey">info_app_permissions</string>
+    <string name="InfoAppPermissionsTitle">Permissions</string>
+    <string name="InfoAppPermissionsSummary">Storage \nCamera</string>
+
+    <string name="InfoAppDeveloperKey">info_app_developer</string>
+    <string name="InfoAppDeveloperTitle">Developer</string>
+    <string name="InfoAppDeveloperSummary">Directtwo Kft. - All rights reserved \n1123 Budapest, Alkotás street 53 E Build 2th Floor \nPhone: 06-1-808-902 \nFax: +36-1-808-90-29</string>
 </resources>

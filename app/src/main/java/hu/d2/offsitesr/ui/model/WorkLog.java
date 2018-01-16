@@ -2,6 +2,9 @@ package hu.d2.offsitesr.ui.model;
 
 import java.io.Serializable;
 
+
+import hu.d2.offsitesr.util.EnvironmentTool;
+
 /**
  * Created by csabinko on 2017.09.15..
  */
@@ -16,6 +19,7 @@ public class WorkLog implements Serializable{
     private String createdDate;
     private String logType;
     private String description;
+    private String longDescription;
 
 
     public String getRecordKey() {
@@ -43,11 +47,14 @@ public class WorkLog implements Serializable{
     }
 
     public String getCreatedDate() {
-        return createdDate;
+
+        return EnvironmentTool.convertDateString(createdDate);
+
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedDate(String createdDate)  {
+          this.createdDate = createdDate;
+
     }
 
     public String getLogType() {
@@ -65,4 +72,11 @@ public class WorkLog implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getLongDescription(){ return longDescription;}
+
+    public void setLongDescription(String longDescription){ this.longDescription = longDescription;}
+
+
+
 }

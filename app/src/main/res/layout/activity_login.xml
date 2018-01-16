@@ -1,44 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:src="@mipmap/ic_login" />
-
-    <AutoCompleteTextView
-        android:id="@+id/actLogin_Name"
-        android:layout_width="250dp"
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/actLogin_loginNameHint"
-        android:imeOptions="actionNext"
-        android:text="fred" />
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/actLogin_Password"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/actLogin_loginPasswordHint"
-        android:inputType="textPassword"
-        android:text="12345678" />
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="320dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="124dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:id="@+id/linearLayout4">
 
-    <Button
-        android:id="@+id/actLogin_Button"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="@string/actLogin_loginButton"
-        android:textColor="@android:color/background_light" />
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:src="@mipmap/ic_login" />
 
-    <ProgressBar
-        android:id="@+id/actLogin_ProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        <AutoCompleteTextView
+            android:id="@+id/actLogin_Name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/actLogin_loginNameHint"
+            android:imeOptions="actionNext"
+            android:text="fred" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/actLogin_Password"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/actLogin_loginPasswordHint"
+            android:inputType="textPassword"
+            android:text="12345678" />
+
+        <Button
+            android:id="@+id/actLogin_Button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/actLogin_loginButton"
+            android:textColor="@android:color/background_light" />
+
+        <ProgressBar
+            android:id="@+id/actLogin_ProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
