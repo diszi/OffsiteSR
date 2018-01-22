@@ -10,7 +10,6 @@ public class GetNewAppSOAP {
 
     public static String getSoapPayload(String appname, String newVersion) {
 
-        System.out.println("SOAP => appname = " + appname+"  newVersion = "+newVersion);
         StringBuffer whereCondition = new StringBuffer("");
         whereCondition.append("appname='" + appname + "' AND version='"+newVersion+"'");
 

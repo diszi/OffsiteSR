@@ -1,7 +1,6 @@
 package hu.d2.offsitesr.app.singleton;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -18,7 +17,6 @@ public class TimerSingleton {
 
     private static final TimerSingleton ourInstance = new TimerSingleton();
     private Timer timer = new Timer();
-
 
     private Activity myActivity;
 

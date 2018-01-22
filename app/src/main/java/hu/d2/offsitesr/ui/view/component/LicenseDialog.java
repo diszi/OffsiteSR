@@ -12,7 +12,7 @@ import hu.d2.offsitesr.R;
 /**
  * Created by szidonia.laszlo on 2017. 12. 11..
  *
- *  - this dialog will appear if license agreement expired for user
+ *  - this dialog will display if license agreement expired for user
  *
  */
 

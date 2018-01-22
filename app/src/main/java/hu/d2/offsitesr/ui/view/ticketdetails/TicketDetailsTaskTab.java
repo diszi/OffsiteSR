@@ -35,8 +35,7 @@ public class TicketDetailsTaskTab extends Fragment {
 
     private ChooseStatusDialog chooseStatusDialog;
 
-    public TicketDetailsTaskTab() {
-    }
+    public TicketDetailsTaskTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,10 +76,8 @@ public class TicketDetailsTaskTab extends Fragment {
     }
 
 
-
-
     /*
-    *   OnClick on pencil icon - show statuses
+    *   OnClick on pencil icon - display statuses in dialog
     * */
 	public void onClickOnStatusImageButton(){
         FragmentManager fm = getActivity().getFragmentManager();
@@ -88,12 +85,7 @@ public class TicketDetailsTaskTab extends Fragment {
         bundle.putSerializable(ChooseStatusDialog.SERIALIZABLE_NAME,HolderSingleton.getInstance().getTaskStatuses());
         chooseStatusDialog.setArguments(bundle);
         chooseStatusDialog.show(fm,"chooseStatus");
-
-
     }
-
-
-
 
 
 }

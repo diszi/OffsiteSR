@@ -27,7 +27,6 @@ public abstract class AbsRuntimePermission extends Activity {
 
 
     private SparseIntArray mErrorString;
-
     boolean showRequestPermissions;
 
 
@@ -55,23 +54,17 @@ public abstract class AbsRuntimePermission extends Activity {
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             if (showRequestPermissions) {
-
                 Snackbar.make(findViewById(android.R.id.content), stringId, Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.app_permissionEnable), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ActivityCompat.requestPermissions(AbsRuntimePermission.this, requestedPermissions, requestCode);
-
                     }
                 }).show();
-
             } else {
-
                 ActivityCompat.requestPermissions(this, requestedPermissions, requestCode);
             }
         } else {
-
             onPermissionsGranted(requestCode);
-
         }
     }
 
@@ -88,14 +81,13 @@ public abstract class AbsRuntimePermission extends Activity {
         if ( (grantResults.length > 0) && PackageManager.PERMISSION_GRANTED == permissionCheck){
             onPermissionsGranted(requestCode);
         }else{
-            // display msg when contain some  permission not accept
+            // display msg when contain some permission not accept
                 Snackbar.make(findViewById(android.R.id.content),mErrorString.get(requestCode),Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.app_permissionEnable), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivityCompat.requestPermissions(AbsRuntimePermission.this, permissions, requestCode);
                     }
             }).show();
-
         }
     }
 

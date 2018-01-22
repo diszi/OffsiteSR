@@ -1,5 +1,6 @@
 package hu.d2.offsitesr.ui.view.ticketlist;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,17 +25,16 @@ import hu.d2.offsitesr.ui.model.TicketHolder;
 public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.TicketListViewHolder>{
 
     private List<ServiceRequestEntity> ticketList = new ArrayList<>();
-
     private TicketList view;
 
-    public TicketListAdapter(TicketList view) {
+
+    public TicketListAdapter(TicketList view)
+    {
         this.view = view;
     }
 
     public void setTicketList(List<ServiceRequestEntity> ticketList) {
         Log.d(" ----> ","Ticket List refresh");
-//        this.ticketList.clear();
-//        this.ticketList.addAll(ticketList);
         this.ticketList = ticketList;
         this.notifyDataSetChanged();
     }
@@ -83,6 +81,13 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
 
         public void bind(ServiceRequestEntity ticket){
             compStatusIcon.setImageResource(getStatusIcon(ticket.getStatus()));
+
+            if (ticket.getPriority().equals("1")){ //1 = critical
+                compFirstRow.setTextColor(Color.RED);
+            }else
+            {
+                compFirstRow.setTextColor(Color.BLACK);
+            }
             compFirstRow.setText(ticket.getTicketId()+" - "+ticket.getAffectedPerson());
             compSecondRow.setText(ticket.getDescription());
             compThirdRow.setText(ticket.getStatusDate());

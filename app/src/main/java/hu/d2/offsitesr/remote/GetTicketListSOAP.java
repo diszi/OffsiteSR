@@ -1,10 +1,8 @@
 package hu.d2.offsitesr.remote;
 
-import java.sql.Date;
 
-import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenterImpl;
-import hu.d2.offsitesr.util.EnvironmentTool;
+import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+
 
 /**
  * Created by csabinko on 2017.09.15..
@@ -17,7 +15,7 @@ public class GetTicketListSOAP {
    public static String getSoapPayload(String[] status, String maxListView, String daysForSynchronize){
        StringBuffer whereConditionForStatus = new StringBuffer("");
        StringBuffer whereConditionForSynchronization = new StringBuffer("");
-       StringBuffer whereCondition = new StringBuffer("");
+       StringBuffer whereConditionForOwner = new StringBuffer("");
 
 
        if (status != null && status.length != 0) {
@@ -36,8 +34,7 @@ public class GetTicketListSOAP {
        int daySync = Integer.parseInt(daysForSynchronize);
 
        whereConditionForSynchronization.append("and reportdate >= CURRENT_DATE-"+daySync+" DAYS");
-
-       // - WHERE : a user  == owner  - 2.eset == ownergroup
+       whereConditionForOwner.append("and owner='"+ SettingsSingleton.getInstance().getUserName().toUpperCase()+"'");
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n"+
                 "   <soapenv:Header/>\n"+
@@ -45,7 +42,7 @@ public class GetTicketListSOAP {
                 "      <max:QueryMOB_SR1 creationDateTime=\"\" baseLanguage=\"\" transLanguage=\"\" messageID=\"\" maximoVersion=\"\" maxItems=\""+maxListView+"\" uniqueResult=\"0\" rsStart=\"0\">\n"+
                 "         <max:MOB_SR1Query orderby=\"\" operandMode=\"AND\">\n"+
                 "            <!--Optional:-->\n"+
-                "            <max:WHERE>"+whereConditionForStatus+" "+whereConditionForSynchronization+"</max:WHERE>\n"+
+                "            <max:WHERE>"+whereConditionForStatus+" "+whereConditionForSynchronization+" "+whereConditionForOwner+"</max:WHERE>\n"+
                 "            <!--Optional:-->\n"+
                 "            <max:SR>\n"+
                 "            </max:SR>\n"+

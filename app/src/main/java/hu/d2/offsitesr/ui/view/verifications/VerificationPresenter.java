@@ -1,10 +1,13 @@
 package hu.d2.offsitesr.ui.view.verifications;
 
+import android.app.Activity;
+import android.content.Context;
+
 import java.util.List;
 
 import hu.d2.offsitesr.ui.model.License;
-
 import hu.d2.offsitesr.ui.model.Version;
+import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import io.reactivex.Observable;
 
 /**
@@ -13,22 +16,24 @@ import io.reactivex.Observable;
 
 public interface VerificationPresenter {
 
-    public void setLicenseView(LicenseActivity viewLicens);
+    void setLicenseView(LicenseActivity viewLicens);
 
-    public void setUpdateView(UpdateActivity viewUpdate);
+    void setUpdateView(UpdateActivity viewUpdate);
 
-    public void onDestroy();
+    void setTicketView(TicketListActivity viewTicket);
 
-    public void validateLicense(String IMEInumber);
+    void onDestroy();
 
-    public void getUpdateVersion(String appName);
+    void validateLicense(String IMEInumber);
 
-    public void getNewApp(String appName, String newVersion);
+    void getUpdateVersion(String appName,Context contextActivity);
 
-    public Observable<List<License>> createLicenseObservable(String IMEInumber);
+    void getNewApp(String appName, String newVersion,Activity activity);
 
-    public Observable<Version> createUpdateVersionObservable(String appname);
+    Observable<List<License>> createLicenseObservable(String IMEInumber);
 
-    public Observable<Version> createDownloadNewAppObservable(String appName,String newVersion);
+    Observable<Version> createUpdateVersionObservable(String appname);
+
+    Observable<Version> createDownloadNewAppObservable(String appName,String newVersion);
 
 }

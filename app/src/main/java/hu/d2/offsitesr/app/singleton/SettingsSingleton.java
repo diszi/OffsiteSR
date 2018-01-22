@@ -1,26 +1,14 @@
 package hu.d2.offsitesr.app.singleton;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.remote.GetTicketListSOAP;
-import hu.d2.offsitesr.ui.view.component.UpdateAppDialog;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
-import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
 
@@ -35,12 +23,10 @@ public class SettingsSingleton {
     private static final SettingsSingleton ourInstance = new SettingsSingleton();
 
     private String[] selectedStatuses;
-
-
-
     private Context context;
     private String fileConstant;
     private SharedPreferences sharedPreferences;
+
 
     private SettingsSingleton() {}
 
@@ -105,24 +91,22 @@ public class SettingsSingleton {
     }
 
     public String getDate(){
-        //System.out.println("----------------------------->  getDate in sharedPreference file = "+sharedPreferences.getString(context.getString(R.string.sharedPreference_getDate),null));
         return sharedPreferences.getString(context.getString(R.string.sharedPreference_getDate),null);
     }
 
     public String getWebUrl(){
-       // System.out.println(" -----------------------------> web url = "+sharedPreferences.getString(context.getString(R.string.sharedPreference_addFileWebUrl),null));
         return sharedPreferences.getString(context.getString(R.string.sharedPreference_addFileWebUrl),null);
     }
 
     public String getDateOfAppUpdate(){
-       // System.out.println("----------------->  date of app update = "+sharedPreferences.getString(context.getString(R.string.InfoAppDateofUpdateKey),null));
         return sharedPreferences.getString(context.getString(R.string.InfoAppDateofUpdateKey),null);
     }
 
     public String getSizeOfApp(){
-        //System.out.println(" ----------------- > size of app - sharedpreference = "+sharedPreferences.getString(context.getString(R.string.InfoAppSizeKey),null));
         return sharedPreferences.getString(context.getString(R.string.InfoAppSizeKey),null);
     }
+
+
     /**
      *  - property file initialization with default values
      */
@@ -158,24 +142,18 @@ public class SettingsSingleton {
             setDefaultStringValue(sharedPreferences,R.string.SettingsDownloadedFileSizeKey,context.getString(R.string.defaultValue_fileSize));
 
         }
-        //getDate();  - press no
-
-        //ha mas az uj URL mint ami mar a property file-ba szerepel => valtoztassa meg a property file -ba mentett url-t
         if (getWebUrl() == null || !(getWebUrl().equals(UIConstans.WEBURL_ADDFILE_SOAP))){
             setDefaultStringValue(sharedPreferences,R.string.sharedPreference_addFileWebUrl,UIConstans.WEBURL_ADDFILE_SOAP);
         }
-      //  getWebUrl();
 
         if (getDateOfAppUpdate() == null){
-            setDefaultStringValue(sharedPreferences,R.string.InfoAppDateofUpdateKey, EnvironmentTool.dateInString(new Date()));
+            setDefaultStringValue(sharedPreferences,R.string.InfoAppDateofUpdateKey, EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_HU));
         }
 
         if (getSizeOfApp() == null || !(getSizeOfApp().equals(EnvironmentTool.getAppSize()))){
             setDefaultStringValue(sharedPreferences,R.string.InfoAppSizeKey,EnvironmentTool.getAppSize());
         }
-        //getDateOfAppUpdate(); -
 
-        //System.out.println(" getSizeOfApp = "+getSizeOfApp()+"  --- aktualis app meret = "+EnvironmentTool.getAppSize());
     }
 
     /**

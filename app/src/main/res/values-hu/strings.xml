@@ -108,5 +108,8 @@
 
     <string name="menuTicketList_about">Impresszum</string>
     <string name="dialogUpdateApp_offlineMode">Az internetkapcsolat nem elérhető! Csatlakozzon az internethez!</string>
+    <string name="dialogUpdateApp_versionNr">"Verzió: "</string>
+    <string name="updateTab_unavailableUpdate">Nincs frissítés!</string>
+    <string name="menuTicketList_update">Frissítés</string>
 
 </resources>

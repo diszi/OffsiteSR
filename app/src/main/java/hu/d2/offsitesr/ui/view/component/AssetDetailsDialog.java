@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,12 +19,7 @@ import hu.d2.offsitesr.ui.model.AssetUserCust;
 
 /**
  * Created by szidonia.laszlo on 2017. 11. 02..
-<<<<<<< HEAD
  *
- *  - dialog will appear after click on zoom icon - ticket details task
- *  - show information / details about the asset
-=======
->>>>>>> 4076969d3dd138ea01ac183824c5eb0fe2987670
  */
 
 public class AssetDetailsDialog extends DialogFragment {

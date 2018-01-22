@@ -1,24 +1,18 @@
 package hu.d2.offsitesr.ui.view.login;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 import android.util.Base64;
 import android.util.Log;
 
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.util.NetworkTool;
-import hu.d2.offsitesr.util.UIConstans;
 import hu.d2.offsitesr.util.UIThrowable;
+
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

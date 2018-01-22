@@ -3,7 +3,6 @@ package hu.d2.offsitesr.ui.view.ticketlist;
 import java.util.List;
 
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsWorkLogTab;
 import io.reactivex.Observable;
 
 /**
@@ -12,11 +11,11 @@ import io.reactivex.Observable;
 
 public interface TicketListPresenter {
 
-    public void setView(TicketList view);
+    void setView(TicketList view);
 
-    public void onDestroy();
+    void onDestroy();
 
-    public void getTicketList();
+    void getTicketList();
 
-    public Observable<List<ServiceRequestEntity>> createObservable();
+    Observable<List<ServiceRequestEntity>> createObservable();
 }

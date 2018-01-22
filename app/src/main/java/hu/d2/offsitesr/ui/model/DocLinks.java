@@ -15,8 +15,6 @@ public class DocLinks implements Serializable {
     private String webURL;
 
 
-
-
     public DocLinks(){}
 
     public String getDoclinksID() {

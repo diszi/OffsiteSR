@@ -1,15 +1,12 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
-import android.app.FragmentManager;
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +14,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.model.Task;
-import hu.d2.offsitesr.ui.model.TicketHolder;
-import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
+
 
 /**
  * Created by csabinko on 2017.09.18..
@@ -29,9 +24,7 @@ import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetailsTaskAdapter.TaskViewHolder> {
 
 	private ArrayList<Task> tasks = new ArrayList<>();
-
     private TicketDetailsTaskTab ticketDetailsTaskTab;
-
 
 	public TicketDetailsTaskAdapter(TicketDetailsTaskTab ticketTab) {
 		this.ticketDetailsTaskTab = ticketTab;
@@ -47,17 +40,19 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 	public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tab_ticket_details_task_row,
 				parent, false);
-
-
-
 		return new TaskViewHolder(itemView);
 	}
 
+	/**
+	 *
+	 * @param holder
+	 * @param position
+	 *
+	 * 	 Onclick action on button (pencil) in @param position
+	 */
 	@Override
 	public void onBindViewHolder(TaskViewHolder holder, int position) {
 		Task task = tasks.get(position);
-
-
         holder.bind(task);
         holder.btnEditStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +60,6 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
                 ticketDetailsTaskTab.onClickOnStatusImageButton();
             }
         });
-
-
 	}
 
 	@Override
@@ -77,6 +70,7 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
             return 0;
         }
 	}
+
 
 	static class TaskViewHolder extends RecyclerView.ViewHolder {
 

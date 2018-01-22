@@ -3,6 +3,7 @@ package hu.d2.offsitesr.remote;
 import java.util.Date;
 
 import hu.d2.offsitesr.util.EnvironmentTool;
+import hu.d2.offsitesr.util.UIConstans;
 
 /**
  * Created by csabinko on 2017.09.19..
@@ -34,7 +35,7 @@ public class UpdatePrioritySOAP {
                 "\n" +
                 "  <max:INTERNALPRIORITY maxvalue=\""+priorty+"\" changed=\"True\" >"+priorty+"</max:INTERNALPRIORITY>\n" +
                 "\n" +
-                "      <max:STATUSDATE changed=\"true\">"+ EnvironmentTool.setUpdateDate(new Date())+"</max:STATUSDATE>\n" +
+                "      <max:STATUSDATE changed=\"true\">"+ EnvironmentTool.convertDate(new Date(), UIConstans.DATE_PATTERN_STANDARD)+"</max:STATUSDATE>\n" +
                 "\n" +
                 "  <max:TICKETID >"+ticketId+"</max:TICKETID>\n" +
                 "\n" +

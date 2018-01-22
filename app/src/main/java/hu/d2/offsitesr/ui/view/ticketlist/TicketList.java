@@ -23,5 +23,7 @@ public interface TicketList {
 
 	void loadList(List<ServiceRequestEntity> ticketList);
 
+	void downloadApp();
+
 	void setSyncDate();
 }

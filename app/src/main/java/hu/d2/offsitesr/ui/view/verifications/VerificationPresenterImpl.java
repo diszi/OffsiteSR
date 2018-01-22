@@ -1,5 +1,7 @@
 package hu.d2.offsitesr.ui.view.verifications;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.InputStream;
@@ -10,11 +12,10 @@ import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.remote.GetLicenseSOAP;
 import hu.d2.offsitesr.remote.GetNewAppSOAP;
-import hu.d2.offsitesr.remote.GetTicketListSOAP;
 import hu.d2.offsitesr.remote.GetUpdateVersionSOAP;
 import hu.d2.offsitesr.ui.model.License;
-import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.Version;
+import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;
@@ -30,7 +31,10 @@ import io.reactivex.schedulers.Schedulers;
 public class VerificationPresenterImpl implements VerificationPresenter {
 
     private LicenseActivity licens;
-    private UpdateActivity update;
+    private UpdateActivity update = new UpdateActivity();
+    private TicketListActivity ticketList = new TicketListActivity();
+
+
     private Disposable disposableLicense,disposableUpdate, disposableDownloadNewApp;
     private Observable<List<License>> observableLicense;
     private Observable<Version> observableUpdate;
@@ -46,6 +50,12 @@ public class VerificationPresenterImpl implements VerificationPresenter {
     public void setUpdateView(UpdateActivity viewUpdate) {
         this.update =viewUpdate;
 
+    }
+
+
+    @Override
+    public void setTicketView(TicketListActivity viewTicket) {
+        this.ticketList = viewTicket;
     }
 
     @Override
@@ -89,7 +99,7 @@ public class VerificationPresenterImpl implements VerificationPresenter {
 
     }
 
-    public void getUpdateVersion(String appName){
+    public void getUpdateVersion(String appName,Context activityContext){
         if (observableUpdate == null){
             Log.d("------------------>"," Observable created");
             observableUpdate =createUpdateVersionObservable(appName);
@@ -97,9 +107,17 @@ public class VerificationPresenterImpl implements VerificationPresenter {
         Log.d("------------------>"," Subscribe to Observable");
         disposableUpdate = observableUpdate.subscribe((getVersionResponse) -> { // onNext Consumer
                                 Log.d("------------------>"," Get Data - License ");
-                                //System.out.println("getVersionResponse = "+getVersionResponse.getAppName()+"   getVersionResponse object = "+getVersionResponse);
+                               // System.out.println("getVersionResponse = "+getVersionResponse.getAppName()+"  NR = "+getVersionResponse.getVersionNumber()+" context  = "+activityContext+"   - ticket = "+ticketList);
+                                if (activityContext.equals(update)){
+                                    //System.out.println("update");
+                                    update.verificUpdateInformations(getVersionResponse);
+                                }else
+                                    if (activityContext.equals(ticketList)){
+                                       // System.out.println(" ticketList ");
+                                        ticketList.verificUpdate(getVersionResponse);
+                                    }
 
-                                update.verificUpdateInformations(getVersionResponse);
+
                             }, (throwable) -> { // onError Consumer
                                 int errorMessageCode = R.string.error_general;
                                 if (throwable instanceof UIThrowable){
@@ -115,7 +133,7 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                             });
     }
 
-    public void getNewApp(String appName, String newVersion){
+    public void getNewApp(String appName, String newVersion, Activity a){
         //if (observableDownloadNewApp == null){
             Log.d("------------------>"," Observable created");
             observableDownloadNewApp =createDownloadNewAppObservable(appName,newVersion);
@@ -123,8 +141,14 @@ public class VerificationPresenterImpl implements VerificationPresenter {
         Log.d("------------------>"," Subscribe to Observable");
         disposableDownloadNewApp = observableDownloadNewApp.subscribe((getVersionResponse) -> { // onNext Consumer
                             Log.d("------------------>"," Get Data - License ");
+                          //  System.out.println("getNewAPP   --- > "+a);
+                            //if (a.equals(update)){
+                                update.downloadNewAppAttachment(getVersionResponse,a);
+                            /*}else
+                            {
+                                ticketList.downloadUpdateAttachment(getVersionResponse,a);
+                            }*/
 
-                            update.downloadNewAppAttachment(getVersionResponse);
                         }, (throwable) -> { // onError Consumer
                             int errorMessageCode = R.string.error_general;
                             if (throwable instanceof UIThrowable){

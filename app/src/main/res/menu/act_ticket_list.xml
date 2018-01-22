@@ -15,6 +15,10 @@
         android:title="@string/menuTicketList_logs"
         app:showAsAction="never" />
     <item
+        android:id = "@+id/menuTicketList_update"
+        android:title="@string/menuTicketList_update"
+        app:showAsAction="never"/>
+    <item
         android:id = "@+id/menuTicketList_about"
         android:title="@string/menuTicketList_about"
         app:showAsAction="never"/>

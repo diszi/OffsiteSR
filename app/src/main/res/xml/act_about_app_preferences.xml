@@ -7,6 +7,12 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     android:title= "@string/InfoAppVersionCategoryName">
 
     <Preference
+        android:key="@string/InfoAppNameKey"
+        android:title="@string/InfoAppNameTitle"
+        android:summary="@string/InfoAppNameSummary"
+        />
+
+    <Preference
         android:key="@string/InfoAppVersionKey"
         android:title="@string/InfoAppVersionTitle"
         android:summary="@string/InfoAppVersionSummary"

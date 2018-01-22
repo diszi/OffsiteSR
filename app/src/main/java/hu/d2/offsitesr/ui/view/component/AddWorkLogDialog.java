@@ -14,13 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
  * Created by csabinko on 2017.09.19..
- *
  *  - dialog will appear after click on floating action button in worklog page
- *  - insert short and long descriptions in ....
  */
 
 public class AddWorkLogDialog extends DialogFragment {
@@ -57,10 +54,7 @@ public class AddWorkLogDialog extends DialogFragment {
 
             shortDesc.setText(null);
             longDesc.setText(null);
-
-                dismiss();
-
-
+            dismiss();
         }));
 
         cancelButton.setOnClickListener((view -> {

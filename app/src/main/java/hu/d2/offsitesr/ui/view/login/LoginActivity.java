@@ -13,17 +13,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
-import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
-import hu.d2.offsitesr.ui.view.verifications.LicenseActivity;
 import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
 
@@ -57,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		presenter = new LoginPresenterImpl();
 		presenter.setView(this);
 
-		compVersion.setText(getVersionApp());
+		compVersion.setText(EnvironmentTool.getVersionApp());
 
 	}
 
@@ -72,12 +68,7 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		super.onBackPressed();
 	}
 
-	public String getVersionApp(){
-		int versionCode = BuildConfig.VERSION_CODE;
-		String versionName = BuildConfig.VERSION_NAME;
-		return versionName;
 
-	}
 
 	@Override
 	protected void onResume() {
@@ -132,17 +123,6 @@ public class LoginActivity extends AppCompatActivity implements Login {
 
 	@Override
 	public void showErrorMessage(int messageID) {
-		// Context context = this;
-		//
-		// Handler handler = new Handler(){
-		// @Override
-		// public void handleMessage(Message msg) {
-		// Toast.makeText(context, messageID, Toast.LENGTH_SHORT).show();
-		// }
-		// };
-		// Message message = handler.obtainMessage();
-		// handler.sendMessage(message);
-
 		Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
 	}
 
@@ -150,7 +130,6 @@ public class LoginActivity extends AppCompatActivity implements Login {
 	public void launchListView() {
 
 		initApplication();
-
 		Intent intent = new Intent(this, UpdateActivity.class);
 		startActivity(intent);
 		/* License verification
@@ -165,9 +144,9 @@ public class LoginActivity extends AppCompatActivity implements Login {
 	}
 
 
+	//  App initialization
 	private void initApplication(){
 		HolderSingleton.getInstance().setContext(this);
-
 	}
 
 }

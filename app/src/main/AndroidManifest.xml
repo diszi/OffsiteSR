@@ -26,7 +26,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- <activity android:name=".ui.view.login.LoginActivity"> -->
         <activity android:name=".ui.view.login.SetupPermissions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +42,6 @@
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- <action android:name="android.intent.action.DELETE"/> -->
             </intent-filter>
         </activity>
         <activity android:name=".ui.view.ticketlist.TicketListActivity" />

@@ -8,12 +8,10 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
-        versionName "1.2.0.10"
+        versionName "1.2.0.16"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-
-
+        setProperty("archivesBaseName", "OffsiteSR-$versionName")
 
     }
 
@@ -51,5 +49,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.5'
     provided 'javax.annotation:jsr250-api:1.0'
-    compile files('libs/joda-time-2.1.jar')
+
 }

@@ -3,14 +3,9 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
-import hu.d2.offsitesr.ui.model.WorkLog;
 
 /**
  * Created by csabinko on 2017.10.11..
@@ -39,14 +34,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         mFragmentTitleList.add(title);
     }
 
-
-
     /*
-    *
     *  - tab title / the last tab will be icon
-    *
     */
-
     @Override
     public CharSequence getPageTitle(int position) {
         if (position ==3 ){
@@ -54,8 +44,5 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         }else{
             return mFragmentTitleList.get(position);
         }
-
     }
-
-
 }

@@ -3,13 +3,10 @@ package hu.d2.offsitesr.ui.view.component;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,51 +15,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
 
-import static android.R.attr.data;
 
 /**
  * Created by szidonia.laszlo on 2017. 11. 10..
-<<<<<<< HEAD
  *
- *   - add picture name + upload
-=======
->>>>>>> 4076969d3dd138ea01ac183824c5eb0fe2987670
  */
 
 public class SavePictureDialog extends DialogFragment {
 
     @BindView(R.id.diagSavePicture_uploadButton)
     Button uploadButton;
-
     @BindView(R.id.diagSavePicture_cancelButton)
     Button cancelButton;
-
     @BindView(R.id.diagSavePicture_pictureName)
     EditText picName;
-
     @BindView(R.id.diagSavePicture_pictureView)
     ImageView pictureView;
-
     @BindView(R.id.diagSavePicture_title)
     TextView title;
-
     Bitmap imageBitmap ;
 
     @Override
@@ -70,7 +54,6 @@ public class SavePictureDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             imageBitmap = (Bitmap) getArguments().get("data");
-
         }
     }
 
@@ -82,8 +65,7 @@ public class SavePictureDialog extends DialogFragment {
         final View contentView = inflater.inflate(R.layout.dialog_save_picture, container, false);
         ButterKnife.bind(this, contentView);
 
-
-        String timeStamp = EnvironmentTool.convertDate(new Date());
+        String timeStamp = EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_PHOTO);
         pictureView.setImageBitmap(imageBitmap);
 
         uploadButton.setOnClickListener((v -> {
@@ -121,7 +103,6 @@ public class SavePictureDialog extends DialogFragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             dismiss();
         }));
 

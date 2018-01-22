@@ -1,6 +1,6 @@
 package hu.d2.offsitesr.remote;
 
-import android.provider.ContactsContract;
+
 
 /**
  * Created by szidonia.laszlo on 2017. 12. 11..

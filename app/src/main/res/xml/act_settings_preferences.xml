@@ -102,11 +102,11 @@
              android:entryValues="@array/ticket_status_keys">
           </MultiSelectListPreference>
 
-        <EditTextPreference
-            android:key="@string/SettingsDownloadedFileSizeKey"
-            android:title="@string/SettingsDownloadedFileSizeTitle"
-            android:summary="@string/SettingsDownloadedFileSizeSummary"
-            android:inputType="number"></EditTextPreference>
+        <!--<EditTextPreference-->
+            <!--android:key="@string/SettingsDownloadedFileSizeKey"-->
+            <!--android:title="@string/SettingsDownloadedFileSizeTitle"-->
+            <!--android:summary="@string/SettingsDownloadedFileSizeSummary"-->
+            <!--android:inputType="number"></EditTextPreference>-->
 
    </PreferenceCategory>
 

@@ -82,6 +82,12 @@
 
     <!--About Application tab-->
     <string name="InfoAppVersionCategoryName">General information about application</string>
+
+    <string name="InfoAppNameKey">info_app_name</string>
+    <string name="InfoAppNameTitle">Application name</string>
+    <string name="InfoAppNameSummary">%1$s</string>
+
+
     <string name="InfoAppVersionKey">info_app_version</string>
     <string name="InfoAppVersionTitle">Version</string>
     <string name="InfoAppVersionSummary">%1$s</string>

@@ -1,29 +1,21 @@
 package hu.d2.offsitesr.app.info;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.MultiSelectListPreference;
+
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import java.util.Date;
+import android.os.Bundle;
 
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.app.singleton.TimerSingleton;
-import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
-import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
 
-import static hu.d2.offsitesr.R.string.SettingsMaxListItemsKey;
+
 
 public class AboutAppActivity extends PreferenceActivity {
 
@@ -41,11 +33,8 @@ public class AboutAppActivity extends PreferenceActivity {
     }
 
     /**
-     *
      *  - screen interaction - screen lock property
-     *
      */
-
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
@@ -93,9 +82,11 @@ public class AboutAppActivity extends PreferenceActivity {
                 else
                     if (key.equals(getString(R.string.InfoAppSizeKey))){
                         preference.setSummary(getString(summaryId,getPreferenceScreen().getSharedPreferences().getString(key,null)));
+                    }else
+                    if (key.equals(getString(R.string.InfoAppNameKey)))
+                    {
+                        preference.setSummary(getString(summaryId,getString(R.string.app_name)));
                     }
-
-            System.out.println(" ----> preference  = "+preference);
 
         }
 
@@ -104,7 +95,7 @@ public class AboutAppActivity extends PreferenceActivity {
             setPreferenceDetails(getString(R.string.InfoAppVersionKey),R.string.InfoAppVersionSummary);
             setPreferenceDetails(getString(R.string.InfoAppDateofUpdateKey),R.string.InfoAppDateofUpdateSummary);
             setPreferenceDetails(getString(R.string.InfoAppSizeKey),R.string.InfoAppSizeSummary);
-
+            setPreferenceDetails(getString(R.string.InfoAppNameKey),R.string.InfoAppNameSummary);
 
         }
 

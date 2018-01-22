@@ -1,7 +1,6 @@
 package hu.d2.offsitesr.app.singleton;
 
 import android.content.Context;
-import android.text.style.DynamicDrawableSpan;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +30,6 @@ public class HolderSingleton {
 
 
     public void setContext(Context context) {
-
         this.context = context;
     }
 

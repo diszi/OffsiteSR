@@ -743,6 +743,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
 
                     int responseCode = connection.getResponseCode();
+
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         emitter.onNext(fileName);

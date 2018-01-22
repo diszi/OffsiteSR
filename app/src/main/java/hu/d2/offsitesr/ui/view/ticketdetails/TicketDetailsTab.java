@@ -3,29 +3,21 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.kosalgeek.android.photoutil.CameraPhoto;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
-import hu.d2.offsitesr.ui.model.Asset;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.view.component.AssetDetailsDialog;
 
@@ -33,15 +25,14 @@ import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
-import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
 
-import static android.app.Activity.RESULT_OK;
 
-/**
- *
- */
 public class TicketDetailsTab extends Fragment {
 
+    private  static int PICK_FILE_REQUEST_CODE=0;
+    private static int TAKE_PICTURE_REQUEST =1;
+
+    private ServiceRequestEntity ticket;
 
     @BindView(R.id.actDetails_id)
     TextView compId;
@@ -67,31 +58,15 @@ public class TicketDetailsTab extends Fragment {
     TextView compOwnerGroup;
     @BindView(R.id.actDetails_owner)
     TextView compOwner;
-
     @BindView(R.id.actDetails_scrollView)
     ScrollView compScrollView;
-
-    @BindView(R.id.actDetails_editOwnerGroupButton)
-    ImageButton compEditOwnerGroupButton;
-    @BindView(R.id.actDetails_editOwnerButton)
-    ImageButton compEditOwnerButton;
 
     private ChooseStatusDialog chooseStatusDialog;
     private ChooseOwnerGroupDialog chooseOwnerGroupDialog;
     private ChooseOwnerDialog chooseOwnerDialog;
     private ChoosePriorityDialog choosePriorityDialog;
     private AssetDetailsDialog assetDetailsDialog;
-    private SavePictureDialog savePictureDialog;
-
-
-    private ServiceRequestEntity ticket;
-
-    private  static int PICK_FILE_REQUEST_CODE=0;
-    private static int TAKE_PICTURE_REQUEST =1;
-
-
-//    private OnFragmentInteractionListener mListener;
-
+    //private SavePictureDialog savePictureDialog;
 
     public TicketDetailsTab() {
         // Required empty public constructor
@@ -100,11 +75,10 @@ public class TicketDetailsTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
-
         }
-
     }
 
     @Override
@@ -114,62 +88,16 @@ public class TicketDetailsTab extends Fragment {
         ButterKnife.bind(this,contentView);
 
 
-
         chooseStatusDialog = new ChooseStatusDialog();
         chooseOwnerGroupDialog = new ChooseOwnerGroupDialog();
         chooseOwnerDialog = new ChooseOwnerDialog();
         choosePriorityDialog = new ChoosePriorityDialog();
         assetDetailsDialog = new AssetDetailsDialog();
-        savePictureDialog = new SavePictureDialog();
-
-
-        assetDetailsDialog = new AssetDetailsDialog();
-        savePictureDialog = new SavePictureDialog();
+      //  savePictureDialog = new SavePictureDialog();
 
         loadTicketDetails(ticket);
-
         return contentView;
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 
 
     private void loadTicketDetails(ServiceRequestEntity entity) {
@@ -187,7 +115,6 @@ public class TicketDetailsTab extends Fragment {
         compOwner.setText(entity.getOwner());
 
     }
-
 
     /*
     *   OnClick on upload icon - show folders  - select file
@@ -207,12 +134,10 @@ public class TicketDetailsTab extends Fragment {
     public  void onClickTakePictureButton() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         getActivity().startActivityForResult(intent,TAKE_PICTURE_REQUEST);
-
     }
 
-
     /*
-    *   OnClick on zoom icom - show asset details in alert dialog or error message (msg: no assigned asset)
+    *   OnClick on zoom icom - display asset details in dialog or error message (msg: no assigned asset)
     * */
     @OnClick(R.id.actDetails_assetZoomButton)
     public void onClickAssetZoomButton(){
@@ -227,9 +152,9 @@ public class TicketDetailsTab extends Fragment {
         }
     }
 
-
-
-
+    /**
+     *  Onclick on status button (pencil icon) - display status list
+     */
 
     @OnClick(R.id.actDetails_editStatusButton)
     public void onClickChooseStatusButton() {
@@ -241,32 +166,29 @@ public class TicketDetailsTab extends Fragment {
     }
 
     /*
-    *   OnClick on pencil icon - show owners in alert dialog
+    *   OnClick on pencil icon - dislapy owners in dialog
     * */
     @OnClick(R.id.actDetails_editOwnerButton)
     public void onClickChooseOwnerButton() {
         FragmentManager fm = getActivity().getFragmentManager();
-
         chooseOwnerDialog.show(fm,"chooseOwner");
     }
 
     /*
-    *   OnClick on pencil icon - show owners group
+    *   OnClick on pencil icon - display owners group
     **/
     @OnClick(R.id.actDetails_editOwnerGroupButton)
     public void onClickChooseOwnerGroupButton() {
         FragmentManager fm = getActivity().getFragmentManager();
-
         chooseOwnerGroupDialog.show(fm,"chooseOwnerGroup");
     }
 
     /*
-    *   OnClick on pencil icon -
+    *   OnClick on pencil icon - display priority list
     * */
     @OnClick(R.id.actDetails_editPriorityButton)
     public void onClickChoosePriorityButton() {
         FragmentManager fm = getActivity().getFragmentManager();
-
         choosePriorityDialog.show(fm,"choosePriority");
     }
 

@@ -81,6 +81,11 @@
 
     <!--About Application tab-->
     <string name="InfoAppVersionCategoryName">Általános információ az alkalmazásról</string>
+
+    <string name="InfoAppNameKey">info_app_name</string>
+    <string name="InfoAppNameTitle">Alkalmazás név</string>
+    <string name="InfoAppNameSummary">%1$s</string>
+
     <string name="InfoAppVersionKey">info_app_version</string>
     <string name="InfoAppVersionTitle">Verzió</string>
     <string name="InfoAppVersionSummary">%1$s</string>

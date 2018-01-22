@@ -16,9 +16,6 @@ public class AddFileSOAP {
     public static String getSoapPayload(String ticketID, String fileName , String fileNameWithoutExtension, String base64, String urlname){
 
 
-        System.out.println("WEBURL ------ SOAP = "+SettingsSingleton.getInstance().getWebUrl()+fileName);
-
-
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "   <soapenv:Header/>\n" +
                 "   <soapenv:Body>\n" +
@@ -34,7 +31,7 @@ public class AddFileSOAP {
                 "\n" +
                 "<max:DESCRIPTION >"+fileNameWithoutExtension+"</max:DESCRIPTION>\n" +
                 "<max:DOCTYPE  >Attachments</max:DOCTYPE>\n" +
-                "<max:DOCUMENT  >"+fileNameWithoutExtension+"</max:DOCUMENT>\n" +
+                "<max:DOCUMENT  >"+fileName+"</max:DOCUMENT>\n" +
                 "<max:DOCUMENTDATA  >"+base64+"</max:DOCUMENTDATA>\n" +
                 "\n" +
                 " <max:OWNERTABLE  >SR</max:OWNERTABLE>\n" +

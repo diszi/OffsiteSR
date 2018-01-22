@@ -26,10 +26,7 @@ import hu.d2.offsitesr.ui.model.WorkLog;
 import hu.d2.offsitesr.ui.view.component.AddWorkLogDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.component.WorklogDetailsDialog;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketList;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenter;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenterImpl;
+
 
 
 public class TicketDetailsWorkLogTab extends Fragment {
@@ -42,18 +39,12 @@ public class TicketDetailsWorkLogTab extends Fragment {
     private ServiceRequestEntity ticket;
     private List<WorkLog> workLogsList ;
 
-
-
-
     @BindView(R.id.actWorklog_swipeRefreshLayout)
     SwipeRefreshLayout compSwipeRefreshLayout;
-
     @BindView(R.id.actDetails_workLogList)
     RecyclerView compWorkLogs;
-
     @BindView(R.id.actDetails_workLogAddButton)
     FloatingActionButton compAddWorklogButton;
-
     @BindView(R.id.actDetails_emptyText)
     TextView compEmpty;
 
@@ -61,34 +52,32 @@ public class TicketDetailsWorkLogTab extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TicketDetailsWorkLogTab() {
-    }
+    public TicketDetailsWorkLogTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
-
         }
-
         presenter = new TicketDetailsPresenterImpl();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View contentView = inflater.inflate(R.layout.tab_ticket_details_worklog, container, false);
         ButterKnife.bind(this,contentView);
 
         this.setupRecyclerView();
 
-
         addWorkLogDialog = new AddWorkLogDialog();
         showLongDescriptionDialog = new WorklogDetailsDialog();
 
         presenter.setWorklogView(this);
+
         compSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -96,21 +85,13 @@ public class TicketDetailsWorkLogTab extends Fragment {
                 compSwipeRefreshLayout.setRefreshing(false);
                 presenter.getWorkLogList(ticket.getTicketId());
                 compEmpty.setVisibility(ticket.getWorkLogs().isEmpty()?View.VISIBLE:View.GONE);
-
-
             }
         });
 
         adapter.setWorkLogs(ticket.getWorkLogs());
         compEmpty.setVisibility(ticket.getWorkLogs().isEmpty()?View.VISIBLE:View.GONE);
-
-
-
         return contentView;
     }
-
-
-
 
 
     private void setupRecyclerView() {
@@ -122,14 +103,12 @@ public class TicketDetailsWorkLogTab extends Fragment {
         this.compWorkLogs.setLayoutManager(layoutManager);
         this.compWorkLogs.addItemDecoration(verticalSpaceItemDecoration);
         this.compWorkLogs.setAdapter(this.adapter);
-
     }
 
 
     public void loadWorklogList(List<WorkLog> ticketWorklogList){
         this.workLogsList = ticketWorklogList;
         adapter.setWorkLogsRefresh(this.workLogsList);
-
     }
 
 
@@ -145,8 +124,8 @@ public class TicketDetailsWorkLogTab extends Fragment {
 
 	/*
 	*   Long Click on list item
-	*   - exists long description: shows long description in dialog fragment
-	*   - not exists : error message
+	*   - display a long description in the dialog IF it exist
+	*   - error message IF it does'nt exist: " No assigned long description "
 	*
 	* */
     public void onClickLongDescButton(WorkLog workLog){
@@ -157,13 +136,9 @@ public class TicketDetailsWorkLogTab extends Fragment {
             FragmentManager fm = getActivity().getFragmentManager();
             Bundle bundle = new Bundle();
             bundle.putSerializable(WorklogDetailsDialog.SERIALIZABLE_NAME,workLog);
-
             showLongDescriptionDialog.setArguments(bundle);
             showLongDescriptionDialog.show(fm,"ShowLongDesc");
         }
-
-
     }
-
 
 }

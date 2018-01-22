@@ -9,9 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.webkit.MimeTypeMap;
 
-import java.io.File;
 
 
 /**
@@ -99,7 +97,6 @@ public class FileUtils {
     }
 
     public static boolean isMediaDocument(Uri uri){
-
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
@@ -107,16 +104,13 @@ public class FileUtils {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-
     public static boolean isDownloadsDocument(Uri uri){
-
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
-    public static boolean isGooglePhotosUri(Uri uri){
 
+    public static boolean isGooglePhotosUri(Uri uri){
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
-
 
     public static String getExtension(String fileName){
         String extension=null;
@@ -124,7 +118,6 @@ public class FileUtils {
         if (pos > 0){
             extension= fileName.substring(pos,fileName.length());
         }
-        System.out.println("extension = "+extension);
         return extension;
     }
 

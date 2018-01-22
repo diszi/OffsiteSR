@@ -3,23 +3,14 @@ package hu.d2.offsitesr.ui.view.component;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
-import android.support.v7.widget.AlertDialogLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
-import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
-import hu.d2.offsitesr.util.EnvironmentTool;
-import hu.d2.offsitesr.util.UIConstans;
+
 
 /**
  * Created by szidonia.laszlo on 2017. 11. 24..

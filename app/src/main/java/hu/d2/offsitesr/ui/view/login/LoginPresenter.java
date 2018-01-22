@@ -8,12 +8,12 @@ import io.reactivex.Observable;
 
 public interface LoginPresenter {
 
-    public void setView(Login view);
+     void setView(Login view);
 
-    public void login(String userName, String password);
+     void login(String userName, String password);
 
-    public void onDestroy();
+     void onDestroy();
 
-    public Observable createObservable(String userName, String password);
+     Observable createObservable(String userName, String password);
 
 }

@@ -2,7 +2,6 @@ package hu.d2.offsitesr.ui.model;
 
 import java.io.Serializable;
 
-
 import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**

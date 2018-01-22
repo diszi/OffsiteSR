@@ -1,51 +1,30 @@
 package hu.d2.offsitesr.ui.view.settings;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.admin.DevicePolicyManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
+
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.app.singleton.TimerSingleton;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
-import hu.d2.offsitesr.util.UIConstans;
 
 import static hu.d2.offsitesr.R.string.SettingsMaxListItemsKey;
 
 /**
  * Created by csabinko on 2017.09.18..
  *
- *  `- settings tab
- *
+ *  - settings tab
  */
 
 public class SettingsActivity extends PreferenceActivity  {
@@ -64,9 +43,7 @@ public class SettingsActivity extends PreferenceActivity  {
     }
 
     /**
-     *
-     *  - screen interaction - screen lock property
-     *
+     * - screen interaction
      */
     @Override
     public void onUserInteraction() {
@@ -102,11 +79,8 @@ public class SettingsActivity extends PreferenceActivity  {
 
 
         /**
-         *
          * @param sharedPreferences : property file for user, contains settings values
          * @param key - identification
-         *
-         *
          */
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -154,23 +128,21 @@ public class SettingsActivity extends PreferenceActivity  {
                 getActivity().finish();
                 Intent intent = getCallingIntent(getActivity().getApplicationContext());
                 startActivity(intent);
-            } else if (key.equals(getString(R.string.SettingsDownloadedFileSizeKey))) {
-                setEditTextPreferenceDetails(key, R.string.SettingsDownloadedFileSizeSummary);
             }
+//            } else if (key.equals(getString(R.string.SettingsDownloadedFileSizeKey))) {
+//                setEditTextPreferenceDetails(key, R.string.SettingsDownloadedFileSizeSummary);
+//            }
 
         }
 
         /**
-         *
          *  - refresh Settings page
-         *
          */
          public static Intent getCallingIntent(Context context) {
             return new Intent(context, SettingsActivity.class);
         }
 
 
-        // TODO: Use templates
         private void setEditTextPreferenceDetails(String key, int summaryId) {
             EditTextPreference editTextPreference = (EditTextPreference) findPreference(key);
             editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
@@ -178,13 +150,11 @@ public class SettingsActivity extends PreferenceActivity  {
 
         private void setListPreferenceDetails(String key, int summaryId) {
             ListPreference listPreference = (ListPreference) findPreference(key);
-            // TODO: getEntry?
             listPreference.setSummary(getString(summaryId, listPreference.getValue()));
         }
 
         private void setMultiSelectListPreferenceDetails(String key, int summaryId){
             MultiSelectListPreference multiSelectListPreference = (MultiSelectListPreference) findPreference(key);
-            // TODO: getEntry?
             multiSelectListPreference.setSummary(getString(summaryId,multiSelectListPreference.getEntries()));
         }
 
@@ -206,7 +176,7 @@ public class SettingsActivity extends PreferenceActivity  {
             setSwitchPreferenceDetails(getString(R.string.SettingsScreenLockKey),R.string.SettingsScreenLockSummary);
             setMultiSelectListPreferenceDetails(getString(R.string.SettingsStatusQueryKey),R.string.SettingsStatusQuerySummary);
             setListPreferenceDetails(getString(R.string.SettingsLanguageKey),R.string.SettingsLanguageSummary);
-            setEditTextPreferenceDetails(getString(R.string.SettingsDownloadedFileSizeKey),R.string.SettingsDownloadedFileSizeSummary);
+            //setEditTextPreferenceDetails(getString(R.string.SettingsDownloadedFileSizeKey),R.string.SettingsDownloadedFileSizeSummary);
         }
 
 

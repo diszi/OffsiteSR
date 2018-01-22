@@ -13,8 +13,6 @@ import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetTicketListSOAP;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsWorkLogTab;
 import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;

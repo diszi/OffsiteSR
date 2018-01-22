@@ -1,7 +1,6 @@
 package hu.d2.offsitesr.ui.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import hu.d2.offsitesr.util.EnvironmentTool;
 
@@ -50,8 +49,6 @@ public class Attachment implements Serializable {
         this.webURL = webURL;
     }
 
-
-
     public String getFileSize(){
         return fileSize;
     }
@@ -59,7 +56,6 @@ public class Attachment implements Serializable {
     public void setFileSize(String fileSize){
         this.fileSize = fileSize;
     }
-
 
     public void setFileName(String fileName){
         this.fileName = fileName;

@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 /**
  * Created by csabinko on 2017.09.19..

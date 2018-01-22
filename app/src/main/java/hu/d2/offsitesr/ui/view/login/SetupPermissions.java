@@ -5,20 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
-
-import com.kosalgeek.android.photoutil.MainActivity;
 
 import hu.d2.offsitesr.R;
 
 /**
  * Created by szidonia.laszlo on 2017. 12. 07..
- *
- *
  */
 
 public class SetupPermissions extends AbsRuntimePermission {
-
 
     public static Context mContext;
 
@@ -36,7 +30,6 @@ public class SetupPermissions extends AbsRuntimePermission {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE}, R.string.app_permissionMsg,10);
-
     }
 
     @Override
