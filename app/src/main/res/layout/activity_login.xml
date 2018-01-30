@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/actLogin_loginNameHint"
             android:imeOptions="actionNext"
-            android:text="fred" />
+            />
 
         <EditText
             android:id="@+id/actLogin_Password"
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/actLogin_loginPasswordHint"
             android:inputType="textPassword"
-            android:text="12345678" />
+           />
 
         <Button
             android:id="@+id/actLogin_Button"

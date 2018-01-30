@@ -20,6 +20,7 @@ import hu.d2.offsitesr.ui.model.AssetUserCust;
 /**
  * Created by szidonia.laszlo on 2017. 11. 02..
  *
+ *  Dialog will show after click on image button (zoom) in ticket details page
  */
 
 public class AssetDetailsDialog extends DialogFragment {
@@ -66,13 +67,16 @@ public class AssetDetailsDialog extends DialogFragment {
         if (getArguments() != null) {
             assetObj = (Asset) getArguments().getSerializable(AssetDetailsDialog.SERIALIZABLE_NAME);
             assetUCList = assetObj.getAssetUserCustList();
-
         }
-
-
-
     }
 
+    /**
+     *
+     * @param inflater  - inflate view in the fragment (dialog_asset_details.xml)
+     * @param container  - parent view
+     * @param savedInstanceState - fragment is being reconstructed using this param
+     * @return - a View for the fragment's UI
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         final View contentView = inflater.inflate(R.layout.dialog_asset_details, container, false);

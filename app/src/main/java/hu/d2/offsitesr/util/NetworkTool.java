@@ -27,14 +27,15 @@ import hu.d2.offsitesr.ui.view.login.LoginActivity;
 /**
  * Created by csabinko on 2017.09.15..
  *
- *  - create https connections
+ * Create Https connection.
  */
 
 public class NetworkTool {
 
-    private static String SERVER_IP_ADDRESS="91.82.81.106";
+    private static String SERVER_IP_ADDRESS = "91.82.81.106";
     private static int CONNECTION_TIME_OUT = 5000;
     private static int READ_TIME_OUT = 5000;
+
 
     public static String LOGIN_URL ="https://"+SERVER_IP_ADDRESS+"/maxrest/rest/login";
     public static String SOAP_SR_URL_GET ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_SR1";

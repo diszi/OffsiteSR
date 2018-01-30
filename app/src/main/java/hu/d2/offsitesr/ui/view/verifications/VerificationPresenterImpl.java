@@ -32,8 +32,6 @@ public class VerificationPresenterImpl implements VerificationPresenter {
 
     private LicenseActivity licens;
     private UpdateActivity update = new UpdateActivity();
-    private TicketListActivity ticketList = new TicketListActivity();
-
 
     private Disposable disposableLicense,disposableUpdate, disposableDownloadNewApp;
     private Observable<List<License>> observableLicense;
@@ -53,10 +51,10 @@ public class VerificationPresenterImpl implements VerificationPresenter {
     }
 
 
-    @Override
+    /*@Override
     public void setTicketView(TicketListActivity viewTicket) {
         this.ticketList = viewTicket;
-    }
+    }*/
 
     @Override
     public void onDestroy() {
@@ -66,6 +64,9 @@ public class VerificationPresenterImpl implements VerificationPresenter {
         }
         if (disposableUpdate != null && disposableUpdate.isDisposed()){
             disposableUpdate.dispose();
+        }
+        if (disposableDownloadNewApp != null && disposableDownloadNewApp.isDisposed()){
+            disposableDownloadNewApp.dispose();
         }
 
     }
@@ -104,19 +105,11 @@ public class VerificationPresenterImpl implements VerificationPresenter {
             Log.d("------------------>"," Observable created");
             observableUpdate =createUpdateVersionObservable(appName);
         }
+        UpdateApp updateApp = (UpdateApp)activityContext;
         Log.d("------------------>"," Subscribe to Observable");
         disposableUpdate = observableUpdate.subscribe((getVersionResponse) -> { // onNext Consumer
                                 Log.d("------------------>"," Get Data - License ");
-                               // System.out.println("getVersionResponse = "+getVersionResponse.getAppName()+"  NR = "+getVersionResponse.getVersionNumber()+" context  = "+activityContext+"   - ticket = "+ticketList);
-                                if (activityContext.equals(update)){
-                                    //System.out.println("update");
-                                    update.verificUpdateInformations(getVersionResponse);
-                                }else
-                                    if (activityContext.equals(ticketList)){
-                                       // System.out.println(" ticketList ");
-                                        ticketList.verificUpdate(getVersionResponse);
-                                    }
-
+                                updateApp.verificUpdateInformations(getVersionResponse);
 
                             }, (throwable) -> { // onError Consumer
                                 int errorMessageCode = R.string.error_general;
@@ -141,13 +134,8 @@ public class VerificationPresenterImpl implements VerificationPresenter {
         Log.d("------------------>"," Subscribe to Observable");
         disposableDownloadNewApp = observableDownloadNewApp.subscribe((getVersionResponse) -> { // onNext Consumer
                             Log.d("------------------>"," Get Data - License ");
-                          //  System.out.println("getNewAPP   --- > "+a);
-                            //if (a.equals(update)){
-                                update.downloadNewAppAttachment(getVersionResponse,a);
-                            /*}else
-                            {
-                                ticketList.downloadUpdateAttachment(getVersionResponse,a);
-                            }*/
+                            update.downloadNewAppAttachment(getVersionResponse,a);
+
 
                         }, (throwable) -> { // onError Consumer
                             int errorMessageCode = R.string.error_general;
@@ -174,12 +162,10 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_LICENSE_URL_GET, GetLicenseSOAP.SOAP_ACTION,String.format(GetLicenseSOAP.getSoapPayload(IMEInumber),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
-                   // System.out.println("Response Verification = "+responseCode);
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
 
                         List<License> licenseResponse = EntityMapper.transformLicenseData(inputStream,IMEInumber);
-                       // System.out.println("LicenseResponse = "+licenseResponse);
                         emitter.onNext(licenseResponse);
 
                         emitter.onComplete();
@@ -253,7 +239,6 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                 try {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_NEW_APP_GET, GetNewAppSOAP.SOAP_ACTION,String.format(GetNewAppSOAP.getSoapPayload(appName,newVersion),SettingsSingleton.getInstance().getUserName()));
                     int responseCode = connection.getResponseCode();
-//                    System.out.println("Response Verification = "+responseCode);
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         Version downloadVersion = EntityMapper.transformVersionData(inputStream);

@@ -28,7 +28,10 @@ import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.component.WorklogDetailsDialog;
 
 
-
+/**
+ * This class is a fragment. Contains tasks of the specified ticket.
+ * On this page there is a refresh layout.
+ */
 public class TicketDetailsWorkLogTab extends Fragment {
 
     private AddWorkLogDialog addWorkLogDialog;
@@ -63,7 +66,16 @@ public class TicketDetailsWorkLogTab extends Fragment {
         presenter = new TicketDetailsPresenterImpl();
     }
 
-
+    /**
+     *
+     * @param inflater - The LayoutInflater object that can be used to inflate view in the fragment (R.layout.tab_ticket_details_worklog)
+     * @param container - can be used to generate the LayoutParams of the view
+     * @param savedInstanceState - this fragment is being re-constructed from a previous saved state as given here
+     * @return - Return the View for the fragment's UI, or null
+     *
+     * Called to have the fragment instantiate its user interface view.
+     *
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,7 +117,9 @@ public class TicketDetailsWorkLogTab extends Fragment {
         this.compWorkLogs.setAdapter(this.adapter);
     }
 
-
+    /**
+     * @param ticketWorklogList - list with worklog details
+     */
     public void loadWorklogList(List<WorkLog> ticketWorklogList){
         this.workLogsList = ticketWorklogList;
         adapter.setWorkLogsRefresh(this.workLogsList);
@@ -122,12 +136,12 @@ public class TicketDetailsWorkLogTab extends Fragment {
 	}
 
 
-	/*
-	*   Long Click on list item
-	*   - display a long description in the dialog IF it exist
-	*   - error message IF it does'nt exist: " No assigned long description "
-	*
-	* */
+
+    /**
+     * @param workLog - is an item, which chosen by the user (long click on item)
+     *    - display a long description in the dialog IF it exist
+     *   - error message IF it does'nt exist: " No assigned long description "
+     */
     public void onClickLongDescButton(WorkLog workLog){
         if (workLog.getLongDescription().equals("") || workLog.getLongDescription() == null){
             Toast.makeText(getContext(),getString(R.string.dialogWorklog_showLongDesc),Toast.LENGTH_SHORT).show();

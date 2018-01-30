@@ -58,6 +58,13 @@ public class SavePictureDialog extends DialogFragment {
     }
 
 
+    /**
+     * Gives the dialog content
+     * @param inflater - The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container - this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState - his fragment is being re-constructed from a previous saved state as given here
+     * @return - the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -114,6 +121,13 @@ public class SavePictureDialog extends DialogFragment {
         return contentView;
     }
 
+    /**
+     *
+     * @param nameFile - name of file
+     * @param directory - location of file
+     * @return - File object, located at @param directory with name @param nameFile
+     * @throws IOException
+     */
     private File createImageFile(String nameFile,File directory) throws IOException {
         File imageFile = new File(directory,nameFile+".jpg");
         return imageFile;

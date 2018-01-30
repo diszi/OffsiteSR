@@ -33,6 +33,10 @@ import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.FileUtils;
 
+/**
+ * 	This activity set viewPager with details for ticket.
+ * 	The ViewPager build from 4 fragments, the last fragment title is an icon.
+ */
 
 public class TicketDetailsActivity extends AppCompatActivity implements TicketDetails {
 
@@ -66,7 +70,10 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
     Toolbar compToolbar;
 
 
-
+	/**
+	 * @param savedInstanceState - contain the activity previously frozen state
+	 * Setting all property: language, screen lock, date
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +86,6 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		setScreenLock();
 		EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
 		TimerSingleton.getInstance().setMyActivity(this);
-		TimerSingleton.getInstance().timerStart();
 
 		setContentView(R.layout.activity_ticket_details);
 		ButterKnife.bind(this);
@@ -90,16 +96,13 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		savePictureDialog = new SavePictureDialog();
-
         compSyncDate.setText(syncDateString);
 
 		presenter = new TicketDetailsPresenterImpl();
 		presenter.setView(this);
 
 		compTabLayout.setupWithViewPager(compTabViewPager);
-
 		addTabFragmentsToViewPager(compTabViewPager);
-
 		compTabLayout.getTabAt(3).setIcon(tabAttachmentIcon[0]);
 
 		loadTicketDetails(ticket);
@@ -107,8 +110,15 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	}
 
 
+
 	/**
-	 *  - add 4 fragments page to viewPager
+	 *
+	 * @param viewPager - layout manager that allows the user to flip left and right through pages of data
+	 *	Set 4 fragments page to @param viewPager
+	 *                  - ticket details list
+	 *               	- ticket worklog
+	 *               	- ticket task
+	 *               	- ticket attachment
 	 */
 	private void addTabFragmentsToViewPager(ViewPager viewPager) {
 		TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
@@ -134,6 +144,14 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		viewPager.setAdapter(adapter);
 	}
 
+
+	/**
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 * Called when an activity you launched exits (upload file/photo or take photo), giving you the @param requestCode
+	 * you started it with, the @param resultCode it returned, and any additional @param data from it.
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -168,9 +186,10 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	/**
+	 * @param fileUri - selected file URI
+	 * @return - base64 code in string
 	 *
-	 * @param fileUri : selected file URI
-	 * @return : base64 code in string
+	 * 	Encode the entire URL
 	 */
 	public String encodeFile(Uri fileUri){
 		String encodeBase64 = "";
@@ -187,11 +206,11 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	/**
-	 *  - convert InputStream parameter into byte format
-	 *
 	 * @param inputStream
-	 * @return : byte
-	 * @throws IOException
+	 * @return - byte
+	 * @throws IOException - get exception if @param inputStream not readable
+	 *
+	 *  Convert InputStream parameter into byte format
 	 */
 
 	public byte[] getBytes(InputStream inputStream) throws IOException {
@@ -212,7 +231,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	}
 
 	/**
-	 * 	- backstep in ticket list
+	 * Called when the activity has detected the user's press of the back key.
 	 */
 	@Override
 	public void onBackPressed() {
@@ -221,21 +240,33 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		super.onBackPressed();
 	}
 
-	/*
-	* 	 - user interaction in screen
-	*/
+	/**
+	 * Called whenever a key, touch, or trackball event is dispatched to the activity.
+     *  - user interaction on screen - reset timer (stop timer + start timer)
+     */
 	@Override
 	public void onUserInteraction() {
 		super.onUserInteraction();
-		TimerSingleton.getInstance().timerStop();
-		TimerSingleton.getInstance().timerStart();
+		TimerSingleton.getInstance().resetTimer();
 	}
 
+	/**
+	 * Called as part of the activity lifecycle when an activity is
+	 * about to go into the background as the result of user choice.
+	 */
+	@Override
+	protected void onUserLeaveHint() {
+		super.onUserLeaveHint();
+	}
+
+	/**
+	 * @param entity - ticket details
+	 * Add the username to the text field
+	 */
 	@Override
 	public void loadTicketDetails(ServiceRequestEntity entity) {
 		String loggidUserName = getLoggedInUser();
 		compUserName.setText(loggidUserName);
-
 	}
 
 
@@ -262,7 +293,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	/**
-	 * @return logged user name
+	 * @return logged username
 	 */
 	public String getLoggedInUser() {
 		return SettingsSingleton.getInstance().getUserName();
@@ -317,13 +348,10 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	}
 
 	/**
-	 *	Worklog is added to the ticket
-	 *
-	 * @param shortDesc
-	 * @param longDesc
-	 *
+	 * @param shortDesc - worklog short description
+	 * @param longDesc - worklog long description
+	 * Worklog is added to the ticket
 	 */
-
 	@Override
 	public void addWorkLogRemote(String shortDesc, String longDesc) {
 		presenter.addWorkLogRemote(ticket.getTicketId(),getLoggedInUser(),shortDesc,longDesc);
@@ -331,13 +359,11 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	/**
-	 *
 	 *	Attachment is added to the ticket
-	 *
-	 * @param fileName :  uploaded file/photo name
-	 * @param pureFileName: file name without extension
-	 * @param encode: base64 code
-	 * @param urlname: file path
+	 * @param fileName -  uploaded file/photo name
+	 * @param pureFileName - file name without extension
+	 * @param encode - base64 code
+	 * @param urlname - file path
 	 *
 	 */
 	public void addFile(String fileName ,String pureFileName,String encode, String urlname) {
@@ -350,7 +376,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	/**
-	 * 	- set screen lock to the page
+	 * 	Set screen lock to the page
 	 */
 	public void setScreenLock(){
 		if (SettingsSingleton.getInstance().getScreenLockValue() == false){
@@ -363,7 +389,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	}
 
 	/**
-	 * 	- set actual date - real-time synchronization
+	 * Set actual date - real-time synchronization
 	 */
 	public void setSyncDate(){
 		Thread t = new Thread(){

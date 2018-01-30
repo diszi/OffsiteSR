@@ -28,8 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 public class TicketListPresenterImpl implements TicketListPresenter {
 
 	private TicketList view;
-
-
 	private Disposable disposable;
     private Disposable disposable2;
     private Observable<List<ServiceRequestEntity>> observable;
@@ -103,7 +101,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 //                        UIThrowable uiThrowable = (UIThrowable) throwable;
 //                        errorMessageCode = uiThrowable.getMessageId();
 //                    }
-                    Log.e("------------->","Nem sikerült az Ownereket letölteni",throwable);
+                    Log.e("------------->","Dont get data",throwable);
 //                    view.showErrorMessage(errorMessageCode);
 //                    view.hideLoading();
                 }, () -> { // onComplate Action

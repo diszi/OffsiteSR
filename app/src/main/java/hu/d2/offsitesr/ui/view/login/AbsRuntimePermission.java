@@ -18,9 +18,7 @@ import hu.d2.offsitesr.R;
 
 /**
  * Created by szidonia.laszlo on 2017. 12. 05..
- *
- *  - abstract class - Permissions verification after install app, before login activity
- *
+ *  Abstract class - Permissions verification after install app, before login activity
  */
 
 public abstract class AbsRuntimePermission extends Activity {
@@ -37,9 +35,16 @@ public abstract class AbsRuntimePermission extends Activity {
 
     }
 
+
     public abstract void onPermissionsGranted(int requestCode);
 
 
+    /**
+     *
+     * @param requestedPermissions - list with string items (permissions)
+     * @param stringId - constant - will display if all permission not granted by the user
+     * @param requestCode
+     */
     public void requestAppPermissions(final String[]requestedPermissions, final int stringId, final int requestCode){
 
         mErrorString.put(requestCode,stringId);
@@ -68,7 +73,15 @@ public abstract class AbsRuntimePermission extends Activity {
         }
     }
 
-
+    /**
+     * This is an instance method of Activity.
+     * Callback for the result from requesting permissions.
+     *
+     * @param requestCode - he request code passed in requestPermissions
+     * @param permissions - The requested permissions. Never null.
+     * @param grantResults - The grant results for the corresponding permissions which
+     *                     is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -91,7 +104,9 @@ public abstract class AbsRuntimePermission extends Activity {
         }
     }
 
-
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this,LoginActivity.class);

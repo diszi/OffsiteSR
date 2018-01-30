@@ -90,7 +90,7 @@
     <string name="InfoAppVersionTitle">Verzió</string>
     <string name="InfoAppVersionSummary">%1$s</string>
 
-    <string name="InfoAppDateofUpdateKey">info_app_update</string>
+    <string name="InfoAppDateofUpdateKey">info_app_dateOfupdate</string>
     <string name="InfoAppDateofUpdateTitle">Frissítve</string>
     <string name="InfoAppDateofUpdateSummary">%1$s</string>
 

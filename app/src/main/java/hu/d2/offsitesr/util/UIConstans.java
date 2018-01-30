@@ -2,6 +2,8 @@ package hu.d2.offsitesr.util;
 
 /**
  * Created by csabinko on 2017.09.15..
+ *
+ * Definition of constants
  */
 
 public class UIConstans {
@@ -13,6 +15,7 @@ public class UIConstans {
     public static String PHOTO_SAVE_DIR="/DCIM/Camera";
     public static String FILE_SAVE_DIR = "/Download";
     public static String WEBURL_ADDFILE_SOAP = "http://192.168.100.101/ATTACHMENTS/";
+    public static String VERSION_MODE = "OFFICIAL";
 
     public static String DATE_PATTERN_PHOTO = "yyyyMMdd_HHmmss";
     public static String DATE_PATTERN_STANDARD = "yyyy-MM-dd'T'hh:mm:ss";

@@ -13,6 +13,7 @@ public class Version implements Serializable {
 
     private String appName;
     private String versionNumber;
+    private String mode;
     private List<DocLinks> newAppDetails;
 
     public Version(){}
@@ -22,7 +23,6 @@ public class Version implements Serializable {
     }
 
     public void setAppName(String appName) {
-       // System.out.println("appname = "+appName);
         this.appName = appName;
     }
 
@@ -31,7 +31,6 @@ public class Version implements Serializable {
     }
 
     public void setVersionNumber(String version) {
-       // System.out.println("version nr ="+version);
         this.versionNumber = version;
     }
 
@@ -41,6 +40,14 @@ public class Version implements Serializable {
 
     public void setNewAppDetails(List<DocLinks> newAppDetails){
         this.newAppDetails = newAppDetails;
+    }
+
+    public void setMode(String mode){
+        this.mode=mode;
+    }
+
+    public String getMode(){
+        return mode;
     }
 
 }

@@ -19,6 +19,11 @@ import hu.d2.offsitesr.R;
 public class LicenseDialog extends DialogFragment {
 
 
+    /**
+     *  Create custom Dialog object
+     * @param savedInstanceState - the last saved instance state of the Fragment, or null if this is a freshly created Fragment
+     * @return - a new Dialog instance to be displayed by the Fragment.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

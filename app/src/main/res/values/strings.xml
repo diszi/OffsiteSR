@@ -87,8 +87,8 @@
     <string name="download_resultMessageOk">Update Done</string>
     <string name="download_resultMessageError">Error: Try Again</string>
 
-    <string name="sharedPreference_getDate">pressNo</string>
-    <string name="sharedPreference_addFileWebUrl">weburl</string>
+    <string name="sharedPreference_getDate" translatable="false">pressNo</string>
+    <string name="sharedPreference_addFileWebUrl" translatable="false">weburl</string>
     <string name="actDetails_ownerGroup">Owner Group:</string>
     <string name="dialogOwnerGroup_title">Change Owner Group</string>
     <string name="status_inProgress">In Progress</string>
@@ -125,10 +125,12 @@
     <string name="actAttachment_downloadCompleted">Download completed  </string>
     <string name="actAttachment_showFile">SHOW FILE</string>
 
-    <string name="defaultValue_language">HU</string>
-    <string name="defaultValue_maxListItems">30</string>
-    <string name="defaultValue_synchronizeTicketList">45</string>
-    <string name="defaultValue_timeOut">30</string>
-    <string name="defaultValue_fileSize">1</string>
+    <string name="defaultValue_language" translatable="false">HU</string>
+    <string name="defaultValue_maxListItems" translatable="false">30</string>
+    <string name="defaultValue_synchronizeTicketList" translatable="false">45</string>
+    <string name="defaultValue_timeOut" translatable="false">30</string>
+    <string name="defaultValue_fileSize" translatable="false">1</string>
+    
+
 
 </resources>

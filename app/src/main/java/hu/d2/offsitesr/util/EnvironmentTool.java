@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +30,9 @@ public class EnvironmentTool {
 
 
     /**
-     * @param context
-     * @param languageCode
-     *  - set application langauge
+     * @param context - actual activity context
+     * @param languageCode - selected language (HU / ENG)
+     *  - set application language
      */
     public static void setLanguage(Context context, String languageCode) {
         if (languageCode != null && !languageCode.equals("") ){
@@ -55,8 +56,7 @@ public class EnvironmentTool {
 
 
     /**
-     * @param mySettingsActivity
-     *
+     * @param mySettingsActivity - actual activity/page, where the user is
      *  - set screen lock activation for @param mySettingsActivity  (On / Off)
      */
     public static void setScreenLockOff(Activity mySettingsActivity){
@@ -70,9 +70,9 @@ public class EnvironmentTool {
     }
 
     /**
-     *
-     * @param createdDate - created date of worklog + attachment + report + statu
-     * @return
+     * @param createdDate - created date of worklog + attachment + report + status
+     * @return @param in String format using pattern DATE_PATTERN_HU
+     * This method changes pattern of date
      */
     public static String convertDateString(String createdDate){
         SimpleDateFormat inFormat = new SimpleDateFormat(UIConstans.DATE_PATTERN_STANDARD); //datePattern
@@ -86,7 +86,11 @@ public class EnvironmentTool {
         return outFormat.format(destDate);
     }
 
-
+    /**
+     * @param date
+     * @param pattern
+     * @return @param date in String format using @param pattern
+     */
     public static String convertDate(Date date,String pattern){
         return new SimpleDateFormat(pattern).format(date);
     }
@@ -119,6 +123,29 @@ public class EnvironmentTool {
         return  OffsiteSRApplication.getAppContext().getPackageName();
     }
 
+    /**
+     * @param todayInString - actual date in string format
+     * @return - true (If deadline > @param todayInString) / false
+     * If deadline > @param todayInString  => return true
+     * If deadline < @param todayInStrin => return false
+     */
+    public static boolean deadLineVerification(String todayInString)  {
+
+        String deadlineInString = "2018.03.01. 11:59";
+        Date today = null,deadline = null;
+        DateFormat outFormat = new SimpleDateFormat(UIConstans.DATE_PATTERN_HU);
+        try {
+            today = outFormat.parse(todayInString);
+            deadline = outFormat.parse(deadlineInString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (today.after(deadline)){
+            return false;
+        }
+        return true;
+
+    }
 
 
 }

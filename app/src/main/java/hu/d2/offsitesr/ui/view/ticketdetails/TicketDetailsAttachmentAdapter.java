@@ -50,7 +50,10 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         this.ticketDetailsAttachmentTab = ticketDetailsAttachmentTab;
     }
 
-
+    /**
+     * @param attachments - attachment list with refresh
+     * Refresh the attachment page
+     */
     public void setAttachments(List<Attachment> attachments) {
         this.attachmentlist.clear();
         this.attachmentlist.addAll(attachments);
@@ -100,6 +103,9 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
     }
 
 
+    /**
+     * @return - the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         if (attachmentlist != null && attachmentlist.size() > 0) {
@@ -136,8 +142,13 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
     }
 
 
+
     /**
-     *  Download attachment
+     * AsyncTask enables proper and easy use of the UI thread.
+     * An asynchronous task is defined by 3 generic types,
+     * called Params = String, Progress = Integer and Result = String.
+     *
+     * This class extends of AsyncTask and download attachments.
      */
     class DownloadTask extends AsyncTask<String,Integer,String> {
 
@@ -146,10 +157,12 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         File downloaded_filePath=null;
 
 
+        /**
+         * Runs on the UI thread before doInBackground(Params...).
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             mprogressDialog = new ProgressDialog(ticketDetailsAttachmentTab.getActivity());
             mprogressDialog.setTitle(R.string.actAttachment_downloadTitle);
             mprogressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -157,9 +170,13 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
 
         }
 
-        /*
-        *   Downloaded file place: Download folder
-        * */
+
+        /**
+         * This method can call publishProgress(Progress...) to publish updates on the UI thread.
+         * @param params - params[0] = base64 code for downloaded file, params[1] = webUrl (parameters of the task)
+         * @return - a result, defined by the subclass of this task.
+         * Downloaded file place : download folder
+         */
         @Override
         protected String doInBackground(String... params) {
             String base64Code = params[0];
@@ -185,7 +202,10 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
 
         }
 
-
+        /**
+         * Runs on the UI thread after publishProgress(Progress...) is invoked.
+         * @param values - The values indicating progress.
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
@@ -196,6 +216,7 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         }
 
         /*
+        *   Runs on the UI thread after doInBackground(Params...).
         *   Download is over : display a Snackbar with message: SHOW FILE
         *   OnClick on message : will be opened the file in correct reader/format
         * */

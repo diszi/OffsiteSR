@@ -17,7 +17,7 @@ import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.ui.view.login.LoginActivity;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
-import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
+import hu.d2.offsitesr.ui.view.verifications.UpdateApp;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
 
@@ -33,6 +33,7 @@ public  class UpdateAppDialog extends DialogFragment {
     public String temp, newVersionNr;
     Intent intent;
 
+
     public void setDatePressNoBtn(Date date)
     {
         this.datePressNoBtn = date;
@@ -43,7 +44,12 @@ public  class UpdateAppDialog extends DialogFragment {
         return datePressNoBtn;
     }
 
-
+    /**
+     *
+     * @param temp - activity identificator (UpdateActivity / TicketListActivity)
+     * @param versionNr - available new version number
+     * @return an instance of UpdateAppDialog class
+     */
     public static UpdateAppDialog newInstance(String temp,String versionNr){
         UpdateAppDialog updateAppDialog = new UpdateAppDialog();
         Bundle args = new Bundle();
@@ -61,6 +67,7 @@ public  class UpdateAppDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        UpdateApp updateApp = (UpdateApp)getActivity();
         Activity activity = getActivity();
         temp = getArguments().getString("temp");
         newVersionNr = getArguments().getString("versionNr");
@@ -73,14 +80,8 @@ public  class UpdateAppDialog extends DialogFragment {
 
                     //ONLINE + WIFI
                     if (isConnectedWifi()){
-                        if (temp.equals("TicketListActivity")){ //if the user wants to update app from menu
-                            ((TicketListActivity)getActivity()).downloadApp();
-                         }else
-                             if (temp.equals("UpdateActivity")){ //if the user wants to update app after login
-                                ((UpdateActivity)getActivity()).downloadNewApp();
-                            }
+                        updateApp.downloadApp();
                     }
-                    else
                         //ONLINE + MobileNET
                     if (isConnectedMobileNet()){
                         alertDialog.setMessage(getString(R.string.dialogUpdateApp_mobilNetQuestion));
@@ -89,16 +90,11 @@ public  class UpdateAppDialog extends DialogFragment {
                             //update app using mobile net
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (temp.equals("TicketListActivity")){ //if the user wants to update app from menu
-                                    ((TicketListActivity)getActivity()).downloadApp();
-                                }else
-                                if (temp.equals("UpdateActivity")){ //if the user wants to update app after login
-                                    ((UpdateActivity)getActivity()).downloadNewApp();
-                                }
+                                updateApp.downloadApp();
                             }
                         });
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.buttonNO), new DialogInterface.OnClickListener() {
-                            //do not update app
+                            //don't update app
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 intent = new Intent(activity,LoginActivity.class);
@@ -107,7 +103,7 @@ public  class UpdateAppDialog extends DialogFragment {
                         });
                         alertDialog.show();
 
-                    }else
+                    }
                         //OFFLINE
                     if (!isOnline()) {
                         alertDialog.setMessage(getString(R.string.dialogUpdateApp_offlineMode));
@@ -138,20 +134,32 @@ public  class UpdateAppDialog extends DialogFragment {
             }).create();
     }
 
+    /**
+     *
+     * @return true, if there is a WIFI connection
+     */
     public boolean isConnectedWifi(){
-        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         boolean wifiEnabled = wifiManager.isWifiEnabled();
         return wifiEnabled;
     }
 
+    /**
+     *
+     * @return true, if there is mobile network connection
+     */
     public boolean isConnectedMobileNet(){
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
+    /**
+     *
+     * @return true, if there is internet connection (Wifi, mobile net, et.)
+     */
     public boolean isOnline(){
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }

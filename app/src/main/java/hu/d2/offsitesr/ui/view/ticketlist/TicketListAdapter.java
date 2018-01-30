@@ -39,12 +39,26 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
         this.notifyDataSetChanged();
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     * @param parent - the ViewGroup into which the new View will be added after it is bound to an adapter position
+     * @param viewType- the view type of the new View
+     * @return - a new ViewHolder that holds a View of the given view type
+     */
     @Override
 	public TicketListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_ticket_list_row,parent,false);
         return new TicketListViewHolder(itemView);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the itemView to reflect
+     * the item at the given position.
+     * @param holder - the ViewHolder which should be updated to represent
+     *              the contents of the item at the given position in the data set.
+     * @param position - the position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(TicketListViewHolder holder, int position) {
         ServiceRequestEntity ticket = ticketList.get(position);
@@ -52,6 +66,9 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
         holder.itemView.setOnClickListener((v)-> view.launchDetailsView(new TicketHolder(ticket,position)));
     }
 
+    /**
+     * @return - the total number of items in the data set held by the adapter.
+     */
     @Override
     public int getItemCount() {
         if (ticketList != null && ticketList.size() > 0) {
@@ -79,6 +96,10 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
             ButterKnife.bind(this,itemView);
         }
 
+        /**
+         *  Set text with value
+         * @param ticket - details of the ticket
+         */
         public void bind(ServiceRequestEntity ticket){
             compStatusIcon.setImageResource(getStatusIcon(ticket.getStatus()));
 

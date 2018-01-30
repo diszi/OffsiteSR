@@ -47,7 +47,6 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 	 *
 	 * @param holder
 	 * @param position
-	 *
 	 * 	 Onclick action on button (pencil) in @param position
 	 */
 	@Override
@@ -62,6 +61,9 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
         });
 	}
 
+	/**
+	 * @return - the total number of items in the data set held by the adapter.
+	 */
 	@Override
 	public int getItemCount() {
         if (tasks != null && tasks.size() > 0) {

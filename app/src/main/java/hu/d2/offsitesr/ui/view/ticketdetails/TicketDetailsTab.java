@@ -26,6 +26,9 @@ import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 
+/**
+ * This class is a fragment. Contains details of the specified ticket.
+ */
 
 public class TicketDetailsTab extends Fragment {
 
@@ -81,6 +84,14 @@ public class TicketDetailsTab extends Fragment {
         }
     }
 
+    /**
+     * @param inflater - The LayoutInflater object that can be used to inflate view in the fragment (R.layout.tab_ticket_details)
+     * @param container - can be used to generate the LayoutParams of the view
+     * @param savedInstanceState - this fragment is being re-constructed from a previous saved state as given here
+     * @return - Return the View for the fragment's UI, or null
+     *
+     * Called to have the fragment instantiate its user interface view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -22,7 +22,9 @@ import hu.d2.offsitesr.ui.model.DocLinks;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 
-
+/**
+ * This class is a fragment. Contains attachments of the specified ticket.
+ */
 public class TicketDetailsAttachmentTab extends Fragment {
 
 
@@ -39,6 +41,11 @@ public class TicketDetailsAttachmentTab extends Fragment {
     public TicketDetailsAttachmentTab() {
     }
 
+
+    /**
+     * @param savedInstanceState - contain the activity previously frozen state
+     *  Called to do initial creation of the fragment.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,14 @@ public class TicketDetailsAttachmentTab extends Fragment {
         presenter = new TicketDetailsPresenterImpl();
     }
 
+    /**
+     * @param inflater - The LayoutInflater object that can be used to inflate view in the fragment (R.layout.tab_ticket_details_attachment)
+     * @param container - can be used to generate the LayoutParams of the view
+     * @param savedInstanceState - this fragment is being re-constructed from a previous saved state as given here
+     * @return - Return the View for the fragment's UI, or null
+     *
+     * Called to have the fragment instantiate its user interface view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,7 +81,7 @@ public class TicketDetailsAttachmentTab extends Fragment {
     }
 
     /**
-     * @param attachmentDocLinksList: list  - contains attachment properties of ticket
+     * @param attachmentDocLinksList - is a list, contains attachment properties of ticket
      */
     public void loadAttachmentDocLinksList(List<DocLinks> attachmentDocLinksList) {
         adapter.setAttachmentDetails(attachmentDocLinksList);
@@ -94,7 +109,9 @@ public class TicketDetailsAttachmentTab extends Fragment {
 
 
     /**
-     * @param doclinksID OnClick on download icon - attachment tab
+     * @param doclinksID
+     * OnClick on download icon - attachment tab
+     * Call a method, which download attachment
      */
     public void setOnClickDownloadButton(String doclinksID) {
         presenter.getFileDetails(ticket.getTicketId(), doclinksID);

@@ -1,6 +1,7 @@
 package hu.d2.offsitesr.util;
 
 
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -35,6 +36,7 @@ import hu.d2.offsitesr.ui.model.WorkLog;
 
 public class EntityMapper {
 
+
 	public static OwnerHolder transformOwnerDataList(InputStream inputStream)
 			throws ParserConfigurationException, IOException, SAXException {
 
@@ -60,7 +62,7 @@ public class EntityMapper {
 
 	/**
 	 *
-	 * @return -  list with all ticket
+	 * @return a list with all ticket
 	 */
 	public static List<ServiceRequestEntity> transformTicketList(InputStream inputStream)
 			throws ParserConfigurationException, IOException, SAXException {
@@ -84,10 +86,7 @@ public class EntityMapper {
 	}
 
 
-	/**
-	 *
-	 * - get list with type DocLinks
-	 */
+
 	public static List<DocLinks> transformAttachmentDocLinksList(InputStream inputStream, String doclinksID) throws ParserConfigurationException, IOException, SAXException {
 		List<DocLinks> attachmentDocLinksList = new LinkedList<>();
 		DocumentBuilder builder = null;
@@ -105,7 +104,6 @@ public class EntityMapper {
 
 
 	/**
-	 *
 	 *  - get attachment list for ticketID - call when download file
 	 */
 	public static List<Attachment> transformAttachmentList(InputStream inputStream, String ticketID) throws ParserConfigurationException, IOException, SAXException {
@@ -124,7 +122,7 @@ public class EntityMapper {
 	}
 
 
-	public static List<DocLinks> transformTicketAttachmentDocLinks(Element element,String doclinksID)
+	private static List<DocLinks> transformTicketAttachmentDocLinks(Element element,String doclinksID)
 	{
 		NodeList linkNode = element.getElementsByTagName("DOCLINKS");
 		List<DocLinks> attachmentDocLink = new ArrayList<>();
@@ -137,7 +135,7 @@ public class EntityMapper {
 
 
 
-	public static DocLinks transformAttachmentDocLinks(Element element,String doclinksID){
+	private static DocLinks transformAttachmentDocLinks(Element element,String doclinksID){
 		DocLinks attachmentDoc = new DocLinks();
 		attachmentDoc.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
 		if (attachmentDoc.getDoclinksID().equals(doclinksID))
@@ -149,7 +147,7 @@ public class EntityMapper {
 	}
 
 
-	public static List<Attachment> transformTicketAttachment(Element element,String ticketID)
+	private static List<Attachment> transformTicketAttachment(Element element,String ticketID)
 	{
 		NodeList linkNode = element.getElementsByTagName("DOCLINKS");
 		List<Attachment> attachmentDocLink = new ArrayList<>();
@@ -160,7 +158,7 @@ public class EntityMapper {
 		return attachmentDocLink;
 	}
 
-	public static Attachment transformAttachment (Element element,String tickedID){
+	private static Attachment transformAttachment (Element element,String tickedID){
 		Attachment attachment = new Attachment();
 		attachment.setReference(getNodeValue(element,"REFERENCE"));
 		attachment.setCreateDate(getNodeValue(element,"CREATEDATE"));
@@ -172,7 +170,6 @@ public class EntityMapper {
 
 
 	/**
-	 *
 	 * 	- get Worklog list for recordkey
 	 */
 	public static List<WorkLog> transformWorkLogList(InputStream inputStream, String recordkey) throws ParserConfigurationException, IOException, SAXException{
@@ -216,7 +213,6 @@ public class EntityMapper {
 		NodeList licenseNode = document.getElementsByTagName("MOB_LIC1");
 		for (int i = 0; i < licenseNode.getLength(); i++) {
 			License dataLicense = transformData((Element) licenseNode.item(i));
-			//System.out.println(" -----------------> dataLicense = "+dataLicense +"  PERSONID = "+dataLicense.getPersonID()+" user = "+SettingsSingleton.getInstance().getUserName().toUpperCase() );
 			if (dataLicense.getPersonID().equals(SettingsSingleton.getInstance().getUserName().toUpperCase())){
 				licenseList.add(dataLicense);
 			}
@@ -225,7 +221,7 @@ public class EntityMapper {
 		return licenseList;
 	}
 
-	public static License transformData(Element element){
+	private static License transformData(Element element){
 		License licenseObj = new License();
 		licenseObj.setIMEInumber(getNodeValue(element,"IMEI"));
 		licenseObj.setPersonID(getNodeValue(element,"PERSONID"));
@@ -233,7 +229,6 @@ public class EntityMapper {
 	}
 
 	/**
-	 *
 	 * 	- return Version properties with value
 	 */
 	public static Version transformVersionData(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
@@ -246,17 +241,22 @@ public class EntityMapper {
 
 		NodeList versionUpdate1Node = document.getElementsByTagName("MOB_UPDATE");
 		for (int i = 0; i <  versionUpdate1Node.getLength(); i++) {
-			versionObj = transformVersion((Element) versionUpdate1Node.item(i));
+			Version version = transformVersion((Element) versionUpdate1Node.item(i));
+			if (version.getMode().equals(UIConstans.VERSION_MODE)){
+				versionObj = version;
+			}
 		}
 
 		return versionObj;
 	}
 
 
-	public static Version transformVersion(Element element){
+
+	private static Version transformVersion(Element element){
 		Version versionInfo = new Version();
 		versionInfo.setAppName(getNodeValue(element,"APPNAME"));
 		versionInfo.setVersionNumber(getNodeValue(element,"VERSION"));
+		versionInfo.setMode(getNodeValue(element,"MODE"));
 
 		NodeList newAppNode = element.getElementsByTagName("DOCLINKS");
 		List<DocLinks> newAppList = new ArrayList<>();
@@ -264,20 +264,21 @@ public class EntityMapper {
 			DocLinks doclinks = transformDocumentData((Element) newAppNode.item(i));
 			newAppList.add(doclinks);
 		}
+
 		versionInfo.setNewAppDetails(newAppList);
 		return versionInfo;
 	}
 
 
-	public static DocLinks transformDocumentData(Element element){
+	private static DocLinks transformDocumentData(Element element){
 		DocLinks docLinks = new DocLinks();
 		docLinks.setDocumentData(getNodeValue(element,"DOCUMENTDATA"));
+
 		return docLinks;
 
 	}
 
 	/**
-	 *
 	 *  - set all ServiceRequestEntity obj properties
 	 */
 	private static ServiceRequestEntity transformTicket(Element element) {

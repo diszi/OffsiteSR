@@ -56,7 +56,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 	/**
 	 *
 	 * @param holder
-	 * @param position
+	 * @param position - item position
 	 *
 	 * 	Long Onclick action on item in @param position
 	 */
@@ -74,7 +74,9 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 		});
 	}
 
-
+	/**
+	 * @return - the total number of items in the data set held by the adapter.
+	 */
 	@Override
 	public int getItemCount() {
         if (workLogs != null && workLogs.size() > 0) {

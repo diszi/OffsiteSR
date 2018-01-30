@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="settings_language_options_names">
+    <string-array name="settings_language_options_names" translatable="false">
         <item>HU</item>
         <item>ENG</item>
     </string-array>
 
-    <string-array name="settings_language_options_values">
+    <string-array name="settings_language_options_values" translatable="false">
         <item>HU</item>
         <item>ENG</item>
     </string-array>
 
 
-    <string name="screen_lock_off">Off</string>
-    <string name="screen_lock_on">On</string>
+    <string name="screen_lock_off" >Off</string>
+    <string name="screen_lock_on" >On</string>
 
-    <string-array name="settings_log_level_option_names">
+    <string-array name="settings_log_level_option_names"  translatable="false">
         <item>DEBUG</item>
         <item>ERROR</item>
     </string-array>
@@ -25,7 +25,7 @@
         <item>@string/settings_log_level_error</item>
     </string-array>
 
-    <string-array name="ticket_status_keys">
+    <string-array name="ticket_status_keys" translatable="false">
         <item>QUEUED</item>
         <item>INPROG</item>
         <item>PENDING</item>
@@ -34,7 +34,7 @@
         <item>CLOSED</item>
     </string-array>
 
-    <string-array name="ticket_status_values">
+    <string-array name="ticket_status_values" >
         <item>@string/status_queued</item>
         <item>@string/status_inProgress</item>
         <item>@string/status_pending</item>
@@ -43,7 +43,7 @@
         <item>@string/status_closed</item>
     </string-array>
 
-    <string-array name="task_status_keys">
+    <string-array name="task_status_keys" translatable="false">
         <item>INPROG</item>
         <item>CAN</item>
         <item>FAIL</item>
@@ -53,7 +53,7 @@
         <item>REVIEW</item>
     </string-array>
 
-    <string-array name="task_status_values">
+    <string-array name="task_status_values" >
         <item>@string/status_inProgress</item>
         <item>@string/status_can</item>
         <item>@string/status_fail</item>
@@ -63,7 +63,7 @@
         <item>@string/status_review</item>
     </string-array>
 
-    <string-array name="priority_ids">
+    <string-array name="priority_ids" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>

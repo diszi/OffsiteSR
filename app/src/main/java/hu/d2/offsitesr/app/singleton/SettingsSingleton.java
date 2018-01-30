@@ -15,7 +15,7 @@ import hu.d2.offsitesr.util.UIConstans;
 /**
  * Created by csabinko on 2017.09.19..
  *
- * Settings task
+ * Settings task/menu
  *
  */
 
@@ -47,15 +47,23 @@ public class SettingsSingleton {
     }
 
 
+
     public String getUserName(){
         return sharedPreferences.getString(UIConstans.LOGGED_IN_USER,null);
     }
 
+    /**
+     *
+     * @return - the selected language value
+     */
     public String getLanguage(){
-
         return sharedPreferences.getString(context.getString(R.string.SettingsLanguageKey),null);
     }
 
+    /**
+     *
+     * @return - a list with selected status
+     */
     public String[] getSelectedStatus()
     {
         Set<String> selections = sharedPreferences.getStringSet(context.getString(R.string.SettingsStatusQueryKey),null);
@@ -70,45 +78,78 @@ public class SettingsSingleton {
 
     }
 
+    /**
+     *
+     * @return - the set maximum list value
+     */
     public String getMaxListValue(){
         return sharedPreferences.getString(context.getString(R.string.SettingsMaxListItemsKey),null);
     }
 
+    /**
+     *
+     * @return - the set ticket synchronize value
+     */
    public String getTicketSynchronization() {
         return sharedPreferences.getString(context.getString(R.string.SettingsSynchronizeTicketListKey), null);
     }
 
+    /**
+     *
+     * @return - the set time out value (min)
+     */
     public String getTimeOutValue(){
         return sharedPreferences.getString(context.getString(R.string.SettingsTimeOutKey),null);
     }
 
+    /**
+     * @return - the set screen lock value (min)
+     */
     public boolean getScreenLockValue(){
        return  sharedPreferences.getBoolean(context.getString(R.string.SettingsScreenLockKey),false);
     }
 
+    /**
+     * @return - the size of downloaded file
+     */
     public String getSizeOfDownloadedFile(){
         return  sharedPreferences.getString(context.getString(R.string.SettingsDownloadedFileSizeKey),null);
     }
 
+    /**
+     * @return - the date when user pressed No button at update dialog
+     */
     public String getDate(){
         return sharedPreferences.getString(context.getString(R.string.sharedPreference_getDate),null);
     }
+
 
     public String getWebUrl(){
         return sharedPreferences.getString(context.getString(R.string.sharedPreference_addFileWebUrl),null);
     }
 
+    /**
+     * @return - date of update
+     */
     public String getDateOfAppUpdate(){
         return sharedPreferences.getString(context.getString(R.string.InfoAppDateofUpdateKey),null);
     }
 
+
+    /**
+     *
+     * @return - the size of the application that is saved in the file
+     */
     public String getSizeOfApp(){
         return sharedPreferences.getString(context.getString(R.string.InfoAppSizeKey),null);
     }
 
 
     /**
-     *  - property file initialization with default values
+     * @param context - actual context of activity
+     * @param userName - logged username
+     *
+     * Property file initialization with default values
      */
     public void init(Context context, String userName){
         this.context = context;
@@ -156,11 +197,13 @@ public class SettingsSingleton {
 
     }
 
-    /**
-     *  - reset user settings
-     *  - property file get default values
-     */
 
+    /**
+     * @param context - actual context of activity where called this method
+     * @param sharedPreferences - property file, where settings values was saved
+     *
+     * Reset user settings  - @param sharedPreferences will receive the default settings
+     */
     public void resetSettings(Context context, SharedPreferences sharedPreferences){
         setDefaultStringValue(sharedPreferences,R.string.SettingsLanguageKey, context.getString(R.string.defaultValue_language));
         setDefaultStringValue(sharedPreferences,R.string.SettingsMaxListItemsKey,context.getString(R.string.defaultValue_maxListItems));

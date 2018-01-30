@@ -21,7 +21,7 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 /**
  * Created by csabinko on 2017.09.19..
  *
- *  - change
+ *   Dialog - contains potential statuses
  */
 
 public class ChooseStatusDialog extends DialogFragment {
@@ -50,6 +50,14 @@ public class ChooseStatusDialog extends DialogFragment {
 			stringMap = (HashMap<String,String>) getArguments().getSerializable(ChooseStatusDialog.SERIALIZABLE_NAME);
 		}
 	}
+
+	/**
+	 * Gives the dialog content
+	 * @param inflater - The LayoutInflater object that can be used to inflate any views in the fragment
+	 * @param container - this is the parent view that the fragment's UI should be attached to
+	 * @param savedInstanceState - his fragment is being re-constructed from a previous saved state as given here
+	 * @return - the View for the fragment's UI, or null.
+	 */
 
 	@Nullable
 	@Override

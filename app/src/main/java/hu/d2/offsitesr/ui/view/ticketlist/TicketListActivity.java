@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -39,17 +40,18 @@ import hu.d2.offsitesr.ui.view.login.LoginActivity;
 import hu.d2.offsitesr.ui.view.settings.SettingsActivity;
 import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
+import hu.d2.offsitesr.ui.view.verifications.UpdateApp;
 import hu.d2.offsitesr.ui.view.verifications.VerificationPresenter;
 import hu.d2.offsitesr.ui.view.verifications.VerificationPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
 
 
-public class TicketListActivity extends AppCompatActivity implements  TicketList{
+public class TicketListActivity extends AppCompatActivity implements  TicketList,UpdateApp{
 
     public static int TICKET_REQUEST_CODE = 0;
 
     private TicketListPresenter presenter;
-    private VerificationPresenter presenterVerification;
+    private VerificationPresenter presenterVerification ;
     private TicketListAdapter ticketListAdapter;
     private List<ServiceRequestEntity> ticketList;
     private String  syncDateString;
@@ -71,7 +73,11 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     @BindView(R.id.actList_syncDate)
     TextView compSyncDate;
 
-
+    /**
+     * @param savedInstanceState - contain the activity previously frozen state, if there was one.
+     * Called when the activity is first created.
+     * Initialize activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +91,6 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
         setScreenLock();
         TimerSingleton.getInstance().setMyActivity(this);
-        TimerSingleton.getInstance().timerStart();
 
         this.setupRecyclerView();
 
@@ -93,7 +98,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         presenter.setView(this);
 
         presenterVerification = new VerificationPresenterImpl();
-        presenterVerification.setTicketView(this);
+        //presenterVerification.setTicketView(this);
 
         String loggidUserName = getLoggedInUser();
         compUserName.setText(loggidUserName);
@@ -122,7 +127,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     /**
-     *  - back button - show alert with logout question
+     * Called when the activity has detected the user's press of the back key.
      */
     @Override
     public void onBackPressed() {
@@ -132,13 +137,22 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     /**
-     *  - user interaction on screen
+     * Called whenever a key, touch, or trackball event is dispatched to the activity.
+     *  - user interaction on screen - reset timer counter
      */
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        TimerSingleton.getInstance().timerStop();
-        TimerSingleton.getInstance().timerStart();
+        TimerSingleton.getInstance().resetTimer();
+    }
+
+    /**
+     * Called as part of the activity lifecycle when an activity is
+     * about to go into the background as the result of user choice.
+     */
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
     }
 
     @Override
@@ -172,8 +186,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     /**
-     *
-     *   - loading the details of the ticket
+     *  - loading the details of the ticket
      */
     @Override
     public void launchDetailsView(TicketHolder entityHolder) {
@@ -197,9 +210,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     /**
-     *
-     * @return user name
-     *
+     * @return username
      */
     public String getLoggedInUser()
     {
@@ -231,8 +242,10 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
 
 
     /**
+     * Initialize the contents of the Activity's standard options menu.
      * @param menu - menu layout initialization
-     * @return
+     * @return - You must return true for the menu to be displayed; if you return false it will not be shown.
+     *
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -242,8 +255,9 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
 
 
     /**
+     * This hook is called whenever an item in your options menu is selected.
      * @param item - initialization
-     * @return
+     * @return - boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -304,18 +318,19 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     }
 
     /**
-     * @param updateVersionObj
+     * @param updateVersionObj  - object which contains information about new app
      *   If @param doesn't contain information about new app => no updates
      *   If @param != null => new version is available => alert dialog
      */
-    public void verificUpdate(Version updateVersionObj){
+    @Override
+    public void verificUpdateInformations(Version updateVersionObj) throws ParseException {
         newAppVersion = updateVersionObj.getVersionNumber();
         if ( updateVersionObj.getAppName() == null){
             updateActivity.setUpdateAvailable(false);
             Toast.makeText(this,getString(R.string.updateTab_unavailableUpdate),Toast.LENGTH_SHORT).show();
         }else
         {
-            if (updateActivity.compareVersionNames(EnvironmentTool.getVersionApp(),updateVersionObj.getVersionNumber()) == -1){
+            if (updateActivity.compareVersionNames(EnvironmentTool.getVersionApp(),newAppVersion) == -1){
                 updateActivity.setUpdateAvailable(true);
                 android.app.FragmentManager fm = getFragmentManager();
                 UpdateAppDialog updateDialog = UpdateAppDialog.newInstance("TicketListActivity",newAppVersion);
@@ -326,17 +341,18 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
                 Toast.makeText(this,getString(R.string.updateTab_unavailableUpdate),Toast.LENGTH_SHORT).show();
             }
         }
-        updateActivity.getUpdateAvailable();
+        //updateActivity.getUpdateAvailable();
 
     }
-
 
     /**
      *  Download new app, if the user wants to update app
      */
-    public void downloadApp(){
+    @Override
+    public void downloadApp() {
         presenterVerification.getNewApp(EnvironmentTool.getAppPackageName(),newAppVersion,this);
     }
+
 
     /**
      *  Runtime method - thread
@@ -379,6 +395,10 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         }
 
     }
+
+
+
+
 
 
 }

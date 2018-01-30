@@ -29,6 +29,10 @@ public class QuestionDialogPreference extends DialogPreference {
 
     }
 
+    /**
+     * Prepares the dialog builder to be shown when the preference is clicked. Use this to set custom properties on the dialog
+     * @param builder
+     */
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);

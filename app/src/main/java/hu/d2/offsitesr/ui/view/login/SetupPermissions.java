@@ -32,6 +32,10 @@ public class SetupPermissions extends AbsRuntimePermission {
                 Manifest.permission.ACCESS_WIFI_STATE}, R.string.app_permissionMsg,10);
     }
 
+    /**
+     * @param requestCode
+     * If the user grant all permission - login activity is loading
+     */
     @Override
     public void onPermissionsGranted(int requestCode) {
         Intent i = new Intent(this,LoginActivity.class);

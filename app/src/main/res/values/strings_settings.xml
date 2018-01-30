@@ -92,7 +92,7 @@
     <string name="InfoAppVersionTitle">Version</string>
     <string name="InfoAppVersionSummary">%1$s</string>
 
-    <string name="InfoAppDateofUpdateKey">info_app_update</string>
+    <string name="InfoAppDateofUpdateKey">info_app_dateOfupdate</string>
     <string name="InfoAppDateofUpdateTitle">Date of update</string>
     <string name="InfoAppDateofUpdateSummary">%1$s</string>
     

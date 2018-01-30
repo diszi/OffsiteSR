@@ -24,7 +24,10 @@ import static hu.d2.offsitesr.R.string.SettingsMaxListItemsKey;
 /**
  * Created by csabinko on 2017.09.18..
  *
- *  - settings tab
+ *  Settings menu -  this page uses act_settings_preferences.xml
+ *  This activity shows one or more headers of preferences,
+ *  each of which is associated with a PreferenceFragment
+ *  to display the preferences of that header.
  */
 
 public class SettingsActivity extends PreferenceActivity  {
@@ -35,7 +38,7 @@ public class SettingsActivity extends PreferenceActivity  {
         super.onCreate(savedInstanceState);
 
         TimerSingleton.getInstance().setMyActivity(this);
-        TimerSingleton.getInstance().timerStart();
+
         EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainSettingsFragment()).commit();
         PreferenceManager.setDefaultValues(SettingsActivity.this, R.xml.act_settings_preferences,false);
@@ -43,16 +46,23 @@ public class SettingsActivity extends PreferenceActivity  {
     }
 
     /**
-     * - screen interaction
+     * Called whenever a key, touch, or trackball event is dispatched to the activity.
+     *  - user interaction on screen - reset timer (stop timer + start timer)
      */
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        TimerSingleton.getInstance().timerStop();
-        TimerSingleton.getInstance().timerStart();
+        TimerSingleton.getInstance().resetTimer();
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+    }
 
+    /**
+     * Interface definition for a callback to be invoked when a shared preference is changed.
+     */
     public static class MainSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
 
@@ -80,7 +90,10 @@ public class SettingsActivity extends PreferenceActivity  {
 
         /**
          * @param sharedPreferences : property file for user, contains settings values
-         * @param key - identification
+         *                           The SharedPreferences that received the change.
+         * @param key - identification, the key of the preference that was changed, added, or removed.
+         * Called when a shared preference is changed, added, or removed.
+         * This may be called even if a preference is set to its existing value.
          */
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -104,7 +117,7 @@ public class SettingsActivity extends PreferenceActivity  {
             } else if (key.equals(getString(R.string.SettingsTimeOutKey))) {
                 setEditTextPreferenceDetails(key, R.string.SettingsTimeOutSummary);
                 String timeOut = sharedPreferences.getString(key, null);
-                TimerSingleton.getInstance().timerStart();
+
             } else if (key.equals(getString(R.string.SettingsScreenLockKey))) {
                 setSwitchPreferenceDetails(key, R.string.SettingsScreenLockSummary);
                 boolean value = sharedPreferences.getBoolean(key, true);

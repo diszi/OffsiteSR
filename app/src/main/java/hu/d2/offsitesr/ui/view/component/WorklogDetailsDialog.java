@@ -17,8 +17,8 @@ import hu.d2.offsitesr.ui.model.WorkLog;
 /**
  * Created by szidonia.laszlo on 2017. 12. 04..
  *
- *   - dialog will display after long onclick on worklog item - worklog tab
- *   - display long description
+ *   Dialog will show after  long onclick on worklog item
+ *   Display long description
  */
 
 public class WorklogDetailsDialog extends DialogFragment {

@@ -15,14 +15,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
 
 /**
  * Created by szidonia.laszlo on 2018. 01. 19..
  *
- *      - download new app (application update)
+ * Download new app (application update)
  */
 
 public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
@@ -35,6 +38,9 @@ public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
         this.activity = activity;
     }
 
+    /**
+     * Runs on the UI thread before doInBackground(Params...).
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -46,6 +52,11 @@ public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
         bar.show();
     }
 
+
+    /**
+     * Runs on the UI thread after publishProgress(Progress...) is invoked.
+     * @param values - The values indicating progress.
+     */
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
@@ -63,7 +74,12 @@ public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
 
     }
 
-
+    /**
+     * Runs on the UI thread after doInBackground(Params...).
+     * This method won't be invoked if the task was cancelled.
+     * This method must be called from the main thread of your app.
+     * @param result - the result of the operation computed by doInBackground(Params...).
+     */
     @Override
     protected void onPostExecute(Boolean result){
         super.onPostExecute(result);
@@ -77,7 +93,13 @@ public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
         }
     }
 
-
+    /**
+     * Invoked on the background thread immediately after onPreExecute() finishes executing.
+     * This step is used to perform background computation that can take a long time.
+     * The parameters of the asynchronous task are passed to this step.
+     * @param params - params[0] = fileName, params[1] = base64 code of file
+     * @return - a result, defined by the subclass of this task. In this case the result is a boolean = true / false
+     */
     @Override
     protected Boolean doInBackground(String... params) {
         Boolean flag = false;
@@ -110,19 +132,17 @@ public class DownloadUpdate  extends AsyncTask<String,Integer,Boolean> {
     }
 
     /**
-     *
+     * Method to install APK
      * @param location = directory where the app APK is located
      * @param fileName = apk name
-     *
-     *  - install APK
      */
     public void openNewVersion(String location, String fileName)  {
         Intent intentInstall;
         Uri apkUri = null;
         File newFile = new File(location,fileName+".apk");
+        SettingsSingleton.getInstance().getSharedPreferences().edit().putString(activity.getString(R.string.InfoAppDateofUpdateKey), EnvironmentTool.convertDate(new Date(), UIConstans.DATE_PATTERN_HU)).commit();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-
             intentInstall = new Intent(Intent.ACTION_INSTALL_PACKAGE);
             apkUri = FileProvider.getUriForFile(activity,activity.getApplicationContext().getPackageName()+".provider",newFile);
             intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

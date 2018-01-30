@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,10 +22,16 @@ import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import hu.d2.offsitesr.app.singleton.TimerSingleton;
+import hu.d2.offsitesr.ui.view.component.LicenseDialog;
 import hu.d2.offsitesr.ui.view.verifications.UpdateActivity;
 import hu.d2.offsitesr.util.EnvironmentTool;
+import hu.d2.offsitesr.util.UIConstans;
 
-
+/**
+ * 	Login page
+ * 	Access to the application requires authentication with the username and password.
+ */
 public class LoginActivity extends AppCompatActivity implements Login {
 
 
@@ -57,7 +65,9 @@ public class LoginActivity extends AppCompatActivity implements Login {
 
 	}
 
-
+	/**
+	 * Called when the activity has detected the user's press of the back key.
+	 */
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -81,6 +91,10 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		presenter.onDestroy();
 	}
 
+	/**
+	 * 	Onclick on login button - check text fields - if the fields are
+	 * 							completed and data are correct => entry
+	 */
 	@OnClick(R.id.actLogin_Button)
 	public void onClick() {
 		compLoginButton.setEnabled(false);
@@ -126,17 +140,37 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
 	}
 
+
 	@Override
 	public void launchListView() {
 
-		initApplication();
-		Intent intent = new Intent(this, UpdateActivity.class);
-		startActivity(intent);
+		/**
+		 * 	Deadline verification
+		 * 	If EnvironmentTool.deadLineVerification() method return true => the deadline has not expired
+		 * 												OR  return false => the deadline expired
+		 */
+		if (EnvironmentTool.deadLineVerification(EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_HU))){
+			initApplication();
+			Intent intent = new Intent(this, UpdateActivity.class);
+			TimerSingleton.getInstance().initAndStartTimer(this);
+			startActivity(intent);
+		}else
+		{
+			android.app.FragmentManager fm = getFragmentManager();
+			LicenseDialog alertDialogFragment = new LicenseDialog();
+			alertDialogFragment.show(fm,"LicenseDialog");
+
+		}
+
 		/* License verification
 		Intent intent = new Intent(this, LicenseActivity.class);
 		startActivity(intent);*/
 	}
 
+	/**
+	 * @param userName - logged username
+	 * This method call init method: setting property file
+	 */
     @Override
     public void setUserToContext(String userName) {
 		SettingsSingleton.getInstance().init(this,userName);
@@ -148,5 +182,6 @@ public class LoginActivity extends AppCompatActivity implements Login {
 	private void initApplication(){
 		HolderSingleton.getInstance().setContext(this);
 	}
+
 
 }

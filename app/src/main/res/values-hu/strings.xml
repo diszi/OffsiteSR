@@ -64,7 +64,7 @@
     <string name="assDetails_custodian">Felelős:</string>
     <string name="assDetails_description">Leírás:</string>
     <string name="assDetails_location">Hely:</string>
-    <string name="assDetails_numb"></string>
+
     <string name="assDetails_num">Eszköz:</string>
     <string name="assDetails_pluspcustomer">Ügyfél:</string>
     <string name="assDetails_serialnum">Sorszám:</string>
@@ -90,7 +90,7 @@
     <string name="app_permissionEnable">Kérem engedélyezze az összes hozzáférést</string>
     <string name="app_permissionGranted">Hozzáférés megadva</string>
     <string name="dialogSavePicture_hint">Kép neve</string>
-    <string name="dialog_upload">Feltöltés</string>
+
     <string name="button_upload">Feltöltés</string>
     <string name="button_save">Mentés</string>
     <string name="dialogLicenseError_message">Helytelen licensz engedély!</string>

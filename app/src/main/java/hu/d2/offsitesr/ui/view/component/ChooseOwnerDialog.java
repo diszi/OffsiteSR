@@ -22,7 +22,8 @@ import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
 /**
  * Created by csabinko on 2017.09.19..
  *
- * 	- alert with radio button - choose owner for ticket
+ * 	Dialog - contains potential owners
+ *
  */
 
 public class ChooseOwnerDialog extends DialogFragment {
@@ -42,6 +43,14 @@ public class ChooseOwnerDialog extends DialogFragment {
 
 	private Map<String, String> stringMap;
 
+
+	/**
+	 * Gives the dialog content
+	 * @param inflater - The LayoutInflater object that can be used to inflate any views in the fragment
+	 * @param container - this is the parent view that the fragment's UI should be attached to
+	 * @param savedInstanceState - his fragment is being re-constructed from a previous saved state as given here
+	 * @return - the View for the fragment's UI, or null.
+	 */
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

@@ -20,7 +20,7 @@ public interface VerificationPresenter {
 
     void setUpdateView(UpdateActivity viewUpdate);
 
-    void setTicketView(TicketListActivity viewTicket);
+//    void setTicketView(TicketListActivity viewTicket);
 
     void onDestroy();
 
