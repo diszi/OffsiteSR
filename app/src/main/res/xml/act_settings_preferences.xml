@@ -20,7 +20,7 @@
             android:summary="@string/SettingsSynchronizeTicketListSummary"
             android:inputType="number"
             ></EditTextPreference>
-        </PreferenceCategory>
+    </PreferenceCategory>
 
 
     <PreferenceCategory
@@ -29,13 +29,18 @@
             android:key="@string/SettingsMaxHistoryLengthKey"
             android:title="@string/SettingsMaxHistoryLengthTitle"
             android:summary="@string/SettingsMaxHistoryLengthSummary"
-            android:inputType="number"></EditTextPreference>
+            android:inputType="number"
+            android:enabled="false"
+            ></EditTextPreference>
 
         <EditTextPreference
             android:key="@string/SettingsSynchronizeHistoryKey"
             android:title="@string/SettingsSynchronizeHistoryTitle"
             android:summary="@string/SettingsSynchronizeHistorySummary"
+            android:enabled="false"
             android:inputType="number"></EditTextPreference>
+
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -44,13 +49,14 @@
             android:key="@string/SettingsMaxLogSizeKey"
             android:title="@string/SettingsMaxLogSizeTitle"
             android:summary="@string/SettingsMaxLogSizeSummary"
+            android:enabled="false"
             android:inputType="number"></EditTextPreference>
 
         <ListPreference
             android:key="@string/SettingsMaxLogLevelKey"
             android:title="@string/SettingsMaxLogLevelTitle"
             android:summary="@string/SettingsMaxLogLevelSummary"
-
+            android:enabled="false"
             android:entries="@array/settings_log_level_option_values"
             android:entryValues="@array/settings_log_level_option_names" />
 
@@ -58,7 +64,9 @@
             android:key="@string/SettingsLogRetentionKey"
             android:title="@string/SettingsLogRetentionTitle"
             android:summary="@string/SettingsLogRetentionSummary"
+            android:enabled="false"
             android:inputType="number"></EditTextPreference>
+
 
     </PreferenceCategory>
 
@@ -83,34 +91,34 @@
         </SwitchPreference>
 
 
-            <hu.d2.offsitesr.ui.view.component.QuestionDialogPreference
+        <hu.d2.offsitesr.ui.view.component.QuestionDialogPreference
             android:key="@string/SettingsResetKey"
             android:title="@string/SettingsResetTitle">
-                </hu.d2.offsitesr.ui.view.component.QuestionDialogPreference>
+        </hu.d2.offsitesr.ui.view.component.QuestionDialogPreference>
 
 
 
-  </PreferenceCategory>
+    </PreferenceCategory>
 
 
     <PreferenceCategory
         android:title="@string/SettingsQueryLimitsCategoryName">
 
-         <MultiSelectListPreference
-             android:key="@string/SettingsStatusQueryKey"
-             android:title="@string/SettingsStatusQueryTitle"
-             android:summary="@string/SettingsStatusQuerySummary"
-             android:entries="@array/ticket_status_values_settings"
-             android:entryValues="@array/ticket_status_keys_settings">
-          </MultiSelectListPreference>
+        <MultiSelectListPreference
+            android:key="@string/SettingsStatusQueryKey"
+            android:title="@string/SettingsStatusQueryTitle"
+            android:summary="@string/SettingsStatusQuerySummary"
+            android:entries="@array/ticket_status_values_settings"
+            android:entryValues="@array/ticket_status_keys_settings">
+        </MultiSelectListPreference>
 
         <!--<EditTextPreference-->
-            <!--android:key="@string/SettingsDownloadedFileSizeKey"-->
-            <!--android:title="@string/SettingsDownloadedFileSizeTitle"-->
-            <!--android:summary="@string/SettingsDownloadedFileSizeSummary"-->
-            <!--android:inputType="number"></EditTextPreference>-->
+        <!--android:key="@string/SettingsDownloadedFileSizeKey"-->
+        <!--android:title="@string/SettingsDownloadedFileSizeTitle"-->
+        <!--android:summary="@string/SettingsDownloadedFileSizeSummary"-->
+        <!--android:inputType="number"></EditTextPreference>-->
 
-   </PreferenceCategory>
+    </PreferenceCategory>
 
 
     <PreferenceCategory
@@ -126,5 +134,4 @@
 
 
     </PreferenceCategory>
-
 </PreferenceScreen>
