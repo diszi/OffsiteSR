@@ -709,6 +709,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdatePrioritySOAP.SOAP_ACTION,String.format(UpdatePrioritySOAP.getSoapPayload(ticketID,priority),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
+                    System.out.println(" responseCode -> priority = "+responseCode);
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         emitter.onNext(priority);

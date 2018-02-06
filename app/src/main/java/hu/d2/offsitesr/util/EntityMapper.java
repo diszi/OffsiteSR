@@ -109,7 +109,7 @@ public class EntityMapper {
 	/**
 	 *  - get attachment list for ticketID - call when download file
 	 */
-	public static List<Attachment> transformAttachmentList(InputStream inputStream, String ticketID) throws ParserConfigurationException, IOException, SAXException {
+	public static List<Attachment> transformAttachmentList(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
 		List<Attachment> attachmentDocLinksList = new LinkedList<>();
 		DocumentBuilder builder = null;
 		Document document = null;
@@ -183,7 +183,7 @@ public class EntityMapper {
 	/**
 	 * 	- get Worklog list for recordkey
 	 */
-	public static List<WorkLog> transformWorkLogList(InputStream inputStream, String recordkey) throws ParserConfigurationException, IOException, SAXException{
+	public static List<WorkLog> transformWorkLogList(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException{
 		List<WorkLog> workLogList = new LinkedList<>();
 		DocumentBuilder builder = null;
 		Document document = null;
@@ -193,13 +193,13 @@ public class EntityMapper {
 
 		NodeList wlNode = document.getElementsByTagName("WORKLOG");
 		for (int i = 0; i < wlNode.getLength(); i++) {
-			WorkLog worklogObj = transformWorkLogRefresh((Element) wlNode.item(i),recordkey);
+			WorkLog worklogObj = transformWorkLogRefresh((Element) wlNode.item(i));
 			workLogList.add(worklogObj);
 		}
 		return workLogList;
 	}
 
-	private static WorkLog transformWorkLogRefresh(Element element,String recordkey){
+	private static WorkLog transformWorkLogRefresh(Element element){
 		WorkLog workLog = new WorkLog();
 		workLog.setRecordKey(getNodeValue(element, "RECORDKEY"));
 		workLog.setCreatedBy(getNodeValue(element, "CREATEBY"));
