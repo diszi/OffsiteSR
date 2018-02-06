@@ -166,7 +166,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		super.onActivityResult(requestCode, resultCode, data);
 
 		String encodedFile="", path="", fileName="";
-		Uri selectedFileUri= null;
+		Uri selectedFileUri=null;
 
 		if (requestCode == 0 && resultCode == RESULT_OK && null != data && data.getData() != null) {
 			//UPLOAD FILE
@@ -267,7 +267,6 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 	@Override
 	public void updateStatusRemote(String status) {
-//		System.out.println(" Activity ===> newSTatus = "+status);
 		presenter.updateStatusRemote(ticket.getTicketId(),status);
 
 	}
@@ -301,6 +300,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
         ticket.setOwner(newOwner);
 		ticketDetailsTab.updateOwner(newOwner);
 		ticketHolder.setChanged(true);
+
 		presenterTicketList.getOwners(newOwner);
 
     }

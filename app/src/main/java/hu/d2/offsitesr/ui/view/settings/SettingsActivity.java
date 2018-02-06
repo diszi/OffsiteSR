@@ -158,26 +158,15 @@ public class SettingsActivity extends PreferenceActivity  {
 
 
         private void setEditTextPreferenceDetails(String key, int summaryId) {
-            int nr ;
             EditTextPreference editTextPreference = (EditTextPreference) findPreference(key);
-            if (key.equals(getString(R.string.SettingsMaxListItemsKey))){
-                nr = Integer.parseInt(editTextPreference.getText());
-                if (nr > 100){
+            String summaryValue = editTextPreference.getText();
+
+            if ((key.equals(getString(R.string.SettingsMaxListItemsKey)) && (Integer.parseInt(summaryValue)  > 100 )) || (key.equals(getString(R.string.SettingsSynchronizeTicketListKey)) && (Integer.parseInt(summaryValue) > 360))){
                     Toast.makeText(getContext(),getString(R.string.settings_error_msg),Toast.LENGTH_SHORT).show();
-                }else{
-                    editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
-                }
-            }else
-                if (key.equals(getString(R.string.SettingsSynchronizeTicketListKey))){
-                    nr = Integer.parseInt(editTextPreference.getText());
-                    if (nr > 360){
-                        Toast.makeText(getContext(),getString(R.string.settings_error_msg),Toast.LENGTH_SHORT).show();
-                    }else{
+                }else
+                    {
                         editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
                     }
-            }
-
-
         }
 
         private void setListPreferenceDetails(String key, int summaryId) {

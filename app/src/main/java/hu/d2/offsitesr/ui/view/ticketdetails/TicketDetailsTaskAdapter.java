@@ -27,21 +27,12 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 
 	private ArrayList<Task> tasks = new ArrayList<>();
     private TicketDetailsTaskTab ticketDetailsTaskTab;
-//    public String statusTab;
-//
-//	public void setStatusTab(String status){
-//		this.statusTab = status;
-//	}
-//
-//	public String getStatusTab(){
-//		return statusTab;
-//	}
+
 	public TicketDetailsTaskAdapter(TicketDetailsTaskTab ticketTab) {
 		this.ticketDetailsTaskTab = ticketTab;
 	}
 
 	public void setTasks(List<Task> tasks) {
-
 		this.tasks.clear();
 		this.tasks.addAll(tasks);
 		this.notifyDataSetChanged();
@@ -52,13 +43,6 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 		task.setStatus(status);
 		this.notifyDataSetChanged();
 	}
-
-
-//	public void setImageButton(String tabStatus){
-//		System.out.println(" ---> TAB STATUS = "+tabStatus);
-//		setStatusTab(tabStatus);
-//	}
-
 
 
 	@Override

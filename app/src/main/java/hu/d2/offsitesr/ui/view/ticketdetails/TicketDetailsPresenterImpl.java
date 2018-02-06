@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
 
+import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
@@ -57,7 +58,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     private Disposable disposable5;
     private Observable<String> observable5;
 
-
     private Disposable disposable6;
     private Observable<String> observable6;
 
@@ -66,7 +66,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     private Observable<List<DocLinks>> observableFile;
     private Disposable disposableFile;
-
 
     private Observable<List<WorkLog>> observableWorkLog;
     private Disposable disposableWorklog;
@@ -142,14 +141,12 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
 
     public void getWorkLogList(String ticketID){
-        Log.d("------------------>"," Observable created - worklog");
-       // if (observableWorkLog == null){
-            observableWorkLog = createWorklogObservable(ticketID);
-       // }
+        Log.d("------------------>"," Observable created");
+        observableWorkLog = createWorklogObservable(ticketID);
 
         disposableWorklog = observableWorkLog
                 .subscribe((worklogList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - Worklog");
+                    Log.d("------------------>"," Get Data");
                     worklogTabView.loadWorklogList(worklogList);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -171,14 +168,14 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     @Override
     public void getAttachmentList(String ticketID) {
-        Log.d("------------------>"," Observable created - attachment");
+        Log.d("------------------>"," Observable created");
         // if (observableWorkLog == null){
         observableAttachment = createAttachmentObservable(ticketID);
         // }
 
         disposableAttachment = observableAttachment
                 .subscribe((ticketList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - Attachment ");
+                    Log.d("------------------>"," Get Data");
                     attachmentTabView.loadAttachmentRefreshList(ticketList);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -209,7 +206,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         Log.d("------------------>"," Subscribe to ObservableFile ");
         disposableFile = observableFile
                 .subscribe((attachmentDocLinkList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - File - "+attachmentDocLinkList.size());
+                    Log.d("------------------>"," Get Data - File ");
                     attachmentTabView.loadAttachmentDocLinksList(attachmentDocLinkList);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -259,13 +256,13 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     @Override
     public void addWorkLogRemote(String ticketID, String owner,String shortDesc, String longDesc) {
 
-        Log.d("------------------>"," Observable created - addWorklog");
+        Log.d("------------------>"," Observable created ");
         observable3= createAddWorkLogObservable(ticketID, owner, shortDesc, longDesc);
 
-        Log.d("------------------>"," Subscribe to Observable  - addWorklog");
+        Log.d("------------------>"," Subscribe to Observable");
         disposable3 = observable3
                 .subscribe((ticketList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data  - addWorklog");
+                    Log.d("------------------>"," Get Data");
 
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -286,11 +283,11 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     public void updateStatusRemote(String ticketID, String status) {
         view.showLoading();
        // if (observable == null){
-            Log.d("------------------>"," Observable created - updateStatusRemote - "+ticketID+" -- "+status);
+            Log.d("------------------>"," Observable created");
             observable = createUpdateStatusObservable(ticketID,status);
         //}
 
-        Log.d("------------------>"," Subscribe to Observable - updateStatusRemote - "+ticketID+"  --- "+status);
+        Log.d("------------------>"," Subscribe to Observable ");
         disposable = observable
                 .subscribe((newStatus) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data - updateStatusRemote  --- newStatus = "+newStatus);
@@ -310,9 +307,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 });
     }
 
-
+    @Override
     public void  updateTaskStatusRemote(String ticketID, String status,int pos,String wonum,String siteID){
-
+        Log.d("------------------>"," Observable created");
         observable7 = createUpdateTaskStatusObservable(ticketID,status,wonum,siteID);
         disposable7 = observable7.subscribe((newStatus) -> { // onNext Consumer
             Log.d("------------------>"," Get Data - updateTaskStatusRemote  --- newStatus = "+newStatus);
@@ -337,13 +334,13 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     public void updateOwnerRemote(String ticketID, String owner) {
         view.showLoading();
         //if (observable2 == null){
-            Log.d("------------------>"," Observable created - updateOwnerRemote");
+            Log.d("------------------>"," Observable created ");
             observable2 = createUpdateOwnerObservable(ticketID,owner);
         //}
-        Log.d("------------------>"," Subscribe to Observable - updateOwnerRemote "+ticketID+" - "+owner);
+        Log.d("------------------>"," Subscribe to Observable ");
         disposable2 = observable2
                 .subscribe((newOwner) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - updateOwnerRemote ");
+                    Log.d("------------------>"," Get Data ");
                     view.updateOwner(newOwner);
 
                 }, (throwable) -> { // onError Consumer
@@ -365,14 +362,14 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     public void updatePriorityRemote(String ticketID, String priority) {
         view.showLoading();
      //   if (observable5 == null){
-            Log.d("------------------>"," Observable created - updatePriorityRemote");
+            Log.d("------------------>"," Observable created ");
             observable5 = createUpdatePriorityObservable(ticketID,priority);
 //        }
 
-       Log.d("------------------>"," Subscribe to Observable - updatePriorityRemote");
+       Log.d("------------------>"," Subscribe to Observable ");
         disposable5 = observable5
                 .subscribe((newPriority) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - updatePriorityRemote");
+                    Log.d("------------------>"," Get Data");
                     view.updatePriority(newPriority);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -393,14 +390,13 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     public void updateOwnerGroupRemote(String ticketID, String ownerGroup) {
         view.showLoading();
       //  if (observable4 == null){
-            Log.d("------------------>"," Observable created - ticketID = "+ticketID+" - ownerGroup - new = "+ownerGroup);
+            Log.d("------------------>"," Observable created");
             observable4 = createUpdateOwnerGroupObservable(ticketID,ownerGroup);
      //   }
 
-       // Log.d("------------------>"," Subscribe to Observable - ticketID = "+ticketID+" - ownerGroup - new = "+ownerGroup);
         disposable4 = observable4
                 .subscribe((newOwnerGroup) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - newOwnerGroup ="+newOwnerGroup);
+                    Log.d("------------------>"," Get Data");
                     view.updateOwnerGroup(newOwnerGroup);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -424,7 +420,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     public Observable<List<WorkLog>> createWorklogObservable(String ticketID){
         Observable<List<WorkLog>> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start GetWorkLogSOAP Call  "+ticketID);
+                Log.d("------------------>"," Start GetWorkLogSOAP Call  ");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
@@ -434,7 +430,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
-                        List<WorkLog> workLogList = EntityMapper.transformWorkLogList(inputStream,ticketID);
+                        List<WorkLog> workLogList = EntityMapper.transformWorkLogList(inputStream);
                         emitter.onNext(workLogList);
                         emitter.onComplete();
                     } else {
@@ -472,7 +468,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
-                        List<Attachment> attachmentList = EntityMapper.transformAttachmentList(inputStream,ticketID);
+                        List<Attachment> attachmentList = EntityMapper.transformAttachmentList(inputStream);
                         emitter.onNext(attachmentList);
                         emitter.onComplete();
                     } else {
@@ -501,7 +497,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
         Observable<List<DocLinks>> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start GetFileSOAP Call  - File  - "+ticketID+" "+doclinksID);
+                Log.d("------------------>"," Start GetFileSOAP Call ");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
@@ -511,7 +507,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         List<DocLinks> attachmentDocLinkList = EntityMapper.transformAttachmentDocLinksList(inputStream,doclinksID);
-                        System.out.println(" -> Preseneter = "+attachmentDocLinkList.size());
                         emitter.onNext(attachmentDocLinkList);
                         emitter.onComplete();
                     } else {
@@ -584,14 +579,13 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         Observable<String> result = Observable.create(emitter -> {
             try {
 //                Thread.sleep(2000);
-                Log.d("------------------>"," Start Remote SOAP Call - status = "+status);
+                Log.d("------------------>"," Start Remote SOAP Call ");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateTaskStatusSOAP.SOAP_ACTION,String.format(UpdateTaskStatusSOAP.getSoapPayload(ticketID,status, wonum,  siteID)));
 
                     int responseCode = connection.getResponseCode();
-                    System.out.println(" responseCode = "+responseCode);
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         emitter.onNext(status);
@@ -668,7 +662,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         Observable<String> result = Observable.create(emitter -> {
             try {
 //                Thread.sleep(2000);
-                Log.d("------------------>"," Start Remote SOAP Call - "+ticketID+" "+owner);
+                Log.d("------------------>"," Start Remote SOAP Call ");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {

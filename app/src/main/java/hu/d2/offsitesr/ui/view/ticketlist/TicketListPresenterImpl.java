@@ -164,7 +164,6 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         List<ServiceRequestEntity> ticketList = EntityMapper.transformTicketList(inputStream);
-                        System.out.println(" -- ticketList size ="+ticketList.size());
                         emitter.onNext(ticketList);
                         emitter.onComplete();
                     } else {
@@ -196,7 +195,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
     public Observable<OwnerHolder> createGetOwnerObservable(String owner) {
         Observable<OwnerHolder> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start Remote SOAP Call - OWNER");
+                Log.d("------------------>"," Start Remote SOAP Call");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
@@ -234,7 +233,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
     public Observable<OwnerHolder> createGetOwnerGroupObservable(List<String> ownerGroupsList) {
         Observable<OwnerHolder> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start Remote SOAP Call - GROUP");
+                Log.d("------------------>"," Start Remote SOAP Call");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {

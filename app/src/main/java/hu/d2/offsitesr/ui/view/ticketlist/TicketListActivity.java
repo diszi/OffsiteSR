@@ -98,7 +98,6 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         presenter.setView(this);
 
         presenterVerification = new VerificationPresenterImpl();
-        //presenterVerification.setTicketView(this);
 
         String loggidUserName = getLoggedInUser();
         compUserName.setText(loggidUserName);
@@ -341,7 +340,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
                 Toast.makeText(this,getString(R.string.updateTab_unavailableUpdate),Toast.LENGTH_SHORT).show();
             }
         }
-        //updateActivity.getUpdateAvailable();
+
 
     }
 
@@ -395,10 +394,5 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         }
 
     }
-
-
-
-
-
 
 }

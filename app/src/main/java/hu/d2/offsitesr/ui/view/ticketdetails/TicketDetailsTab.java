@@ -48,18 +48,6 @@ public class TicketDetailsTab extends Fragment {
     private static int TAKE_PICTURE_REQUEST =1;
 
     private ServiceRequestEntity ticket;
-//    public TicketDetailsTaskTab task;
-//
-//    public String actualStatus;
-//
-//    public void setActualStatus(String s){
-//        System.out.println("");
-//        this.actualStatus = s;
-//    }
-//
-//    public String getActualStatus(){
-//        return actualStatus;
-//    }
 
     @BindView(R.id.actDetails_id)
     TextView compId;
@@ -96,8 +84,6 @@ public class TicketDetailsTab extends Fragment {
     ImageButton ownerGroupButton;
     @BindView(R.id.actDetails_editOwnerButton)
     ImageButton ownerButton;
-
-
 
 
     private ChooseStatusDialog chooseStatusDialog;
@@ -141,29 +127,19 @@ public class TicketDetailsTab extends Fragment {
         choosePriorityDialog = new ChoosePriorityDialog();
         assetDetailsDialog = new AssetDetailsDialog();
 
-        //task = new TicketDetailsTaskTab();
-
         loadTicketDetails(ticket);
         return contentView;
     }
 
 
     private void loadTicketDetails(ServiceRequestEntity entity) {
-//        System.out.println("STATUS ---> "+entity.getStatus());
 
-        /**
-         * if status is closed => buttons visibility = false
-         */
         if (entity.getStatus().equals("CLOSED")){
             statusButton.setVisibility(View.INVISIBLE);
             priorityButton.setVisibility(View.INVISIBLE);
             ownerButton.setVisibility(View.INVISIBLE);
             ownerGroupButton.setVisibility(View.INVISIBLE);
         }
-
-
-//        setActualStatus(entity.getStatus());
-//        System.out.println(" ACTUAL status = "+getActualStatus());
 
         compId.setText(entity.getTicketId());
         compDescription.setText(entity.getDescription());
@@ -275,7 +251,6 @@ public class TicketDetailsTab extends Fragment {
 
 
     public void updateStatus(String newStatus) {
-//        System.out.println(" --- ticketTab = "+newStatus);
         ticket.setStatus(newStatus);
 		compStatus.setText(newStatus);
 
@@ -285,7 +260,6 @@ public class TicketDetailsTab extends Fragment {
             ownerButton.setVisibility(View.INVISIBLE);
             ownerGroupButton.setVisibility(View.INVISIBLE);
         }
-        //task.setTaskImageButton(newStatus);
 
     }
 

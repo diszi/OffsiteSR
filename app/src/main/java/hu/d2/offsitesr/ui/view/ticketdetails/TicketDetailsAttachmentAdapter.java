@@ -79,7 +79,6 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
                 count++;
             }
             DocLinks attachmentDocObj = this.attachmentDocLinksList.get(count);
-//            System.out.println(" ---> ADAPTER = "+attachmentDocObj.getWebURL()+" -- count =  "+count);
 
             // Call file downloader
             DownloadTask downloadTask = new DownloadTask(ticketDetailsAttachmentTab.getContext());

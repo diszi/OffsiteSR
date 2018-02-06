@@ -94,6 +94,8 @@ public class SavePictureDialog extends DialogFragment {
         final View contentView = inflater.inflate(R.layout.dialog_save_picture, container, false);
         ButterKnife.bind(this, contentView);
 
+
+
         imageUri = Uri.parse(photoPath);
         file = new File(imageUri.getPath());
         pictureView.setImageURI(imageUri);
@@ -107,42 +109,40 @@ public class SavePictureDialog extends DialogFragment {
 
 
         uploadButton.setOnClickListener((v -> {
+            String path="", encodedImage="";
+
             String pictureName = picName.getText().toString();
 
-            String path="";
-            String encodedImage="";
-
-                if (pictureName.equals("")) {
+            if (pictureName.equals("")) {
                     pictureName = file.getName();
                     path = photoPath.substring(0,photoPath.lastIndexOf('/') + 1)+pictureName;
-                }else{
+            }else{
                     path = photoPath.substring(0,photoPath.lastIndexOf('/') + 1)+pictureName+UIConstans.IMAGE_EXTENSION;
                     pictureName = pictureName+UIConstans.IMAGE_EXTENSION;
-                }
+            }
 
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaScanIntent.setData(imageUri);
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            mediaScanIntent.setData(imageUri);
 
-                Bitmap bm = BitmapFactory.decodeFile(photoPath);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            Bitmap bm = BitmapFactory.decodeFile(photoPath);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
 
-                byte[] byteArrayImage = baos.toByteArray();
-                encodedImage = Base64.encodeToString(byteArrayImage,Base64.DEFAULT);
+            byte[] byteArrayImage = baos.toByteArray();
+            encodedImage = Base64.encodeToString(byteArrayImage,Base64.DEFAULT);
 
-                try {
-                    FileOutputStream fo = new FileOutputStream(file);
-                    fo.write(baos.toByteArray());
-                    fo.flush();
-                    fo.close();
-                } catch (FileNotFoundException e) {
+            try {
+                FileOutputStream fo = new FileOutputStream(file);
+                fo.write(baos.toByteArray());
+                fo.flush();
+                fo.close();
+            } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+            } catch (IOException e) {
                     e.printStackTrace();
-                }
+            }
 
-                ((TicketDetails)getActivity()).addFile(file.getName(), pictureName,encodedImage,path);
-
+            ((TicketDetails)getActivity()).addFile(file.getName(), pictureName,encodedImage,path);
 
             dismiss();
         }));

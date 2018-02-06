@@ -39,8 +39,8 @@ public class ChooseTaskStatusDialog extends DialogFragment {
     TextView title;
 
     private HashMap<String, String> stringMap;
-    String wonum,siteId;
-    int pos;
+    private String wonum,siteId;
+    private int pos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -39,6 +39,7 @@ public class Task implements Serializable{
     public void setSiteId(String siteId){
         this.siteId =siteId;
     }
+
     public String getSiteId(){
         return siteId;
     }

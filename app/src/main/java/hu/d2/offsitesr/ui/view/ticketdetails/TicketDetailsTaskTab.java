@@ -31,15 +31,6 @@ public class TicketDetailsTaskTab extends Fragment {
 
     private TicketDetailsTaskAdapter adapter;
     private ServiceRequestEntity ticket;
-//    private TicketDetailsTab tab;
-//    public int position;
-
-//    public void setPosition(int pos){
-//        this.position = pos;
-//    }
-//    public int getPosition(){
-//        return position;
-//    }
 
     @BindView(R.id.actDetails_taskList)
     RecyclerView compTasks;
@@ -77,8 +68,6 @@ public class TicketDetailsTaskTab extends Fragment {
         this.setupRecyclerView();
 
         adapter.setTasks(ticket.getTasks());
-
-
         compEmpty.setVisibility(ticket.getTasks().isEmpty()?View.VISIBLE:View.GONE);
 
         return contentView;
@@ -117,13 +106,5 @@ public class TicketDetailsTaskTab extends Fragment {
         adapter.setTaskStatus(newStatus,pos);
     }
 
-   /* public void setTaskImageButton(String statusTab){
-        System.out.println(" setTaskImageButton ---> status = "+statusTab +" ---> adapter = "+adapter);
-
-        if (statusTab.equals("CLOSED")){
-
-          adapter.setImageButton(statusTab);
-        }
-    }*/
 
 }
