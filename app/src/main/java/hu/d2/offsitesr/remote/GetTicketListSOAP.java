@@ -34,8 +34,7 @@ public class GetTicketListSOAP {
        int daySync = Integer.parseInt(daysForSynchronize);
 
       whereConditionForSynchronization.append("and reportdate >= CURRENT_DATE-"+daySync+" DAYS");
-     //  whereConditionForSynchronization.append("and reportdate>=(CURRENT_timestamp - interval '"+daySync+"' DAY)");
-       whereConditionForOwner.append("and owner='"+ SettingsSingleton.getInstance().getUserName().toUpperCase()+"'");
+      whereConditionForOwner.append("and owner='"+ SettingsSingleton.getInstance().getUserName().toUpperCase()+"'");
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n"+
                 "   <soapenv:Header/>\n"+

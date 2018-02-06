@@ -35,12 +35,8 @@ import hu.d2.offsitesr.ui.view.login.LoginActivity;
 public class NetworkTool {
 
     private static String SERVER_IP_ADDRESS = "91.82.81.106";
-    // private static String SERVER_IP_ADDRESS = "mobil-icd.invitech.hu";
     private static int CONNECTION_TIME_OUT = 5000;
     private static int READ_TIME_OUT = 5000;
-
-    public static String username ;
-    public static String password; //He11oo69.
 
 
     public static String LOGIN_URL ="https://"+SERVER_IP_ADDRESS+"/maxrest/rest/login";
@@ -60,21 +56,13 @@ public class NetworkTool {
     }
 
 
-//    public static HttpURLConnection createConnection(String url,String user, String pw) throws IOException {
-//        return createConnection(url,null,null,false,true,user,pw);
-//    }
-
-
     public static HttpURLConnection createSOAPConnection(String url, String soapAction,String soapPayload) throws IOException {
         System.out.println(soapPayload);
-       //return createConnection(url, soapAction,soapPayload, true,true,username,password);
         return createConnection(url, soapAction,soapPayload, true,true);
     }
 
     public static HttpURLConnection createSOAPGETConnection(String url, String soapAction, String soapPayload) throws IOException {
-        System.out.println(" GET SOAP ====>>>  "+username+" - "+password);
        return createConnection(url, soapAction, soapPayload, true,false);
-      //  return createConnection(url, soapAction, soapPayload, true,false,username,password);
     }
 
 
@@ -82,27 +70,19 @@ public class NetworkTool {
 
    private static synchronized HttpURLConnection createConnection(String SOAP_URL, String SOAP_ACTION, String SOAP_PAYLOAD, boolean isSoap, boolean isPost) throws IOException {
 
-//       username=user;
-//       password =pw;
-
 
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-
                     return new PasswordAuthentication("d2", "12345678".toCharArray());
-               //return new PasswordAuthentication(username, password.toCharArray());
                 }
 
         });
 
 
-       System.out.println(" AFTER authenticator --->  username = "+username+" password = "+password);
-
 
         HttpURLConnection connection = getHttpsConnection(SOAP_URL);
-//       String credentials = username + ":" + password;
-//       System.out.println("  CREDENTIALS => "+credentials );
+
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects(false);
         connection.setRequestMethod(isPost?"POST":"GET");
@@ -111,18 +91,16 @@ public class NetworkTool {
         connection.setReadTimeout(READ_TIME_OUT);
 
         if (isSoap){
-            System.out.println(" IS_SOAP = true");
+
             connection.setRequestProperty("Content-Type", "text/xml");
             connection.setRequestProperty("charset", "utf-8");
             connection.setRequestProperty("SOAPAction", SOAP_ACTION);
-           // connection.setRequestProperty("Authorization","basic "+ android.util.Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT));
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(SOAP_PAYLOAD.getBytes());
 
         } else {
-            System.out.println(" IS_SOAP = false");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-           // connection.setRequestProperty("Authorization","basic "+ android.util.Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT));
+
         }
         return connection;
 
@@ -139,8 +117,6 @@ public class NetworkTool {
            // My CER file that I put in the assets folder
            InputStream caInput = new BufferedInputStream(LoginActivity.mContext.getAssets().open("1.cer"));
 
-
-           //InputStream caInput = new BufferedInputStream(LoginActivity.mContext.getAssets().open("der.cer"));
 
            Certificate ca;
            try{

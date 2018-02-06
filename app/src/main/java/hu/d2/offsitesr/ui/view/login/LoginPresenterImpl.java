@@ -64,27 +64,9 @@ public class LoginPresenterImpl implements LoginPresenter {
 					connection = NetworkTool.createConnection(NetworkTool.LOGIN_URL);
 					
 					String credentials = userName + ":" + password;
+					String base64Credentials = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
+					connection.setRequestProperty("maxauth", base64Credentials);
 
-					/**
-					 * Native - test
-					 *
-					  connection = NetworkTool.createConnection(NetworkTool.LOGIN_URL);*/
-					  String base64Credentials = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
-					 connection.setRequestProperty("maxauth", base64Credentials);
-
-
-
-					System.out.println(" ---------> credentials = "+credentials);
-/**
- * Basic - invitech éles
- *
- * connection = NetworkTool.createConnection(NetworkTool.LOGIN_URL,userName,password);
- * connection.setRequestProperty("Authorization","basic "+ android.util.Base64.encodeToString(credentials.getBytes(),Base64.DEFAULT));
- *
- */
-
-
-					System.out.println(" CONNECTION "+connection);
 					connection.connect();
 					int responseCode = connection.getResponseCode();
 					if (responseCode == 200) {
