@@ -6,10 +6,12 @@
     <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
     <string name="SettingsMaxListItemsTitle">Lista hossza</string>
     <string name="SettingsMaxListItemsSummary">Maximum %1$s lista elem</string>
+    <string name="SettingsMaxListItemsDialogMsg">Max. 100 nap</string>
 
     <string name="SettingsSynchronizeTicketListKey">settings_ticket_synchronize</string>
     <string name="SettingsSynchronizeTicketListTitle"> Lista szinkronizálása</string>
     <string name="SettingsSynchronizeTicketListSummary">%1$s nap </string>
+    <string name="SettingsSynchronizeTicketListDialogMsg">Max. 360 nap</string>
 
     <!-- History category -->
     <string name="SettingsHistoryCategoryName">Előzmények</string>

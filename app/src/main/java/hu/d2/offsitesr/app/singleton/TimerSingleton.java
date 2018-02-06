@@ -61,6 +61,7 @@ public class TimerSingleton {
         String timeOut =  SettingsSingleton.getInstance().getTimeOutValue();
         Integer timeOutInt = Integer.parseInt(timeOut);
         Integer timeOutInMilisecond = timeOutInt*1000*60;
+        timer=null;
         timer = new Timer();
         LogOutTimerTask logOutTimerTask = new LogOutTimerTask();
         timer.schedule(logOutTimerTask,timeOutInMilisecond);

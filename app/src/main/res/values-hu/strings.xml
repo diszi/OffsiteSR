@@ -111,5 +111,6 @@
     <string name="dialogUpdateApp_versionNr">"Verzió: "</string>
     <string name="updateTab_unavailableUpdate">Nincs frissítés!</string>
     <string name="menuTicketList_update">Frissítés</string>
+    <string name="settings_error_msg">A megadott érték nagyobb a megengedettnél</string>
 
 </resources>

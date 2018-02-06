@@ -13,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
+import android.widget.Toast;
 
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
@@ -157,8 +158,26 @@ public class SettingsActivity extends PreferenceActivity  {
 
 
         private void setEditTextPreferenceDetails(String key, int summaryId) {
+            int nr ;
             EditTextPreference editTextPreference = (EditTextPreference) findPreference(key);
-            editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
+            if (key.equals(getString(R.string.SettingsMaxListItemsKey))){
+                nr = Integer.parseInt(editTextPreference.getText());
+                if (nr > 100){
+                    Toast.makeText(getContext(),getString(R.string.settings_error_msg),Toast.LENGTH_SHORT).show();
+                }else{
+                    editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
+                }
+            }else
+                if (key.equals(getString(R.string.SettingsSynchronizeTicketListKey))){
+                    nr = Integer.parseInt(editTextPreference.getText());
+                    if (nr > 360){
+                        Toast.makeText(getContext(),getString(R.string.settings_error_msg),Toast.LENGTH_SHORT).show();
+                    }else{
+                        editTextPreference.setSummary(getString(summaryId, editTextPreference.getText()));
+                    }
+            }
+
+
         }
 
         private void setListPreferenceDetails(String key, int summaryId) {

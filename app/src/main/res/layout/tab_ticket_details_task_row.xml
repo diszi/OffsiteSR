@@ -81,15 +81,14 @@
             android:layout_marginRight="5dp"
             android:layout_weight="0.34" />
 
+
+
         <ImageButton
-            android:id="@+id/actDetails_editStatusButton"
+            android:id ="@+id/actDetails_editStatusButton"
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
-
             android:backgroundTint="@android:color/transparent"
-
-
             android:src="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 

@@ -10,7 +10,7 @@ public class Task implements Serializable{
 
     public static String SERIALIZABLE_NAME = "Task_Serializable";
 
-    private String activity;
+    private String activity; //wonum
     private String summary;
     private String owner;
     private String ownerGroup;
@@ -18,6 +18,7 @@ public class Task implements Serializable{
     private String asset;
     private String ci;
     private String status;
+    private String siteId;
 
     public String getActivity() {
         return activity;
@@ -33,6 +34,13 @@ public class Task implements Serializable{
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public void setSiteId(String siteId){
+        this.siteId =siteId;
+    }
+    public String getSiteId(){
+        return siteId;
     }
 
     public String getOwner() {

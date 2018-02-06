@@ -23,7 +23,11 @@ public interface TicketDetails {
 
     void updateStatusRemote(String status);
 
+    void updateTaskStatusRemote(String status,int pos,String wonum,String siteid);
+
     void updateStatus(String newStatus);
+
+    void updateTaskStatus(String newStatus,int pos);
 
     void updateOwnerGroup(String newOwnerGroup);
 

@@ -15,6 +15,9 @@ public class UpdateStatusSOAP {
 
 
     public static String getSoapPayload(String ticketId,String status){
+
+
+
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +
                 "   <soapenv:Header/>\n" +

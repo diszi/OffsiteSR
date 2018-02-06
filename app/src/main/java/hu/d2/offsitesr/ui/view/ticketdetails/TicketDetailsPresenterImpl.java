@@ -20,6 +20,7 @@ import hu.d2.offsitesr.remote.UpdateOwnerSOAP;
 import hu.d2.offsitesr.remote.UpdatePrioritySOAP;
 import hu.d2.offsitesr.remote.UpdateStatusSOAP;
 
+import hu.d2.offsitesr.remote.UpdateTaskStatusSOAP;
 import hu.d2.offsitesr.ui.model.Attachment;
 import hu.d2.offsitesr.ui.model.DocLinks;
 import hu.d2.offsitesr.ui.model.WorkLog;
@@ -60,6 +61,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     private Disposable disposable6;
     private Observable<String> observable6;
 
+    private Disposable disposable7;
+    private Observable<String> observable7;
+
     private Observable<List<DocLinks>> observableFile;
     private Disposable disposableFile;
 
@@ -85,7 +89,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     public void setWorklogView(TicketDetailsWorkLogTab worklogTabView){
         this.worklogTabView = worklogTabView;
-        System.out.println("worklogTabView = "+this.worklogTabView);
     }
 
 
@@ -116,6 +119,11 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
             disposable6.dispose();
         }
 
+        if (disposable7 != null && !disposable7.isDisposed()) {
+            Log.d("------------------>"," Dispose observer");
+            disposable7.dispose();
+        }
+
         if (disposableFile != null && !disposableFile.isDisposed()){
             Log.d("------------------>"," DisposeFile observer");
             disposableFile.dispose();
@@ -134,7 +142,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
 
     public void getWorkLogList(String ticketID){
-        //worklogTabView.showLoading();
         Log.d("------------------>"," Observable created - worklog");
        // if (observableWorkLog == null){
             observableWorkLog = createWorklogObservable(ticketID);
@@ -164,7 +171,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     @Override
     public void getAttachmentList(String ticketID) {
-        //attachmentTabView=new TicketDetailsAttachmentTab();
         Log.d("------------------>"," Observable created - attachment");
         // if (observableWorkLog == null){
         observableAttachment = createAttachmentObservable(ticketID);
@@ -172,7 +178,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
         disposableAttachment = observableAttachment
                 .subscribe((ticketList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - Attachment");
+                    Log.d("------------------>"," Get Data - Attachment ");
                     attachmentTabView.loadAttachmentRefreshList(ticketList);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -194,7 +200,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     @Override
     public void getFileDetails(String ticketID,String doclinksID){
-       // view.showLoading();
+        view.showLoading();
         //if (observableFile == null){
             Log.d("------------------>"," ObservableFile created ");
             observableFile = createFileObservable(ticketID,doclinksID);
@@ -203,7 +209,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         Log.d("------------------>"," Subscribe to ObservableFile ");
         disposableFile = observableFile
                 .subscribe((attachmentDocLinkList) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - File");
+                    Log.d("------------------>"," Get Data - File - "+attachmentDocLinkList.size());
                     attachmentTabView.loadAttachmentDocLinksList(attachmentDocLinkList);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -216,18 +222,19 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     view.hideLoading();
                 }, () -> { // onComplate Action
 
-                   // view.hideLoading();
+                    view.hideLoading();
                    // getOwners();
                 });
     }
 
-    public void addFile(String ticketID, String fileName, String fileNameWithoutExtension, String encode, String urlname){
+    public void addFile(String ticketID, String generatedName, String fileNameWithExtension, String encode, String urlname){
+
         view.showLoading();
-        if (observable6 == null) {
+       // if (observable6 == null) {
             Log.d("------------------>", " Observable created ");
 
-            observable6 = createAddFileObservable(ticketID,fileName,fileNameWithoutExtension, encode,urlname);
-        }
+            observable6 = createAddFileObservable(ticketID,generatedName,fileNameWithExtension, encode,urlname);
+       // }
         Log.d("------------------>"," Subscribe to Observable ");
         disposable6 = observable6
                 .subscribe((filename) -> { // onNext Consumer
@@ -242,7 +249,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     view.showErrorMessage(errorMessageCode);
                     view.hideLoading();
                 }, () -> { // onComplate Action
-                    // view.showSuccessMessage();
+                     view.showSuccessMessage();
                     view.hideLoading();
                 });
 
@@ -251,7 +258,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     @Override
     public void addWorkLogRemote(String ticketID, String owner,String shortDesc, String longDesc) {
-        //view.showLoading();
 
         Log.d("------------------>"," Observable created - addWorklog");
         observable3= createAddWorkLogObservable(ticketID, owner, shortDesc, longDesc);
@@ -279,15 +285,15 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
     public void updateStatusRemote(String ticketID, String status) {
         view.showLoading();
-        if (observable == null){
-            Log.d("------------------>"," Observable created - updateStatusRemote");
+       // if (observable == null){
+            Log.d("------------------>"," Observable created - updateStatusRemote - "+ticketID+" -- "+status);
             observable = createUpdateStatusObservable(ticketID,status);
-        }
+        //}
 
-        Log.d("------------------>"," Subscribe to Observable - updateStatusRemote");
+        Log.d("------------------>"," Subscribe to Observable - updateStatusRemote - "+ticketID+"  --- "+status);
         disposable = observable
                 .subscribe((newStatus) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - updateStatusRemote");
+                    Log.d("------------------>"," Get Data - updateStatusRemote  --- newStatus = "+newStatus);
                     view.updateStatus(newStatus);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -304,19 +310,42 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 });
     }
 
+
+    public void  updateTaskStatusRemote(String ticketID, String status,int pos,String wonum,String siteID){
+
+        observable7 = createUpdateTaskStatusObservable(ticketID,status,wonum,siteID);
+        disposable7 = observable7.subscribe((newStatus) -> { // onNext Consumer
+            Log.d("------------------>"," Get Data - updateTaskStatusRemote  --- newStatus = "+newStatus);
+            view.updateTaskStatus(newStatus,pos);
+        }, (throwable) -> { // onError Consumer
+            int errorMessageCode = R.string.error_general;
+            if (throwable instanceof UIThrowable){
+                UIThrowable uiThrowable = (UIThrowable) throwable;
+                errorMessageCode = uiThrowable.getMessageId();
+            }
+
+            view.showErrorMessage(errorMessageCode);
+            view.hideLoading();
+        }, () -> { // onComplate Action
+            view.showSuccessMessage();
+            view.hideLoading();
+        });
+    }
+
+
     @Override
     public void updateOwnerRemote(String ticketID, String owner) {
         view.showLoading();
-        if (observable2 == null){
+        //if (observable2 == null){
             Log.d("------------------>"," Observable created - updateOwnerRemote");
             observable2 = createUpdateOwnerObservable(ticketID,owner);
-        }
-
-        Log.d("------------------>"," Subscribe to Observable - updateOwnerRemote");
+        //}
+        Log.d("------------------>"," Subscribe to Observable - updateOwnerRemote "+ticketID+" - "+owner);
         disposable2 = observable2
                 .subscribe((newOwner) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data - updateOwnerRemote");
+                    Log.d("------------------>"," Get Data - updateOwnerRemote ");
                     view.updateOwner(newOwner);
+
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
                     if (throwable instanceof UIThrowable){
@@ -335,12 +364,12 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     @Override
     public void updatePriorityRemote(String ticketID, String priority) {
         view.showLoading();
-        if (observable5 == null){
+     //   if (observable5 == null){
             Log.d("------------------>"," Observable created - updatePriorityRemote");
             observable5 = createUpdatePriorityObservable(ticketID,priority);
-        }
+//        }
 
-        Log.d("------------------>"," Subscribe to Observable - updatePriorityRemote");
+       Log.d("------------------>"," Subscribe to Observable - updatePriorityRemote");
         disposable5 = observable5
                 .subscribe((newPriority) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data - updatePriorityRemote");
@@ -363,15 +392,15 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     @Override
     public void updateOwnerGroupRemote(String ticketID, String ownerGroup) {
         view.showLoading();
-        if (observable4 == null){
-            Log.d("------------------>"," Observable created");
+      //  if (observable4 == null){
+            Log.d("------------------>"," Observable created - ticketID = "+ticketID+" - ownerGroup - new = "+ownerGroup);
             observable4 = createUpdateOwnerGroupObservable(ticketID,ownerGroup);
-        }
+     //   }
 
-        Log.d("------------------>"," Subscribe to Observable");
+       // Log.d("------------------>"," Subscribe to Observable - ticketID = "+ticketID+" - ownerGroup - new = "+ownerGroup);
         disposable4 = observable4
                 .subscribe((newOwnerGroup) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data");
+                    Log.d("------------------>"," Get Data - newOwnerGroup ="+newOwnerGroup);
                     view.updateOwnerGroup(newOwnerGroup);
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
@@ -472,7 +501,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
         Observable<List<DocLinks>> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start GetFileSOAP Call  - File ");
+                Log.d("------------------>"," Start GetFileSOAP Call  - File  - "+ticketID+" "+doclinksID);
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
@@ -482,7 +511,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         List<DocLinks> attachmentDocLinkList = EntityMapper.transformAttachmentDocLinksList(inputStream,doclinksID);
-
+                        System.out.println(" -> Preseneter = "+attachmentDocLinkList.size());
                         emitter.onNext(attachmentDocLinkList);
                         emitter.onComplete();
                     } else {
@@ -550,6 +579,50 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
 
+
+    public Observable<String> createUpdateTaskStatusObservable(String ticketID, String status,String wonum,String siteID) {
+        Observable<String> result = Observable.create(emitter -> {
+            try {
+//                Thread.sleep(2000);
+                Log.d("------------------>"," Start Remote SOAP Call - status = "+status);
+                HttpURLConnection connection = null;
+                InputStream inputStream = null;
+                try {
+                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateTaskStatusSOAP.SOAP_ACTION,String.format(UpdateTaskStatusSOAP.getSoapPayload(ticketID,status, wonum,  siteID)));
+
+                    int responseCode = connection.getResponseCode();
+                    System.out.println(" responseCode = "+responseCode);
+                    if (responseCode == 200) {
+                        inputStream = connection.getInputStream();
+                        emitter.onNext(status);
+                        emitter.onComplete();
+                    }else if (responseCode == 500) {
+                        emitter.onError(new UIThrowable(R.string.error_failedOperation));
+
+                    } else {
+                        emitter.onError(new UIThrowable(R.string.error_network));
+                    }
+
+                } finally {
+                    if (connection != null) {
+                        if (inputStream != null){
+                            inputStream.close();
+                        }
+
+                        connection.disconnect();
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e("", "---------->", ex);
+                emitter.onError(new UIThrowable(R.string.error_unknown));
+            }
+
+        });
+
+        return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
+    }
+
+
     public Observable<String> createUpdateOwnerGroupObservable(String ticketID, String ownerGroup) {
         Observable<String> result = Observable.create(emitter -> {
             try {
@@ -561,6 +634,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerGroupSOAP.SOAP_ACTION,String.format(UpdateOwnerGroupSOAP.getSoapPayload(ticketID,ownerGroup),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
+
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         emitter.onNext(ownerGroup);
@@ -594,7 +668,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         Observable<String> result = Observable.create(emitter -> {
             try {
 //                Thread.sleep(2000);
-                Log.d("------------------>"," Start Remote SOAP Call");
+                Log.d("------------------>"," Start Remote SOAP Call - "+ticketID+" "+owner);
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
@@ -681,7 +755,6 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
 
                 try {
-                    System.out.println("ShortDesc = "+shortDesc+"  ->");
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
@@ -714,7 +787,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
 
-    public Observable<String> createAddFileObservable(String ticketID,String fileName , String fileNameWithoutExtension, String encode, String urlname) {
+    public Observable<String> createAddFileObservable(String ticketID,String generatedName , String fileNameWithExtension, String encode, String urlname) {
         Observable<String> result = Observable.create(emitter -> {
             try {
 //                Thread.sleep(2000);
@@ -722,14 +795,14 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,fileName, fileNameWithoutExtension, encode, urlname),view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,generatedName, fileNameWithExtension, encode, urlname),view.getLoggedInUser()));
 
 
                     int responseCode = connection.getResponseCode();
 
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
-                        emitter.onNext(fileName);
+                        emitter.onNext(generatedName);
                         emitter.onComplete();
                     }else if (responseCode == 500) {
                         emitter.onError(new UIThrowable(R.string.error_failedOperation));

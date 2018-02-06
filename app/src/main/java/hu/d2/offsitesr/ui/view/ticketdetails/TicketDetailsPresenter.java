@@ -30,6 +30,8 @@ public interface TicketDetailsPresenter {
 
 	 void updateStatusRemote(String ticketID, String status);
 
+	 void updateTaskStatusRemote(String ticketID, String status,int pos,String wonum,String siteID);
+
 	 void updateOwnerGroupRemote(String ticketID, String ownerGroup);
 
 	 void updateOwnerRemote(String ticketID, String owner);

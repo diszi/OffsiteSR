@@ -1,6 +1,8 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
+import android.app.ProgressDialog;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +27,39 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 
 	private ArrayList<Task> tasks = new ArrayList<>();
     private TicketDetailsTaskTab ticketDetailsTaskTab;
-
+//    public String statusTab;
+//
+//	public void setStatusTab(String status){
+//		this.statusTab = status;
+//	}
+//
+//	public String getStatusTab(){
+//		return statusTab;
+//	}
 	public TicketDetailsTaskAdapter(TicketDetailsTaskTab ticketTab) {
 		this.ticketDetailsTaskTab = ticketTab;
 	}
 
 	public void setTasks(List<Task> tasks) {
+
 		this.tasks.clear();
 		this.tasks.addAll(tasks);
 		this.notifyDataSetChanged();
 	}
+
+	public void setTaskStatus(String status,int pos){
+		Task task = tasks.get(pos);
+		task.setStatus(status);
+		this.notifyDataSetChanged();
+	}
+
+
+//	public void setImageButton(String tabStatus){
+//		System.out.println(" ---> TAB STATUS = "+tabStatus);
+//		setStatusTab(tabStatus);
+//	}
+
+
 
 	@Override
 	public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,9 +81,11 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
         holder.btnEditStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ticketDetailsTaskTab.onClickOnStatusImageButton();
+                ticketDetailsTaskTab.onClickOnStatusImageButton(position,task.getActivity(),task.getSiteId());
             }
         });
+
+
 	}
 
 	/**
@@ -92,8 +119,11 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 		TextView compCI;
 		@BindView(R.id.actDetailsTask_status)
 		TextView compStatus;
+
 		@BindView(R.id.actDetails_editStatusButton)
 		ImageButton btnEditStatus;
+
+
 
 		public TaskViewHolder(View itemView) {
 			super(itemView);
@@ -101,6 +131,10 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 		}
 
 		public void bind(Task task) {
+
+			if (task.getStatus().equals("CLOSE") ){
+				btnEditStatus.setVisibility(View.INVISIBLE);
+			}
 			compActivity.setText(task.getActivity());
 			compSummary.setText(task.getSummary());
 			compOwner.setText(task.getOwner());

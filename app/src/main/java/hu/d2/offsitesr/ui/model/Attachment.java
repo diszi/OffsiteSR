@@ -20,6 +20,7 @@ public class Attachment implements Serializable {
     private String fileSize;
     private String fileName;
     private String reference;
+    private String description;
 
     public Attachment(){}
 
@@ -62,15 +63,16 @@ public class Attachment implements Serializable {
     }
 
     public String getFileName(){
-        if (getWebURL() != null) {
-            fileName = getWebURL().substring(getWebURL().lastIndexOf('/') + 1, getWebURL().length());
-        }else
-        {
-            fileName = null;
-        }
         return fileName;
     }
 
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public String getDescription(){
+        return description;
+    }
     public String getDoclinksID(){
         return doclinksID;
     }

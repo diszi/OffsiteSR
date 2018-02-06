@@ -163,7 +163,7 @@ public class SettingsSingleton {
 
         }
         if (getSelectedStatus() == null) {
-            setDefaultStringSetValue(sharedPreferences,R.string.SettingsStatusQueryKey,new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.ticket_status_keys))));
+            setDefaultStringSetValue(sharedPreferences,R.string.SettingsStatusQueryKey,new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.ticket_status_keys_settings))));
 
         }
         if (getMaxListValue() == null) {

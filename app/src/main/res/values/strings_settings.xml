@@ -6,10 +6,12 @@
     <string name="SettingsMaxListItemsKey">settings_ticket_list_max_size</string>
     <string name="SettingsMaxListItemsTitle">List size</string>
     <string name="SettingsMaxListItemsSummary">Max %1$s list items</string>
+    <string name="SettingsMaxListItemsDialogMsg">Max. 100 days</string>
 
     <string name="SettingsSynchronizeTicketListKey">settings_ticket_synchronize</string>
     <string name="SettingsSynchronizeTicketListTitle">Ticket list synchronization</string>
     <string name="SettingsSynchronizeTicketListSummary">%1$s days </string>
+    <string name="SettingsSynchronizeTicketListDialogMsg">Max. 360 days</string>
 
 
     <!-- History category -->

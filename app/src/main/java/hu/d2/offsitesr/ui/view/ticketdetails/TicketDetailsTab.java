@@ -3,19 +3,29 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
@@ -25,6 +35,8 @@ import hu.d2.offsitesr.ui.view.component.ChooseOwnerDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseOwnerGroupDialog;
 import hu.d2.offsitesr.ui.view.component.ChoosePriorityDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
+import hu.d2.offsitesr.util.EnvironmentTool;
+import hu.d2.offsitesr.util.UIConstans;
 
 /**
  * This class is a fragment. Contains details of the specified ticket.
@@ -36,6 +48,18 @@ public class TicketDetailsTab extends Fragment {
     private static int TAKE_PICTURE_REQUEST =1;
 
     private ServiceRequestEntity ticket;
+//    public TicketDetailsTaskTab task;
+//
+//    public String actualStatus;
+//
+//    public void setActualStatus(String s){
+//        System.out.println("");
+//        this.actualStatus = s;
+//    }
+//
+//    public String getActualStatus(){
+//        return actualStatus;
+//    }
 
     @BindView(R.id.actDetails_id)
     TextView compId;
@@ -64,16 +88,28 @@ public class TicketDetailsTab extends Fragment {
     @BindView(R.id.actDetails_scrollView)
     ScrollView compScrollView;
 
+    @BindView(R.id.actDetails_editStatusButton)
+    ImageButton statusButton;
+    @BindView(R.id.actDetails_editPriorityButton)
+    ImageButton priorityButton;
+    @BindView(R.id.actDetails_editOwnerGroupButton)
+    ImageButton ownerGroupButton;
+    @BindView(R.id.actDetails_editOwnerButton)
+    ImageButton ownerButton;
+
+
+
+
     private ChooseStatusDialog chooseStatusDialog;
     private ChooseOwnerGroupDialog chooseOwnerGroupDialog;
     private ChooseOwnerDialog chooseOwnerDialog;
     private ChoosePriorityDialog choosePriorityDialog;
     private AssetDetailsDialog assetDetailsDialog;
-    //private SavePictureDialog savePictureDialog;
 
     public TicketDetailsTab() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +140,8 @@ public class TicketDetailsTab extends Fragment {
         chooseOwnerDialog = new ChooseOwnerDialog();
         choosePriorityDialog = new ChoosePriorityDialog();
         assetDetailsDialog = new AssetDetailsDialog();
-      //  savePictureDialog = new SavePictureDialog();
+
+        //task = new TicketDetailsTaskTab();
 
         loadTicketDetails(ticket);
         return contentView;
@@ -112,6 +149,22 @@ public class TicketDetailsTab extends Fragment {
 
 
     private void loadTicketDetails(ServiceRequestEntity entity) {
+//        System.out.println("STATUS ---> "+entity.getStatus());
+
+        /**
+         * if status is closed => buttons visibility = false
+         */
+        if (entity.getStatus().equals("CLOSED")){
+            statusButton.setVisibility(View.INVISIBLE);
+            priorityButton.setVisibility(View.INVISIBLE);
+            ownerButton.setVisibility(View.INVISIBLE);
+            ownerGroupButton.setVisibility(View.INVISIBLE);
+        }
+
+
+//        setActualStatus(entity.getStatus());
+//        System.out.println(" ACTUAL status = "+getActualStatus());
+
         compId.setText(entity.getTicketId());
         compDescription.setText(entity.getDescription());
         compStatus.setText(entity.getStatus());
@@ -138,14 +191,31 @@ public class TicketDetailsTab extends Fragment {
         getActivity().startActivityForResult(Intent.createChooser(intent,getString(R.string.actDetails_chooseButton)),PICK_FILE_REQUEST_CODE);
     }
 
+
+
     /*
     *   OnClick on camera icon - entry in phone camera mode
     * */
     @OnClick(R.id.actDetails_takePictureButton)
     public  void onClickTakePictureButton() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        getActivity().startActivityForResult(intent,TAKE_PICTURE_REQUEST);
+        File photoFile = null;
+
+        try{
+            photoFile =EnvironmentTool.createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (photoFile != null ){
+            Uri photoUri = FileProvider.getUriForFile((TicketDetailsActivity)getActivity(),
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
+            getActivity().startActivityForResult(intent,TAKE_PICTURE_REQUEST);
+        }
+
     }
+
 
     /*
     *   OnClick on zoom icom - display asset details in dialog or error message (msg: no assigned asset)
@@ -205,8 +275,18 @@ public class TicketDetailsTab extends Fragment {
 
 
     public void updateStatus(String newStatus) {
+//        System.out.println(" --- ticketTab = "+newStatus);
         ticket.setStatus(newStatus);
 		compStatus.setText(newStatus);
+
+		if (newStatus.equals("CLOSED")){
+		    statusButton.setVisibility(View.INVISIBLE);
+            priorityButton.setVisibility(View.INVISIBLE);
+            ownerButton.setVisibility(View.INVISIBLE);
+            ownerGroupButton.setVisibility(View.INVISIBLE);
+        }
+        //task.setTaskImageButton(newStatus);
+
     }
 
     public void updateOwner(String newOwner) {

@@ -1,9 +1,12 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,8 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,6 +35,8 @@ import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
+import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenter;
+import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.FileUtils;
 
@@ -42,9 +49,9 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 
 	private TicketDetailsPresenter presenter;
+	private TicketListPresenter presenterTicketList;
 	private ServiceRequestEntity ticket;
 	private TicketHolder ticketHolder;
-	private SavePictureDialog savePictureDialog;
 	private String syncDateString;
 	private int[] tabAttachmentIcon ={
 			R.drawable.ic_attachment_noti
@@ -95,11 +102,12 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-		savePictureDialog = new SavePictureDialog();
         compSyncDate.setText(syncDateString);
 
 		presenter = new TicketDetailsPresenterImpl();
 		presenter.setView(this);
+
+		presenterTicketList = new TicketListPresenterImpl();
 
 		compTabLayout.setupWithViewPager(compTabViewPager);
 		addTabFragmentsToViewPager(compTabViewPager);
@@ -135,6 +143,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 		taskTab = new TicketDetailsTaskTab();
 		taskTab.setArguments(bundle);
+
 		adapter.addTab(taskTab, getString(R.string.actDetails_task) + " (" + ticket.getTasks().size() + ")");
 
 		attachmentTab = new TicketDetailsAttachmentTab();
@@ -156,9 +165,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		String encodedFile="", path="", fileName="", fileNameWithoutExtension="";
+		String encodedFile="", path="", fileName="";
 		Uri selectedFileUri= null;
-		int pos;
 
 		if (requestCode == 0 && resultCode == RESULT_OK && null != data && data.getData() != null) {
 			//UPLOAD FILE
@@ -167,61 +175,19 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 			Toast.makeText(TicketDetailsActivity.this,getString(R.string.assDetails_fileSelected)+path,Toast.LENGTH_SHORT).show();
         	File file = new File(path);
 			fileName = file.getName();
-			pos = fileName.lastIndexOf(".");
-			if (pos > 0){
-				fileNameWithoutExtension = fileName.substring(0,pos);
-			}
-			encodedFile = encodeFile(selectedFileUri);
-			this.addFile(fileName, fileNameWithoutExtension, encodedFile, path);
+			encodedFile = EnvironmentTool.encodeFile(selectedFileUri,this);
+
+			this.addFile(fileName, fileName, encodedFile, path);
 		}
 		else
-			if (requestCode == 1 && resultCode ==RESULT_OK &&  data.getData() == null) {
+
+			if (requestCode == 1 && resultCode ==RESULT_OK ) {
 				//TAKE PICTURE + SAVE
 				android.app.FragmentManager fm = this.getFragmentManager();
-				Bundle extras = data.getExtras();
-				savePictureDialog.setArguments(extras);
-				savePictureDialog.show(fm, "SaveAndUploadPicture");
+				SavePictureDialog savePictureDialog = SavePictureDialog.newInstance(EnvironmentTool.mCurrentPhotoPath);
+				savePictureDialog.show(fm,"SaveAndUploadPicture");
+
 			}
-	}
-
-
-	/**
-	 * @param fileUri - selected file URI
-	 * @return - base64 code in string
-	 *
-	 * 	Encode the entire URL
-	 */
-	public String encodeFile(Uri fileUri){
-		String encodeBase64 = "";
-		try {
-			InputStream inputStream  = getContentResolver().openInputStream(fileUri);
-			byte[] inputData = getBytes(inputStream);
-			encodeBase64 = Base64.encodeToString(inputData,Base64.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return encodeBase64;
-
-	}
-
-
-	/**
-	 * @param inputStream
-	 * @return - byte
-	 * @throws IOException - get exception if @param inputStream not readable
-	 *
-	 *  Convert InputStream parameter into byte format
-	 */
-
-	public byte[] getBytes(InputStream inputStream) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int buffSize = 1024;
-		byte[] buffer = new byte[buffSize];
-		int len = 0;
-		while ((len = inputStream.read(buffer)) != -1){
-			baos.write(buffer,0,len);
-		}
-		return baos.toByteArray();
 	}
 
 	@Override
@@ -301,16 +267,28 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 	@Override
 	public void updateStatusRemote(String status) {
+//		System.out.println(" Activity ===> newSTatus = "+status);
 		presenter.updateStatusRemote(ticket.getTicketId(),status);
+
 	}
 
+	@Override
+	public void updateTaskStatusRemote(String status,int pos,String wonum, String siteid){
+		presenter.updateTaskStatusRemote(ticket.getTicketId(),status,pos,wonum,siteid);
+	}
 	@Override
 	public void updateStatus(String newStatus) {
         ticket.setStatus(newStatus);
 		ticketDetailsTab.updateStatus(newStatus);
 		ticketHolder.setChanged(true);
+
 	}
 
+	public void updateTaskStatus(String newStatus,int pos){
+		taskTab.updateTaskStatus(newStatus,pos);
+		ticketHolder.setChanged(true);
+
+	}
 	@Override
 	public void updateOwnerGroup(String newOwnerGroup) {
 		ticket.setOwnerGroup(newOwnerGroup);
@@ -323,6 +301,8 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
         ticket.setOwner(newOwner);
 		ticketDetailsTab.updateOwner(newOwner);
 		ticketHolder.setChanged(true);
+		presenterTicketList.getOwners(newOwner);
+
     }
 
 	@Override
@@ -360,17 +340,17 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
 	/**
 	 *	Attachment is added to the ticket
-	 * @param fileName -  uploaded file/photo name
-	 * @param pureFileName - file name without extension
+	 * @param generatedName -  uploaded file/photo name
+	 * @param fileNameWithExtension - file name without extension
 	 * @param encode - base64 code
 	 * @param urlname - file path
 	 *
 	 */
-	public void addFile(String fileName ,String pureFileName,String encode, String urlname) {
-		if (fileName.length() > 20) {
-			fileName = fileName.substring(0, 19);
+	public void addFile(String generatedName ,String fileNameWithExtension,String encode, String urlname) {
+		if (generatedName.length() > 20) {
+			generatedName = generatedName.substring(0, 19);
 		}
-		presenter.addFile(ticket.getTicketId(), fileName, pureFileName, encode, urlname);
+		presenter.addFile(ticket.getTicketId(), generatedName, fileNameWithExtension, encode, urlname);
 	}
 
 

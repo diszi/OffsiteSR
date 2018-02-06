@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import hu.d2.offsitesr.ui.view.verifications.DownloadUpdate;
 
 
 /**
@@ -63,17 +64,20 @@ public class FileUtils {
                  return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         }
+        else{
 
-        else
             if ("content".equalsIgnoreCase(uri.getScheme())){
+
                 if (isGooglePhotosUri(uri)){
                     return uri.getLastPathSegment();}
-                return getDataColumn(context,uri,null,null);
+               return uri.getPath();
+            }else
+            if ("file".equalsIgnoreCase(uri.getScheme())){
+                return uri.getPath();
             }
-            else
-                if ("file".equalsIgnoreCase(uri.getScheme())){
-                    return uri.getPath();
-                }
+        }
+
+
         return null;
     }
 

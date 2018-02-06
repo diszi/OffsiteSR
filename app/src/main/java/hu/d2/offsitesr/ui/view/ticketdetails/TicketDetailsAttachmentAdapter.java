@@ -2,11 +2,16 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +50,8 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
     private List<DocLinks> attachmentDocLinksList = new ArrayList<>();
     private TicketDetailsAttachmentTab ticketDetailsAttachmentTab;
 
+    ProgressDialog mprogressDialog;
+
 
     public TicketDetailsAttachmentAdapter(TicketDetailsAttachmentTab ticketDetailsAttachmentTab) {
         this.ticketDetailsAttachmentTab = ticketDetailsAttachmentTab;
@@ -72,9 +79,10 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
                 count++;
             }
             DocLinks attachmentDocObj = this.attachmentDocLinksList.get(count);
+//            System.out.println(" ---> ADAPTER = "+attachmentDocObj.getWebURL()+" -- count =  "+count);
 
             // Call file downloader
-            DownloadTask downloadTask = new DownloadTask();
+            DownloadTask downloadTask = new DownloadTask(ticketDetailsAttachmentTab.getContext());
             downloadTask.execute(attachmentDocObj.getDocumentData(), attachmentDocObj.getWebURL());
         }
         this.notifyDataSetChanged();
@@ -116,6 +124,9 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
     }
 
 
+
+
+
     public class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.actDetailsAttachment_createby)
@@ -134,7 +145,7 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         }
 
         public void bind(Attachment attachment) {
-            compDescription.setText(attachment.getFileName());
+            compDescription.setText(attachment.getDescription());
             compCreateBy.setText(attachment.getCreateBy());
             compCreateDate.setText(attachment.getCreateDate());
         }
@@ -152,10 +163,16 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
      */
     class DownloadTask extends AsyncTask<String,Integer,String> {
 
-        ProgressDialog mprogressDialog;
+
         String downloaded_file_name =null, externalDir=null;
         File downloaded_filePath=null;
 
+        private Context context;
+
+        public DownloadTask(Context acticityContext){
+                this.context = acticityContext;
+
+        }
 
         /**
          * Runs on the UI thread before doInBackground(Params...).
@@ -163,12 +180,15 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mprogressDialog = new ProgressDialog(ticketDetailsAttachmentTab.getActivity());
+
+            mprogressDialog = new ProgressDialog(context);
             mprogressDialog.setTitle(R.string.actAttachment_downloadTitle);
             mprogressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mprogressDialog.show();
 
         }
+
+
 
 
         /**
@@ -181,7 +201,6 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
         protected String doInBackground(String... params) {
             String base64Code = params[0];
             String webUrl = params[1];
-
             downloaded_file_name = webUrl.substring(webUrl.lastIndexOf('/')+1, webUrl.length());
             externalDir = Environment.getExternalStorageDirectory().toString()+ UIConstans.FILE_SAVE_DIR;
             downloaded_filePath = new File(externalDir,downloaded_file_name);
@@ -201,6 +220,7 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
             return ticketDetailsAttachmentTab.getActivity().getString(R.string.actAttachment_downloadCompleted);
 
         }
+
 
         /**
          * Runs on the UI thread after publishProgress(Progress...) is invoked.

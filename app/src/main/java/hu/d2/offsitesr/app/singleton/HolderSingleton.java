@@ -64,6 +64,7 @@ public class HolderSingleton {
     }
 
     public void setOwnerGroups(List<String> ownerGroupsList) {
+        ownerGroupsList.add("ICT_L0HD");
         ownerGroups = setMap(OWNER_GROUP,ownerGroupsList);
     }
 

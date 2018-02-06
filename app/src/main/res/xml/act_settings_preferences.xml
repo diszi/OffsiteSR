@@ -9,12 +9,14 @@
             android:key="@string/SettingsMaxListItemsKey"
             android:title="@string/SettingsMaxListItemsTitle"
             android:summary="@string/SettingsMaxListItemsSummary"
+            android:dialogMessage="@string/SettingsMaxListItemsDialogMsg"
             android:inputType="number"
             ></EditTextPreference>
 
         <EditTextPreference
             android:key="@string/SettingsSynchronizeTicketListKey"
             android:title="@string/SettingsSynchronizeTicketListTitle"
+            android:dialogMessage="@string/SettingsSynchronizeTicketListDialogMsg"
             android:summary="@string/SettingsSynchronizeTicketListSummary"
             android:inputType="number"
             ></EditTextPreference>
@@ -98,8 +100,8 @@
              android:key="@string/SettingsStatusQueryKey"
              android:title="@string/SettingsStatusQueryTitle"
              android:summary="@string/SettingsStatusQuerySummary"
-             android:entries="@array/ticket_status_values"
-             android:entryValues="@array/ticket_status_keys">
+             android:entries="@array/ticket_status_values_settings"
+             android:entryValues="@array/ticket_status_keys_settings">
           </MultiSelectListPreference>
 
         <!--<EditTextPreference-->

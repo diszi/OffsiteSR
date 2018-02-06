@@ -1,11 +1,16 @@
 package hu.d2.offsitesr.ui.view.component;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -18,8 +23,11 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -47,14 +55,28 @@ public class SavePictureDialog extends DialogFragment {
     ImageView pictureView;
     @BindView(R.id.diagSavePicture_title)
     TextView title;
-    Bitmap imageBitmap ;
+
+
+    public String photoPath;
+    public File file;
+    public Uri imageUri;
+
+
+    public static SavePictureDialog newInstance(String path){
+       SavePictureDialog savePictureDialog = new SavePictureDialog();
+        Bundle args = new Bundle();
+        args.putString("currentPhotoPath",path);
+        savePictureDialog.setArguments(args);
+        return savePictureDialog;
+    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            imageBitmap = (Bitmap) getArguments().get("data");
-        }
+        photoPath = getArguments().getString("currentPhotoPath");
+
     }
 
 
@@ -72,44 +94,56 @@ public class SavePictureDialog extends DialogFragment {
         final View contentView = inflater.inflate(R.layout.dialog_save_picture, container, false);
         ButterKnife.bind(this, contentView);
 
-        String timeStamp = EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_PHOTO);
-        pictureView.setImageBitmap(imageBitmap);
+        imageUri = Uri.parse(photoPath);
+        file = new File(imageUri.getPath());
+        pictureView.setImageURI(imageUri);
+
+        MediaScannerConnection.scanFile(getActivity(),
+                new String[]{imageUri.getPath()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                    }
+                });
+
 
         uploadButton.setOnClickListener((v -> {
             String pictureName = picName.getText().toString();
-            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ UIConstans.PHOTO_SAVE_DIR);
-            String path="", encodedImage="";
 
-            try {
-                if (pictureName.equals("")){
+            String path="";
+            String encodedImage="";
 
-                    pictureName = timeStamp;
-                    path = createImageFile(timeStamp,dir).getAbsolutePath();
-                }else
-                {
-                    path = createImageFile(pictureName,dir).getAbsolutePath();
+                if (pictureName.equals("")) {
+                    pictureName = file.getName();
+                    path = photoPath.substring(0,photoPath.lastIndexOf('/') + 1)+pictureName;
+                }else{
+                    path = photoPath.substring(0,photoPath.lastIndexOf('/') + 1)+pictureName+UIConstans.IMAGE_EXTENSION;
+                    pictureName = pictureName+UIConstans.IMAGE_EXTENSION;
                 }
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                File file = new File(path);
-                Uri contentUri = Uri.fromFile(file);
-                mediaScanIntent.setData(contentUri);
+                mediaScanIntent.setData(imageUri);
 
+                Bitmap bm = BitmapFactory.decodeFile(photoPath);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                byte[] byteFormat = baos.toByteArray();
-                encodedImage = Base64.encodeToString(byteFormat,Base64.DEFAULT);
+                bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
 
-                FileOutputStream fo = new FileOutputStream(file);
-                fo.write(baos.toByteArray());
-                fo.flush();
-                fo.close();
+                byte[] byteArrayImage = baos.toByteArray();
+                encodedImage = Base64.encodeToString(byteArrayImage,Base64.DEFAULT);
+
+                try {
+                    FileOutputStream fo = new FileOutputStream(file);
+                    fo.write(baos.toByteArray());
+                    fo.flush();
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 ((TicketDetails)getActivity()).addFile(file.getName(), pictureName,encodedImage,path);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             dismiss();
         }));
 
@@ -121,17 +155,6 @@ public class SavePictureDialog extends DialogFragment {
         return contentView;
     }
 
-    /**
-     *
-     * @param nameFile - name of file
-     * @param directory - location of file
-     * @return - File object, located at @param directory with name @param nameFile
-     * @throws IOException
-     */
-    private File createImageFile(String nameFile,File directory) throws IOException {
-        File imageFile = new File(directory,nameFile+".jpg");
-        return imageFile;
-    }
 
 
 }

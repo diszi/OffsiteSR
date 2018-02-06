@@ -2,13 +2,21 @@ package hu.d2.offsitesr.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -20,6 +28,8 @@ import java.util.Locale;
 import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.app.OffsiteSRApplication;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
+import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 
 /**
@@ -28,6 +38,8 @@ import hu.d2.offsitesr.app.singleton.HolderSingleton;
 
 public class EnvironmentTool {
 
+
+    public static String mCurrentPhotoPath;
 
     /**
      * @param context - actual activity context
@@ -131,6 +143,7 @@ public class EnvironmentTool {
      */
     public static boolean deadLineVerification(String todayInString)  {
 
+
         String deadlineInString = "2018.03.01. 11:59";
         Date today = null,deadline = null;
         DateFormat outFormat = new SimpleDateFormat(UIConstans.DATE_PATTERN_HU);
@@ -145,6 +158,57 @@ public class EnvironmentTool {
         }
         return true;
 
+    }
+
+    /**
+     * @param fileUri - selected file URI
+     * @return - base64 code in string
+     *
+     * 	Encode the entire URL
+     */
+    public static String encodeFile(Uri fileUri, Context context){
+        String encodeBase64 = "";
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(fileUri);
+            byte[] inputData = getBytes(inputStream );
+            encodeBase64 = Base64.encodeToString(inputData,Base64.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return encodeBase64;
+
+    }
+
+
+
+    /**
+     * @param inputStream
+     * @return - byte
+     * @throws IOException - get exception if @param inputStream not readable
+     *
+     *  Convert InputStream parameter into byte format
+     */
+
+    public static byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int buffSize = 1024;
+        byte[] buffer = new byte[buffSize];
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1){
+            baos.write(buffer,0,len);
+        }
+        return baos.toByteArray();
+    }
+
+
+
+    public static File createImageFile() throws IOException {
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ UIConstans.PHOTO_SAVE_DIR);
+        String timeStamp = EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_PHOTO);
+        File image = new File(dir,"IMG_"+timeStamp+UIConstans.IMAGE_EXTENSION);
+        mCurrentPhotoPath = image.getAbsolutePath();
+
+        return image;
     }
 
 

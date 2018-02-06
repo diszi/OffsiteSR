@@ -9,6 +9,7 @@ import java.util.List;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import hu.d2.offsitesr.remote.GetOwnerGroupListSOAP;
 import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetTicketListSOAP;
 import hu.d2.offsitesr.ui.model.OwnerHolder;
@@ -30,8 +31,10 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 	private TicketList view;
 	private Disposable disposable;
     private Disposable disposable2;
+    private Disposable disposable3;
     private Observable<List<ServiceRequestEntity>> observable;
     private Observable<OwnerHolder> observable2;
+    private Observable<OwnerHolder> observable3;
 
 
 	@Override
@@ -48,6 +51,9 @@ public class TicketListPresenterImpl implements TicketListPresenter {
         if (disposable2 != null && !disposable2.isDisposed()) {
             Log.d("------------------>"," Dispose observer2");
             disposable2.dispose();
+        }
+        if (disposable3 != null && !disposable3.isDisposed()){
+            disposable3.dispose();
         }
     }
 
@@ -68,6 +74,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                     view.setSyncDate();
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
+                    Log.d("------------------>"," THROWABLE");
                     if (throwable instanceof UIThrowable){
                         UIThrowable uiThrowable = (UIThrowable) throwable;
                         errorMessageCode = uiThrowable.getMessageId();
@@ -77,23 +84,23 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 }, () -> { // onComplate Action
 
                     view.hideLoading();
-                    getOwners();
+                    getOwners(SettingsSingleton.getInstance().getUserName());
                 });
     }
 
-
-	public void getOwners(){
-        if (observable2 == null){
+    @Override
+	public void getOwners(String owner){
+        //if (observable2 == null){
             Log.d("------------------>"," Observable2 created");
-            observable2 = createGetOwnerObservable();
-        }
+            observable2 = createGetOwnerObservable(owner);
+        //}
 
         Log.d("------------------>"," Subscribe to Observable2");
         disposable2 = observable2
                 .subscribe((ownerData) -> { // onNext Consumer
-                    Log.d("------------------>"," Get Data Owners");
-                    HolderSingleton.getInstance().setOwners(ownerData.getOwnerList());
-                    HolderSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
+                    Log.d("------------------>"," Get Data Owners  ");
+
+                    getOwnerGroups(ownerData.getOwnerGroupList());
 
                 }, (throwable) -> { // onError Consumer
 //                    int errorMessageCode = R.string.error_general;
@@ -112,6 +119,34 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 
     }
 
+    @Override
+    public void getOwnerGroups(List<String> ownerGroupsList){
+	   // if (observable3 == null){
+            Log.d("------------------>"," Observable3 created");
+            observable3 = createGetOwnerGroupObservable(ownerGroupsList);
+        //}
+
+        Log.d("------------------>"," Subscribe to Observable3");
+        disposable3 = observable3
+                .subscribe((ownerData) -> { // onNext Consumer
+                    Log.d("------------------>"," Get Data Owner groups");
+                    HolderSingleton.getInstance().setOwners(ownerData.getOwnerList());
+                    HolderSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
+
+                }, (throwable) -> { // onError Consumer
+//                    int errorMessageCode = R.string.error_general;
+//                    if (throwable instanceof UIThrowable){
+//                        UIThrowable uiThrowable = (UIThrowable) throwable;
+//                        errorMessageCode = uiThrowable.getMessageId();
+//                    }
+                    Log.e("------------->","Dont get data",throwable);
+//                    view.showErrorMessage(errorMessageCode);
+//                    view.hideLoading();
+                }, () -> { // onComplate Action
+
+//                    view.hideLoading();
+                });
+    }
 
 
 	@Override
@@ -125,10 +160,11 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                     connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_GET, GetTicketListSOAP.SOAP_ACTION,String.format(GetTicketListSOAP.getSoapPayload(SettingsSingleton.getInstance().getSelectedStatus(),SettingsSingleton.getInstance().getMaxListValue(),SettingsSingleton.getInstance().getTicketSynchronization()),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
+                    System.out.println(" RESPONSECODE = "+responseCode);
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();
                         List<ServiceRequestEntity> ticketList = EntityMapper.transformTicketList(inputStream);
-
+                        System.out.println(" -- ticketList size ="+ticketList.size());
                         emitter.onNext(ticketList);
                         emitter.onComplete();
                     } else {
@@ -156,15 +192,53 @@ public class TicketListPresenterImpl implements TicketListPresenter {
 
 
 
-
-    public Observable<OwnerHolder> createGetOwnerObservable() {
+    @Override
+    public Observable<OwnerHolder> createGetOwnerObservable(String owner) {
         Observable<OwnerHolder> result = Observable.create(emitter -> {
             try {
-                Log.d("------------------>"," Start Remote SOAP Call");
+                Log.d("------------------>"," Start Remote SOAP Call - OWNER");
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.SOAP_PAYLOAD,SettingsSingleton.getInstance().getUserName()));
+                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.getSoapPayload(owner),SettingsSingleton.getInstance().getUserName()));
+
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == 200) {
+                        inputStream = connection.getInputStream();
+                        emitter.onNext(EntityMapper.transformOwnerDataList(inputStream));
+                        emitter.onComplete();
+                    } else {
+                        emitter.onError(new UIThrowable(R.string.error_network));
+                    }
+
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                        if (inputStream != null){
+                            inputStream.close();
+                        }
+
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e("", "---------->", ex);
+                emitter.onError(new UIThrowable(R.string.error_unknown));
+            }
+
+        });
+
+        return result.observeOn(Schedulers.io()).subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<OwnerHolder> createGetOwnerGroupObservable(List<String> ownerGroupsList) {
+        Observable<OwnerHolder> result = Observable.create(emitter -> {
+            try {
+                Log.d("------------------>"," Start Remote SOAP Call - GROUP");
+                HttpURLConnection connection = null;
+                InputStream inputStream = null;
+                try {
+                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerGroupListSOAP.getSoapPayload(ownerGroupsList),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {

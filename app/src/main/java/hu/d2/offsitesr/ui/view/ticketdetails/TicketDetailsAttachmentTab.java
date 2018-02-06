@@ -54,6 +54,7 @@ public class TicketDetailsAttachmentTab extends Fragment {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
         }
         presenter = new TicketDetailsPresenterImpl();
+        presenter.setView((TicketDetails)getActivity());
     }
 
     /**

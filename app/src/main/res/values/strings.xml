@@ -4,7 +4,7 @@
     <string name="app_permissionGranted">Permission granted</string>
     <string name="app_permissionEnable">ENABLE</string>
 
-    <string name="actLogin_loginButton">LOG IN</string>
+    <string name="actLogin_loginButton">LOGIN</string>
     <string name="actLogin_loginNameHint">Username</string>
     <string name="actLogin_loginPasswordHint">Password</string>
     <string name="error_isRequired">Required</string>
@@ -51,7 +51,7 @@
     <string name="menuTicketList_logs">Logs</string>
     <string name="menuTicketList_update">Update</string>
     <string name="menuTicketList_about">About</string>
-    <string name="menuTicketList_logOut">Log Out</string>
+    <string name="menuTicketList_logOut">Logout</string>
     <string name="error_noOption">Invalid choose</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_upload">Upload</string>
@@ -110,6 +110,7 @@
     <string name="dialogPriorty_title">Change Priority</string>
     <string name="settings_log_level_debug">Debug</string>
     <string name="settings_log_level_error">Error</string>
+    <string name="settings_error_msg">The specified value is greater than the allowed value</string>
 
     <string name="buttonYES">Yes</string>
     <string name="buttonNO">No</string>

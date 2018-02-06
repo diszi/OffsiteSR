@@ -2,6 +2,7 @@ package hu.d2.offsitesr.ui.view.ticketlist;
 
 import java.util.List;
 
+import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import io.reactivex.Observable;
 
@@ -17,5 +18,13 @@ public interface TicketListPresenter {
 
     void getTicketList();
 
+    void getOwners(String owner);
+
+    void getOwnerGroups(List<String> ownerGroupsList);
+
     Observable<List<ServiceRequestEntity>> createObservable();
+
+    Observable<OwnerHolder> createGetOwnerObservable(String owner);
+
+    Observable<OwnerHolder> createGetOwnerGroupObservable(List<String> ownerGroupsList);
 }

@@ -13,7 +13,7 @@ public class AddFileSOAP {
     public static String SOAP_ACTION = "urn:processDocument";
 
 
-    public static String getSoapPayload(String ticketID, String fileName , String fileNameWithoutExtension, String base64, String urlname){
+    public static String getSoapPayload(String ticketID, String generatedName , String fileNameWithExtension, String base64, String urlname){
 
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
@@ -29,9 +29,9 @@ public class AddFileSOAP {
                 "               <max:DOCLINKS action=\"Add\" relationship=\"\" deleteForInsert=\"no\">\n" +
                 "  \n" +
                 "\n" +
-                "<max:DESCRIPTION >"+fileNameWithoutExtension+"</max:DESCRIPTION>\n" +
+                "<max:DESCRIPTION >"+fileNameWithExtension+"</max:DESCRIPTION>\n" +
                 "<max:DOCTYPE  >Attachments</max:DOCTYPE>\n" +
-                "<max:DOCUMENT  >"+fileName+"</max:DOCUMENT>\n" +
+                "<max:DOCUMENT  >"+generatedName+"</max:DOCUMENT>\n" +
                 "<max:DOCUMENTDATA  >"+base64+"</max:DOCUMENTDATA>\n" +
                 "\n" +
                 " <max:OWNERTABLE  >SR</max:OWNERTABLE>\n" +
@@ -40,7 +40,7 @@ public class AddFileSOAP {
                 " <max:URLTYPE  >FILE</max:URLTYPE>\n" +
                 "<max:URLNAME  >"+urlname+"</max:URLNAME>\n" +
 
-                "  <max:WEBURL  >"+ SettingsSingleton.getInstance().getWebUrl()+fileName+"</max:WEBURL>          \n" +
+                "  <max:WEBURL  >"+ SettingsSingleton.getInstance().getWebUrl()+fileNameWithExtension+"</max:WEBURL>          \n" +
 
 
                 "               </max:DOCLINKS>\n" +

@@ -52,8 +52,9 @@ public class EntityMapper {
 		NodeList srNode = document.getElementsByTagName("PERSONGROUPTEAM");
 		for (int i = 0; i < srNode.getLength(); i++) {
 			Element element =(Element) srNode.item(i);
-			String ownerGroup = getNodeValue(element,"RESPPARTYGROUP");
+			String ownerGroup = getNodeValue(element,"PERSONGROUP");
             String owner = getNodeValue(element,"RESPPARTY");
+
             ownerList.add(owner);
             ownerGroupList.add(ownerGroup);
 		}
@@ -98,7 +99,9 @@ public class EntityMapper {
 		NodeList srNode = document.getElementsByTagName("SR");
 		for (int i = 0; i < srNode.getLength(); i++) {
 			attachmentDocLinksList = transformTicketAttachmentDocLinks((Element) srNode.item(i), doclinksID);
+
 		}
+		System.out.println(" ENTITYMAPPER => "+attachmentDocLinksList.size());
 		return attachmentDocLinksList;
 	}
 
@@ -116,7 +119,7 @@ public class EntityMapper {
 
 		NodeList srNode = document.getElementsByTagName("SR");
 		for (int i = 0; i < srNode.getLength(); i++) {
-			attachmentDocLinksList = transformTicketAttachment((Element) srNode.item(i),ticketID);
+			attachmentDocLinksList = transformTicketAttachment((Element) srNode.item(i));
 		}
 		return attachmentDocLinksList;
 	}
@@ -129,8 +132,14 @@ public class EntityMapper {
 		for (int i=0;i<linkNode.getLength();i++){
 			DocLinks attachmentDoclink = transformAttachmentDocLinks((Element) linkNode.item(i),doclinksID);
 			attachmentDocLink.add(attachmentDoclink);
+			//System.out.println(" ---> Doclinks = "+doclinksID+" - "+attachmentDoclink.getDoclinksID()+" - "+attachmentDoclink.getWebURL());
+			if (attachmentDoclink.getDocumentData() != null){
+			//	System.out.println(" -> getDocumentData != null  ---> "+attachmentDocLink.size());
+				return attachmentDocLink;
+			}
 		}
 		return attachmentDocLink;
+
 	}
 
 
@@ -143,28 +152,30 @@ public class EntityMapper {
 			attachmentDoc.setDocumentData(getNodeValue(element,"DOCUMENTDATA"));
 			attachmentDoc.setWebURL(getNodeValue(element,"WEBURL"));
 		}
+		//System.out.println(" ---- Doclink = "+attachmentDoc.getDoclinksID()+" ??? "+doclinksID+" ---> "+attachmentDoc.getWebURL());
 		return attachmentDoc;
 	}
 
 
-	private static List<Attachment> transformTicketAttachment(Element element,String ticketID)
+	private static List<Attachment> transformTicketAttachment(Element element)
 	{
 		NodeList linkNode = element.getElementsByTagName("DOCLINKS");
 		List<Attachment> attachmentDocLink = new ArrayList<>();
 		for (int i=0;i<linkNode.getLength();i++){
-			Attachment attachmentDoclink = transformAttachment((Element) linkNode.item(i),ticketID);
+			Attachment attachmentDoclink = transformAttachment((Element) linkNode.item(i));
 			attachmentDocLink.add(attachmentDoclink);
 		}
 		return attachmentDocLink;
 	}
 
-	private static Attachment transformAttachment (Element element,String tickedID){
+	private static Attachment transformAttachment (Element element){
 		Attachment attachment = new Attachment();
 		attachment.setReference(getNodeValue(element,"REFERENCE"));
 		attachment.setCreateDate(getNodeValue(element,"CREATEDATE"));
 		attachment.setCreateBy(getNodeValue(element,"CREATEBY"));
 		attachment.setWebURL(getNodeValue(element,"WEBURL"));
 		attachment.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
+		attachment.setDescription(getNodeValue(element,"DESCRIPTION"));
 		return attachment;
 	}
 
@@ -316,7 +327,9 @@ public class EntityMapper {
 		for (int i = 0; i < tNode.getLength(); i++) {
 			Task task = transformTask((Element) tNode.item(i));
 			tasks.add(task);
+			System.out.println(" - > task.getStatus () = "+task.getStatus());
 		}
+
 		ticket.setTasks(tasks);
 
 		NodeList dNode = element.getElementsByTagName("DOCLINKS");
@@ -341,6 +354,7 @@ public class EntityMapper {
 		attachment.setWebURL(getNodeValue(element,"WEBURL"));
 		attachment.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
 		attachment.setReference(getNodeValue(element,"REFERENCE"));
+		attachment.setDescription(getNodeValue(element,"DESCRIPTION"));
 		return attachment;
 	}
 
@@ -374,6 +388,7 @@ public class EntityMapper {
 		task.setAsset(getNodeValue(element,"ASSETNUM"));
 		task.setCi(getNodeValue(element,"CINUM"));
 		task.setStatus(getNodeValue(element,"STATUS"));
+		task.setSiteId(getNodeValue(element,"SITEID"));
 		return task;
 	}
 

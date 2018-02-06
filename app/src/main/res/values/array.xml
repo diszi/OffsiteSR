@@ -43,12 +43,29 @@
         <item>@string/status_closed</item>
     </string-array>
 
-    <string-array name="task_status_keys" translatable="false">
+
+    <string-array name="ticket_status_keys_settings" translatable="false">
+        <item>QUEUED</item>
         <item>INPROG</item>
+        <item>PENDING</item>
+        <item>SLAHOLD</item>
+        <item>RESOLVED</item>
+    </string-array>
+
+    <string-array name="ticket_status_values_settings" >
+        <item>@string/status_queued</item>
+        <item>@string/status_inProgress</item>
+        <item>@string/status_pending</item>
+        <item>@string/status_slaHold</item>
+        <item>@string/status_resolved</item>
+    </string-array>
+
+    <string-array name="task_status_keys" translatable="false">
+        <item>INPRG</item>
         <item>CAN</item>
         <item>FAIL</item>
         <item>COMP</item>
-        <item>CLOSED</item>
+        <item>CLOSE</item>
         <item>WMATL</item>
         <item>REVIEW</item>
     </string-array>

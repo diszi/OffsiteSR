@@ -20,7 +20,9 @@ import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
+import hu.d2.offsitesr.ui.view.component.ChooseTaskStatusDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
+import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**
  * This class is a fragment. Contains tasks of the specified ticket.
@@ -29,13 +31,22 @@ public class TicketDetailsTaskTab extends Fragment {
 
     private TicketDetailsTaskAdapter adapter;
     private ServiceRequestEntity ticket;
+//    private TicketDetailsTab tab;
+//    public int position;
+
+//    public void setPosition(int pos){
+//        this.position = pos;
+//    }
+//    public int getPosition(){
+//        return position;
+//    }
 
     @BindView(R.id.actDetails_taskList)
     RecyclerView compTasks;
     @BindView(R.id.actDetails_emptyText)
     TextView compEmpty;
 
-    private ChooseStatusDialog chooseStatusDialog;
+    private ChooseTaskStatusDialog chooseTaskStatusDialog;
 
     public TicketDetailsTaskTab() {}
 
@@ -62,11 +73,12 @@ public class TicketDetailsTaskTab extends Fragment {
         View contentView = inflater.inflate(R.layout.tab_ticket_details_task, container, false);
         ButterKnife.bind(this,contentView);
 
-        chooseStatusDialog = new ChooseStatusDialog();
-
+        chooseTaskStatusDialog = new ChooseTaskStatusDialog();
         this.setupRecyclerView();
 
         adapter.setTasks(ticket.getTasks());
+
+
         compEmpty.setVisibility(ticket.getTasks().isEmpty()?View.VISIBLE:View.GONE);
 
         return contentView;
@@ -89,13 +101,29 @@ public class TicketDetailsTaskTab extends Fragment {
     /*
     *   OnClick on pencil icon - display statuses in dialog
     * */
-	public void onClickOnStatusImageButton(){
+	public void onClickOnStatusImageButton(int position,String wonum, String siteID){
         FragmentManager fm = getActivity().getFragmentManager();
         Bundle bundle = new Bundle();
         bundle.putSerializable(ChooseStatusDialog.SERIALIZABLE_NAME,HolderSingleton.getInstance().getTaskStatuses());
-        chooseStatusDialog.setArguments(bundle);
-        chooseStatusDialog.show(fm,"chooseStatus");
+        bundle.putString("wonum",wonum);
+        bundle.putString("siteid",siteID);
+        bundle.putInt("pos",position);
+        chooseTaskStatusDialog.setArguments(bundle);
+        chooseTaskStatusDialog.show(fm,"chooseTask");
+
     }
 
+    public void updateTaskStatus(String newStatus,int pos){
+        adapter.setTaskStatus(newStatus,pos);
+    }
+
+   /* public void setTaskImageButton(String statusTab){
+        System.out.println(" setTaskImageButton ---> status = "+statusTab +" ---> adapter = "+adapter);
+
+        if (statusTab.equals("CLOSED")){
+
+          adapter.setImageButton(statusTab);
+        }
+    }*/
 
 }
