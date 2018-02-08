@@ -88,7 +88,9 @@ public class TicketDetailsWorkLogTab extends Fragment {
         addWorkLogDialog = new AddWorkLogDialog();
         showLongDescriptionDialog = new WorklogDetailsDialog();
 
+        Log.d("---------------->","Load Worklog ");
         presenter.setWorklogView(this);
+        presenter.getWorkLogList(ticket.getTicketId());
 
         compSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

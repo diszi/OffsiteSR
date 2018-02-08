@@ -39,7 +39,7 @@ public class TicketDetailsWorkLogAdapter extends RecyclerView.Adapter<TicketDeta
 
 
 	public void setWorkLogsRefresh(List<WorkLog> worklogList){
-		Log.d("------------------>","Worklog List refresh");
+		Log.d("------------------>","Worklog List ");
 		this.workLogs = worklogList;
 		this.notifyDataSetChanged();
 		ticketDetailsWorkLogTab.compEmpty.setVisibility(worklogList.isEmpty()?View.VISIBLE:View.GONE);
