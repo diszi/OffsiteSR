@@ -253,6 +253,8 @@ public class EntityMapper {
 		NodeList versionUpdate1Node = document.getElementsByTagName("MOB_UPDATE");
 		for (int i = 0; i <  versionUpdate1Node.getLength(); i++) {
 			Version version = transformVersion((Element) versionUpdate1Node.item(i));
+
+			// if OFFICIAL && D2
 			if (version.getMode().equals(UIConstans.VERSION_MODE) && version.getCustomer().equals(UIConstans.VERSION_CUSTOMER)){
 				versionObj = version;
 			}
