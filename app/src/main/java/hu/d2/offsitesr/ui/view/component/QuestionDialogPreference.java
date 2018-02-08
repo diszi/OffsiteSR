@@ -61,7 +61,7 @@ public class QuestionDialogPreference extends DialogPreference {
 
                     }
                 });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getContext().getString(R.string.SettingsResetNegativeButton), new DialogInterface.OnClickListener() {
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getContext().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         alertDialog.dismiss();
