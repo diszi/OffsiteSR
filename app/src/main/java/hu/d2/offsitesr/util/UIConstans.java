@@ -16,6 +16,7 @@ public class UIConstans {
     public static String FILE_SAVE_DIR = "/Download";
     public static String WEBURL_ADDFILE_SOAP = "http://192.168.100.101/ATTACHMENTS/";
     public static String VERSION_MODE = "OFFICIAL";
+    public static String VERSION_CUSTOMER = "D2";
     public static String IMAGE_EXTENSION = ".jpg";
 
     public static String DATE_PATTERN_PHOTO = "yyyyMMdd_HHmmss";

@@ -15,6 +15,7 @@ public class Version implements Serializable {
     private String versionNumber;
     private String mode;
     private List<DocLinks> newAppDetails;
+    private String customer;
 
     public Version(){}
 
@@ -48,6 +49,14 @@ public class Version implements Serializable {
 
     public String getMode(){
         return mode;
+    }
+
+    public void setCustomer(String customer){
+        this.customer = customer;
+    }
+
+    public String getCustomer(){
+        return customer;
     }
 
 }
