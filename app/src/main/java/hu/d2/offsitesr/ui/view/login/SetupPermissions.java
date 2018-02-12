@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.CustomerProperties;
+import hu.d2.offsitesr.app.PropertySettings;
+import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**
  * Created by szidonia.laszlo on 2017. 12. 07..
@@ -15,6 +18,16 @@ import hu.d2.offsitesr.R;
 public class SetupPermissions extends AbsRuntimePermission {
 
     public static Context mContext;
+    public static String address;
+    public String key;
+
+    public void setKey(String key){
+        this.key = key;
+    }
+
+    public String getKey(){
+        return key;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +51,8 @@ public class SetupPermissions extends AbsRuntimePermission {
      */
     @Override
     public void onPermissionsGranted(int requestCode) {
+
+        //PropertySettings.setMode();
         Intent i = new Intent(this,LoginActivity.class);
         startActivity(i);
 

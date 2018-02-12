@@ -4,11 +4,13 @@ import android.util.Log;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 
 import hu.d2.offsitesr.remote.AddFileSOAP;
@@ -424,7 +426,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_WL_URL_GET, GetWorkLogSOAP.SOAP_ACTION,String.format(GetWorkLogSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_WL_URL_GET, GetWorkLogSOAP.SOAP_ACTION,String.format(GetWorkLogSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
+
 
                     int responseCode = connection.getResponseCode();
 
@@ -462,7 +466,10 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_ATTACHMENT_URL_GET, GetAttachmentsSOAP.SOAP_ACTION,String.format(GetAttachmentsSOAP.getSoapPayload(ticketID),SettingsSingleton.getInstance().getUserName()));
+
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_ATTACHMENT_URL_GET, GetAttachmentsSOAP.SOAP_ACTION,String.format(GetAttachmentsSOAP.getSoapPayload(ticketID),SettingsSingleton.getInstance().getUserName()));
+
 
                     int responseCode = connection.getResponseCode();
 
@@ -501,7 +508,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_DOC_URL_GET, GetFileSOAP.SOAP_ACTION,String.format(GetFileSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_DOC_URL_GET, GetFileSOAP.SOAP_ACTION,String.format(GetFileSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_DOC_URL_GET, GetFileSOAP.SOAP_ACTION,String.format(GetFileSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -542,7 +551,10 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateStatusSOAP.SOAP_ACTION,String.format(UpdateStatusSOAP.getSoapPayload(ticketID,status),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateStatusSOAP.SOAP_ACTION,String.format(UpdateStatusSOAP.getSoapPayload(ticketID,status),view.getLoggedInUser()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdateStatusSOAP.SOAP_ACTION,String.format(UpdateStatusSOAP.getSoapPayload(ticketID,status),view.getLoggedInUser()));
+
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -583,7 +595,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateTaskStatusSOAP.SOAP_ACTION,String.format(UpdateTaskStatusSOAP.getSoapPayload(ticketID,status, wonum,  siteID)));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateTaskStatusSOAP.SOAP_ACTION,String.format(UpdateTaskStatusSOAP.getSoapPayload(ticketID,status, wonum,  siteID)));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdateTaskStatusSOAP.SOAP_ACTION,String.format(UpdateTaskStatusSOAP.getSoapPayload(ticketID,status, wonum,  siteID)));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -625,7 +639,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerGroupSOAP.SOAP_ACTION,String.format(UpdateOwnerGroupSOAP.getSoapPayload(ticketID,ownerGroup),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerGroupSOAP.SOAP_ACTION,String.format(UpdateOwnerGroupSOAP.getSoapPayload(ticketID,ownerGroup),view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdateOwnerGroupSOAP.SOAP_ACTION,String.format(UpdateOwnerGroupSOAP.getSoapPayload(ticketID,ownerGroup),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
 
@@ -666,7 +681,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(UpdateOwnerSOAP.getSoapPayload(ticketID,owner),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(UpdateOwnerSOAP.getSoapPayload(ticketID,owner),view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(UpdateOwnerSOAP.getSoapPayload(ticketID,owner),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -706,7 +722,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdatePrioritySOAP.SOAP_ACTION,String.format(UpdatePrioritySOAP.getSoapPayload(ticketID,priority),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdatePrioritySOAP.SOAP_ACTION,String.format(UpdatePrioritySOAP.getSoapPayload(ticketID,priority),view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdatePrioritySOAP.SOAP_ACTION,String.format(UpdatePrioritySOAP.getSoapPayload(ticketID,priority),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
                     System.out.println(" responseCode -> priority = "+responseCode);
@@ -750,7 +767,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
 
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE, UpdateOwnerSOAP.SOAP_ACTION,String.format(AddWorkLogSOAP.getSoapPayload(ticketID,owner,shortDesc,longDesc),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -790,8 +808,9 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,generatedName, fileNameWithExtension, encode, urlname),view.getLoggedInUser()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,generatedName, fileNameWithExtension, encode, urlname),view.getLoggedInUser()));
 
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_UPDATE,UpdateOwnerSOAP.SOAP_ACTION,String.format(AddFileSOAP.getSoapPayload(ticketID,generatedName, fileNameWithExtension, encode, urlname),view.getLoggedInUser()));
 
                     int responseCode = connection.getResponseCode();
 

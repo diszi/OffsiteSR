@@ -3,6 +3,7 @@ package hu.d2.offsitesr.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Properties;
 
 import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.app.OffsiteSRApplication;
@@ -210,6 +212,7 @@ public class EnvironmentTool {
 
         return image;
     }
+
 
 
 }

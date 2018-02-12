@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.PropertySettings;
 import hu.d2.offsitesr.app.info.AboutAppActivity;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.app.singleton.TimerSingleton;
@@ -82,6 +84,8 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_list);
+
+
         Log.d("------------------>","Start Activity");
         ButterKnife.bind(this);
 
@@ -111,6 +115,11 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
                 setSupportActionBar(compToolBar);
             }
         });
+
+        if (PropertySettings.BACKGROUND_COLOR != -1){
+            compToolBar.setBackgroundColor(PropertySettings.BACKGROUND_COLOR);
+        }
+
 
         setSupportActionBar(compToolBar);
         presenter.getTicketList();
@@ -225,6 +234,7 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
         this.ticketList = ticketList;
         ticketListAdapter.setTicketList(this.ticketList);
         compToolBar.setTitle(getString(R.string.actList_title)+" ("+this.ticketList.size()+")");
+
     }
 
 

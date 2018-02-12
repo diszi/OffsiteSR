@@ -23,6 +23,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.ui.view.login.LoginActivity;
 
 
@@ -34,21 +35,9 @@ import hu.d2.offsitesr.ui.view.login.LoginActivity;
 
 public class NetworkTool {
 
-    private static String SERVER_IP_ADDRESS = "91.82.81.106";
+
     private static int CONNECTION_TIME_OUT = 5000;
     private static int READ_TIME_OUT = 5000;
-
-
-    public static String LOGIN_URL ="https://"+SERVER_IP_ADDRESS+"/maxrest/rest/login";
-    public static String SOAP_SR_URL_GET ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_SR1";
-    public static String SOAP_SR_URL_UPDATE ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_SR2";
-    public static String SOAP_OWNER_URL ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_OWNER";
-    public static String SOAP_DOC_URL_GET = "https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_mob_doc2";
-    public static String SOAP_WL_URL_GET = "https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_WL1";
-    public static String SOAP_ATTACHMENT_URL_GET ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_mob_doc3";
-    public static String SOAP_LICENSE_URL_GET ="https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_mob_lic";
-    public static String SOAP_APP_VERSION_GET = "https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_UPDATE";
-    public static String SOAP_NEW_APP_GET = "https://"+SERVER_IP_ADDRESS+"/meaweb/services/D2OFFSITE_MOB_UPDATE2";
 
 
     public static HttpURLConnection createConnection(String url) throws IOException {
@@ -57,7 +46,7 @@ public class NetworkTool {
 
 
     public static HttpURLConnection createSOAPConnection(String url, String soapAction,String soapPayload) throws IOException {
-        System.out.println(soapPayload);
+       // System.out.println(soapPayload);
         return createConnection(url, soapAction,soapPayload, true,true);
     }
 
@@ -69,16 +58,17 @@ public class NetworkTool {
 
 
    private static synchronized HttpURLConnection createConnection(String SOAP_URL, String SOAP_ACTION, String SOAP_PAYLOAD, boolean isSoap, boolean isPost) throws IOException {
-
+        System.out.println(" URL = "+SOAP_URL);
 
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("d2", "12345678".toCharArray());
+
+                return new PasswordAuthentication(CustomerProperties.CER_USER, CustomerProperties.CER_PW.toCharArray());
+
+
                 }
-
         });
-
 
 
         HttpURLConnection connection = getHttpsConnection(SOAP_URL);

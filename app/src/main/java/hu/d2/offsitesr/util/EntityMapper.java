@@ -330,7 +330,6 @@ public class EntityMapper {
 		for (int i = 0; i < tNode.getLength(); i++) {
 			Task task = transformTask((Element) tNode.item(i));
 			tasks.add(task);
-			System.out.println(" - > task.getStatus () = "+task.getStatus());
 		}
 
 		ticket.setTasks(tasks);

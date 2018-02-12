@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.remote.GetOwnerGroupListSOAP;
@@ -74,7 +75,8 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                     view.setSyncDate();
                 }, (throwable) -> { // onError Consumer
                     int errorMessageCode = R.string.error_general;
-                    Log.d("------------------>"," THROWABLE");
+                    System.out.println(" THROWABLE ");
+
                     if (throwable instanceof UIThrowable){
                         UIThrowable uiThrowable = (UIThrowable) throwable;
                         errorMessageCode = uiThrowable.getMessageId();
@@ -157,7 +159,8 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_SR_URL_GET, GetTicketListSOAP.SOAP_ACTION,String.format(GetTicketListSOAP.getSoapPayload(SettingsSingleton.getInstance().getSelectedStatus(),SettingsSingleton.getInstance().getMaxListValue(),SettingsSingleton.getInstance().getTicketSynchronization()),SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_SR_URL_GET, GetTicketListSOAP.SOAP_ACTION,String.format(GetTicketListSOAP.getSoapPayload(SettingsSingleton.getInstance().getSelectedStatus(),SettingsSingleton.getInstance().getMaxListValue(),SettingsSingleton.getInstance().getTicketSynchronization()),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     System.out.println(" RESPONSECODE = "+responseCode);
@@ -199,7 +202,7 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.getSoapPayload(owner),SettingsSingleton.getInstance().getUserName()));
+                    connection = NetworkTool.createSOAPGETConnection(CustomerProperties.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerListSOAP.getSoapPayload(owner),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -237,7 +240,8 @@ public class TicketListPresenterImpl implements TicketListPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPGETConnection(NetworkTool.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerGroupListSOAP.getSoapPayload(ownerGroupsList),SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPGETConnection(CustomerProperties.SOAP_OWNER_URL, GetOwnerListSOAP.SOAP_ACTION,String.format(GetOwnerGroupListSOAP.getSoapPayload(ownerGroupsList),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {

@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import hu.d2.offsitesr.R;
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.remote.GetLicenseSOAP;
 import hu.d2.offsitesr.remote.GetNewAppSOAP;
@@ -159,7 +160,8 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_LICENSE_URL_GET, GetLicenseSOAP.SOAP_ACTION,String.format(GetLicenseSOAP.getSoapPayload(IMEInumber),SettingsSingleton.getInstance().getUserName()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_LICENSE_URL_GET, GetLicenseSOAP.SOAP_ACTION,String.format(GetLicenseSOAP.getSoapPayload(IMEInumber),SettingsSingleton.getInstance().getUserName()));
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_LICENSE_URL_GET, GetLicenseSOAP.SOAP_ACTION,String.format(GetLicenseSOAP.getSoapPayload(IMEInumber),SettingsSingleton.getInstance().getUserName()));
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
@@ -199,7 +201,10 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                 InputStream inputStream = null;
                 try {
 
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_APP_VERSION_GET, GetUpdateVersionSOAP.SOAP_ACTION,String.format(GetUpdateVersionSOAP.getSoapPayload(appName),SettingsSingleton.getInstance().getUserName()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_APP_VERSION_GET, GetUpdateVersionSOAP.SOAP_ACTION,String.format(GetUpdateVersionSOAP.getSoapPayload(appName),SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_APP_VERSION_GET, GetUpdateVersionSOAP.SOAP_ACTION,String.format(GetUpdateVersionSOAP.getSoapPayload(appName),SettingsSingleton.getInstance().getUserName()));
+
                     int responseCode = connection.getResponseCode();
 
                     if (responseCode == 200) {
@@ -237,7 +242,10 @@ public class VerificationPresenterImpl implements VerificationPresenter {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_NEW_APP_GET, GetNewAppSOAP.SOAP_ACTION,String.format(GetNewAppSOAP.getSoapPayload(appName,newVersion),SettingsSingleton.getInstance().getUserName()));
+//                    connection = NetworkTool.createSOAPConnection(NetworkTool.SOAP_NEW_APP_GET, GetNewAppSOAP.SOAP_ACTION,String.format(GetNewAppSOAP.getSoapPayload(appName,newVersion),SettingsSingleton.getInstance().getUserName()));
+
+                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_NEW_APP_GET, GetNewAppSOAP.SOAP_ACTION,String.format(GetNewAppSOAP.getSoapPayload(appName,newVersion),SettingsSingleton.getInstance().getUserName()));
+
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         inputStream = connection.getInputStream();

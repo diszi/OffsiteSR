@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements Login {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
 		this.mContext = getApplicationContext();
 
 		ButterKnife.bind(this);
