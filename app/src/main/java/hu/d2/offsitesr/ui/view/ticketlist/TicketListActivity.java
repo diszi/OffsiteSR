@@ -34,6 +34,7 @@ import hu.d2.offsitesr.app.singleton.TimerSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.Version;
+import hu.d2.offsitesr.ui.view.base.BaseActivity;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.OnBackPressedDialog;
 import hu.d2.offsitesr.ui.view.component.UpdateAppDialog;
@@ -48,7 +49,7 @@ import hu.d2.offsitesr.ui.view.verifications.VerificationPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
 
 
-public class TicketListActivity extends AppCompatActivity implements  TicketList,UpdateApp{
+public class TicketListActivity extends BaseActivity implements  TicketList,UpdateApp{
 
     public static int TICKET_REQUEST_CODE = 0;
 
@@ -158,23 +159,23 @@ public class TicketListActivity extends AppCompatActivity implements  TicketList
      * Called as part of the activity lifecycle when an activity is
      * about to go into the background as the result of user choice.
      */
-    @Override
-    protected void onUserLeaveHint() {
-        super.onUserLeaveHint();
-    }
+//    @Override
+//    protected void onUserLeaveHint() {
+//        super.onUserLeaveHint();
+//    }
 
-    @Override
-    protected void onPause() {
-       super.onPause();
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//    }
+//
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        presenter.onDestroy();
+//    }
 
     @Override
     public void showLoading() {
