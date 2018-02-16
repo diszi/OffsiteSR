@@ -146,7 +146,7 @@ public class EnvironmentTool {
     public static boolean deadLineVerification(String todayInString)  {
 
 
-        String deadlineInString = "2018.03.01. 11:59";
+        String deadlineInString = "2018.03.15. 11:59";
         Date today = null,deadline = null;
         DateFormat outFormat = new SimpleDateFormat(UIConstans.DATE_PATTERN_HU);
         try {
@@ -155,6 +155,7 @@ public class EnvironmentTool {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        System.out.println(" deadlineInString = "+deadlineInString+" ---> today = "+today+" ----> deadline = "+deadline);
         if (today.after(deadline)){
             return false;
         }

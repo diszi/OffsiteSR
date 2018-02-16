@@ -151,12 +151,14 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		 * 												OR  return false => the deadline expired
 		 */
 		if (EnvironmentTool.deadLineVerification(EnvironmentTool.convertDate(new Date(),UIConstans.DATE_PATTERN_HU))){
+			System.out.println(" BEFORE");
 			initApplication();
 			Intent intent = new Intent(this, UpdateActivity.class);
 			TimerSingleton.getInstance().initAndStartTimer(this);
 			startActivity(intent);
 		}else
 		{
+			System.out.println("AFTER");
 			android.app.FragmentManager fm = getFragmentManager();
 			LicenseDialog alertDialogFragment = new LicenseDialog();
 			alertDialogFragment.show(fm,"LicenseDialog");
