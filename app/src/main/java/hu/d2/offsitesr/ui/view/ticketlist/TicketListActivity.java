@@ -117,9 +117,9 @@ public class TicketListActivity extends BaseActivity implements  TicketList,Upda
             }
         });
 
-        if (PropertySettings.BACKGROUND_COLOR != -1){
-            compToolBar.setBackgroundColor(PropertySettings.BACKGROUND_COLOR);
-        }
+//        if (PropertySettings.BACKGROUND_COLOR != -1){
+//            compToolBar.setBackgroundColor(PropertySettings.BACKGROUND_COLOR);
+//        }
 
 
         setSupportActionBar(compToolBar);
