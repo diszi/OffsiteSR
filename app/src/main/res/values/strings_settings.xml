@@ -115,6 +115,6 @@
     <string name="InfoAppPermissionsSummary">Storage \nCamera</string>
 
     <string name="InfoAppDeveloperKey">info_app_developer</string>
-    <string name="InfoAppDeveloperTitle">Developer</string>
+    <string name="InfoAppDeveloperTitle">Company</string>
     <string name="InfoAppDeveloperSummary">Directtwo Kft. - All rights reserved \n1123 Budapest, Alkotás street 53 E Build 2th Floor \nPhone: 06-1-808-902 \nFax: +36-1-808-90-29</string>
 </resources>
