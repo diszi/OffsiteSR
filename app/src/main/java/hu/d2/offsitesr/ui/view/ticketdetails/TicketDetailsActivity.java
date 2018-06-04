@@ -1,28 +1,19 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import java.text.SimpleDateFormat;
 
@@ -33,10 +24,12 @@ import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.app.singleton.TimerSingleton;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
+import hu.d2.offsitesr.ui.view.base.BaseActivity;
+import hu.d2.offsitesr.ui.view.base.BaseViewPresenter;
 import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
+import hu.d2.offsitesr.ui.view.ticketlist.TicketList;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenter;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.FileUtils;
 
@@ -45,11 +38,10 @@ import hu.d2.offsitesr.util.FileUtils;
  * 	The ViewPager build from 4 fragments, the last fragment title is an icon.
  */
 
-public class TicketDetailsActivity extends AppCompatActivity implements TicketDetails {
+public class TicketDetailsActivity extends BaseActivity implements TicketDetails.View, TicketDetails.Tab {
 
 
-	private TicketDetailsPresenter presenter;
-	private TicketListPresenter presenterTicketList;
+	private TicketDetails.Presenter presenter;
 	private ServiceRequestEntity ticket;
 	private TicketHolder ticketHolder;
 	private String syncDateString;
@@ -104,10 +96,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 
         compSyncDate.setText(syncDateString);
 
-		presenter = new TicketDetailsPresenterImpl();
-		presenter.setView(this);
-
-		presenterTicketList = new TicketListPresenterImpl();
+		presenter = new TicketDetailsPresenterImpl(this);
 
 		compTabLayout.setupWithViewPager(compTabViewPager);
 		addTabFragmentsToViewPager(compTabViewPager);
@@ -225,6 +214,11 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		super.onUserLeaveHint();
 	}
 
+	@Override
+	protected BaseViewPresenter getBasePresenter() {
+		return presenter;
+	}
+
 	/**
 	 * @param entity - ticket details
 	 * Add the username to the text field
@@ -301,7 +295,7 @@ public class TicketDetailsActivity extends AppCompatActivity implements TicketDe
 		ticketDetailsTab.updateOwner(newOwner);
 		ticketHolder.setChanged(true);
 
-		presenterTicketList.getOwners(newOwner);
+		presenter.getOwners(newOwner);
 
     }
 

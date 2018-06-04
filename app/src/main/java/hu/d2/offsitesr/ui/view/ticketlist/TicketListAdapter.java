@@ -25,10 +25,10 @@ import hu.d2.offsitesr.ui.model.TicketHolder;
 public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.TicketListViewHolder>{
 
     private List<ServiceRequestEntity> ticketList = new ArrayList<>();
-    private TicketList view;
+    private TicketList.View view;
 
 
-    public TicketListAdapter(TicketList view)
+    public TicketListAdapter(TicketList.View view)
     {
         this.view = view;
     }

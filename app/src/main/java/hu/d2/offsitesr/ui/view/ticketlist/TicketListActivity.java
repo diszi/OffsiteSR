@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 
-import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.PropertySettings;
 import hu.d2.offsitesr.app.info.AboutAppActivity;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 import hu.d2.offsitesr.app.singleton.TimerSingleton;
@@ -35,6 +32,8 @@ import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.Version;
 import hu.d2.offsitesr.ui.view.base.BaseActivity;
+import hu.d2.offsitesr.ui.view.base.BasePresenter;
+import hu.d2.offsitesr.ui.view.base.BaseViewPresenter;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.OnBackPressedDialog;
 import hu.d2.offsitesr.ui.view.component.UpdateAppDialog;
@@ -49,11 +48,11 @@ import hu.d2.offsitesr.ui.view.verifications.VerificationPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
 
 
-public class TicketListActivity extends BaseActivity implements  TicketList,UpdateApp{
+public class TicketListActivity extends BaseActivity implements  TicketList.View,UpdateApp{
 
     public static int TICKET_REQUEST_CODE = 0;
 
-    private TicketListPresenter presenter;
+    private TicketList.Presenter presenter;
     private VerificationPresenter presenterVerification ;
     private TicketListAdapter ticketListAdapter;
     private List<ServiceRequestEntity> ticketList;
@@ -99,9 +98,7 @@ public class TicketListActivity extends BaseActivity implements  TicketList,Upda
 
         this.setupRecyclerView();
 
-        presenter = new TicketListPresenterImpl();
-        presenter.setView(this);
-
+        presenter = new TicketListPresenter(this);
         presenterVerification = new VerificationPresenterImpl();
 
         String loggidUserName = getLoggedInUser();
@@ -187,6 +184,11 @@ public class TicketListActivity extends BaseActivity implements  TicketList,Upda
     public void hideLoading() {
         Log.d("------------------>"," Hide Loading");
         compProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected BaseViewPresenter getBasePresenter() {
+        return presenter;
     }
 
     @Override

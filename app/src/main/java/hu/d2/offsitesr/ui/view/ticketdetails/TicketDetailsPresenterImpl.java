@@ -11,12 +11,15 @@ import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 
 import hu.d2.offsitesr.app.CustomerProperties;
+import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
 
 import hu.d2.offsitesr.remote.AddFileSOAP;
 import hu.d2.offsitesr.remote.AddWorkLogSOAP;
 import hu.d2.offsitesr.remote.GetAttachmentsSOAP;
 import hu.d2.offsitesr.remote.GetFileSOAP;
+import hu.d2.offsitesr.remote.GetOwnerGroupListSOAP;
+import hu.d2.offsitesr.remote.GetOwnerListSOAP;
 import hu.d2.offsitesr.remote.GetWorkLogSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerGroupSOAP;
 import hu.d2.offsitesr.remote.UpdateOwnerSOAP;
@@ -26,7 +29,10 @@ import hu.d2.offsitesr.remote.UpdateStatusSOAP;
 import hu.d2.offsitesr.remote.UpdateTaskStatusSOAP;
 import hu.d2.offsitesr.ui.model.Attachment;
 import hu.d2.offsitesr.ui.model.DocLinks;
+import hu.d2.offsitesr.ui.model.OwnerHolder;
 import hu.d2.offsitesr.ui.model.WorkLog;
+import hu.d2.offsitesr.ui.view.base.BasePresenter;
+import hu.d2.offsitesr.ui.view.base.helper.RemoteCallBack;
 import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;
@@ -39,51 +45,31 @@ import io.reactivex.schedulers.Schedulers;
  * Created by csabinko on 2017.09.17..
  */
 
-public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
+public class TicketDetailsPresenterImpl extends BasePresenter implements TicketDetails.Presenter, TicketDetails.Tab {
 
-    private TicketDetails view;
+    private TicketDetails.View view;
     private TicketDetailsAttachmentTab attachmentTabView;
     private TicketDetailsWorkLogTab worklogTabView;
 
-    private Disposable disposable;
+
+    private Observable<OwnerHolder> getOwnerObservable;
+    private Observable<OwnerHolder> getOwnerGroupObservable;
     private Observable<String> observable;
-
-    private Disposable disposable2;
     private Observable<String> observable2;
-
-    private Disposable disposable3;
     private Observable<String> observable3;
-
-    private Disposable disposable4;
     private Observable<String> observable4;
-
-    private Disposable disposable5;
     private Observable<String> observable5;
-
-    private Disposable disposable6;
     private Observable<String> observable6;
-
-    private Disposable disposable7;
     private Observable<String> observable7;
-
     private Observable<List<DocLinks>> observableFile;
-    private Disposable disposableFile;
-
     private Observable<List<WorkLog>> observableWorkLog;
-    private Disposable disposableWorklog;
-
     private Observable<List<Attachment>> observableAttachment;
-    private Disposable disposableAttachment;
 
-
-
-    @Override
-    public void setView(TicketDetails view) {
+    public TicketDetailsPresenterImpl(TicketDetails.View view) {
         this.view = view;
-
     }
 
-    public void setViewAttachmentTab( TicketDetailsAttachmentTab viewAttachmentFrag){
+    public void setViewAttachmentTab(TicketDetailsAttachmentTab viewAttachmentFrag){
          this.attachmentTabView = viewAttachmentFrag;
     }
 
@@ -92,79 +78,50 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         this.worklogTabView = worklogTabView;
     }
 
-
     @Override
-    public void onDestroy() {
-        if (disposable != null && !disposable.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable.dispose();
-        }
-        if (disposable2 != null && !disposable2.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable2.dispose();
-        }
-        if (disposable3 != null && !disposable3.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable3.dispose();
-        }
-        if (disposable4 != null && !disposable4.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable4.dispose();
-        }
-        if (disposable5 != null && !disposable5.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable5.dispose();
-        }
-        if (disposable6 != null && !disposable6.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable6.dispose();
-        }
-
-        if (disposable7 != null && !disposable7.isDisposed()) {
-            Log.d("------------------>"," Dispose observer");
-            disposable7.dispose();
-        }
-
-        if (disposableFile != null && !disposableFile.isDisposed()){
-            Log.d("------------------>"," DisposeFile observer");
-            disposableFile.dispose();
-        }
-        if (disposableWorklog != null && !disposableWorklog.isDisposed()) {
-            Log.d("------------------>"," DisposeWorklog observer");
-            disposableWorklog.dispose();
-        }
-        if (disposableAttachment != null && !disposableAttachment.isDisposed()){
-            Log.d("------------------>"," DisposeAttachment observer");
-            disposableAttachment.dispose();
-        }
+    public void getOwners(String owner) {
+        Log.d("------------------>", " Observable2 created");
+        getOwnerObservable = new GetOwnerListSOAP<OwnerHolder>(owner).createObserver();
+        Log.d("------------------>", " Subscribe to Observable2");
+        addDisposableToList(getOwnerObservable
+                .subscribe((ownerData) -> { // onNext Consumer
+                    Log.d("------------------>", " Get Data Owners  ");
+                    getOwnerGroups(ownerData.getOwnerGroupList());
+                }, (throwable) -> { // onError Consumer
+                    Log.e("------------->", "Dont get data", throwable);
+                }, () -> { // onComplate Action
+                }));
 
 
     }
 
+    public void getOwnerGroups(List<String> ownerGroupsList) {
+        Log.d("------------------>", " Observable3 created");
+        getOwnerGroupObservable = new GetOwnerGroupListSOAP<OwnerHolder>(ownerGroupsList).createObserver();
+        Log.d("------------------>", " Subscribe to Observable3");
+        addDisposableToList(getOwnerGroupObservable
+                .subscribe((ownerData) -> { // onNext Consumer
+                    Log.d("------------------>", " Get Data Owner groups");
+                    HolderSingleton.getInstance().setOwners(ownerData.getOwnerList());
+                    HolderSingleton.getInstance().setOwnerGroups(ownerData.getOwnerGroupList());
+                }, (throwable) -> { // onError Consumer
+                }, () -> { // onComplate Action
+                }));
+    }
 
-    public void getWorkLogList(String ticketID){
+
+    @Override
+    public void getWorkLogList(String ticketID, RemoteCallBack<List<WorkLog>> remoteCallBack){
         Log.d("------------------>"," Observable created");
-        observableWorkLog = createWorklogObservable(ticketID);
+        observableWorkLog = new GetWorkLogSOAP(ticketID).createObserver();
 
-        disposableWorklog = observableWorkLog
+        addDisposableToList(observableWorkLog
                 .subscribe((worklogList) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
-                    worklogTabView.loadWorklogList(worklogList);
+                    remoteCallBack.onSuccess(worklogList);
                 }, (throwable) -> { // onError Consumer
-                    int errorMessageCode = R.string.error_general;
-                    if (throwable instanceof UIThrowable){
-                        UIThrowable uiThrowable = (UIThrowable) throwable;
-                        errorMessageCode = uiThrowable.getMessageId();
-                    }
-
-                   // worklogTabView.showErrorMessage(errorMessageCode);
-                    //worklogTabView.hideLoading();
                 }, () -> { // onComplate Action
-
-                    //view.hideLoading();
-
-                    //getOwners();
-                });
+                }));
     }
 
 
@@ -175,25 +132,13 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         observableAttachment = createAttachmentObservable(ticketID);
         // }
 
-        disposableAttachment = observableAttachment
+        addDisposableToList(observableAttachment
                 .subscribe((ticketList) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
                     attachmentTabView.loadAttachmentRefreshList(ticketList);
                 }, (throwable) -> { // onError Consumer
-                    int errorMessageCode = R.string.error_general;
-                    if (throwable instanceof UIThrowable){
-                        UIThrowable uiThrowable = (UIThrowable) throwable;
-                        errorMessageCode = uiThrowable.getMessageId();
-                    }
-
-                    // worklogTabView.showErrorMessage(errorMessageCode);
-                    //worklogTabView.hideLoading();
                 }, () -> { // onComplate Action
-
-                    //view.hideLoading();
-
-                    //getOwners();
-                });
+                }));
     }
 
 
@@ -206,7 +151,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
        // }
         Log.d("------------------>"," Subscribe to ObservableFile ");
-        disposableFile = observableFile
+        addDisposableToList(observableFile
                 .subscribe((attachmentDocLinkList) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data - File ");
                     attachmentTabView.loadAttachmentDocLinksList(attachmentDocLinkList);
@@ -223,7 +168,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 
                     view.hideLoading();
                    // getOwners();
-                });
+                }));
     }
 
     public void addFile(String ticketID, String generatedName, String fileNameWithExtension, String encode, String urlname){
@@ -235,7 +180,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
             observable6 = createAddFileObservable(ticketID,generatedName,fileNameWithExtension, encode,urlname);
        // }
         Log.d("------------------>"," Subscribe to Observable ");
-        disposable6 = observable6
+        addDisposableToList(observable6
                 .subscribe((filename) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data  ");
                 }, (throwable) -> { // onError Consumer
@@ -250,7 +195,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                      view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
 
     }
 
@@ -262,7 +207,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         observable3= createAddWorkLogObservable(ticketID, owner, shortDesc, longDesc);
 
         Log.d("------------------>"," Subscribe to Observable");
-        disposable3 = observable3
+        addDisposableToList(observable3
                 .subscribe((ticketList) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
 
@@ -278,7 +223,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
     }
 
 
@@ -290,7 +235,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         //}
 
         Log.d("------------------>"," Subscribe to Observable ");
-        disposable = observable
+        addDisposableToList(observable
                 .subscribe((newStatus) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data - updateStatusRemote  --- newStatus = "+newStatus);
                     view.updateStatus(newStatus);
@@ -306,14 +251,14 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
     }
 
     @Override
     public void  updateTaskStatusRemote(String ticketID, String status,int pos,String wonum,String siteID){
         Log.d("------------------>"," Observable created");
         observable7 = createUpdateTaskStatusObservable(ticketID,status,wonum,siteID);
-        disposable7 = observable7.subscribe((newStatus) -> { // onNext Consumer
+        addDisposableToList(observable7.subscribe((newStatus) -> { // onNext Consumer
             Log.d("------------------>"," Get Data - updateTaskStatusRemote  --- newStatus = "+newStatus);
             view.updateTaskStatus(newStatus,pos);
         }, (throwable) -> { // onError Consumer
@@ -328,7 +273,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
         }, () -> { // onComplate Action
             view.showSuccessMessage();
             view.hideLoading();
-        });
+        }));
     }
 
 
@@ -340,7 +285,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
             observable2 = createUpdateOwnerObservable(ticketID,owner);
         //}
         Log.d("------------------>"," Subscribe to Observable ");
-        disposable2 = observable2
+        addDisposableToList(observable2
                 .subscribe((newOwner) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data ");
                     view.updateOwner(newOwner);
@@ -357,7 +302,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
     }
 
     @Override
@@ -369,7 +314,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
 //        }
 
        Log.d("------------------>"," Subscribe to Observable ");
-        disposable5 = observable5
+        addDisposableToList(observable5
                 .subscribe((newPriority) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
                     view.updatePriority(newPriority);
@@ -385,7 +330,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
     }
 
     @Override
@@ -396,7 +341,7 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
             observable4 = createUpdateOwnerGroupObservable(ticketID,ownerGroup);
      //   }
 
-        disposable4 = observable4
+        addDisposableToList(observable4
                 .subscribe((newOwnerGroup) -> { // onNext Consumer
                     Log.d("------------------>"," Get Data");
                     view.updateOwnerGroup(newOwnerGroup);
@@ -412,54 +357,14 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
                 }, () -> { // onComplate Action
                     view.showSuccessMessage();
                     view.hideLoading();
-                });
+                }));
     }
 
 
 
 
 
-    public Observable<List<WorkLog>> createWorklogObservable(String ticketID){
-        Observable<List<WorkLog>> result = Observable.create(emitter -> {
-            try {
-                Log.d("------------------>"," Start GetWorkLogSOAP Call  ");
-                HttpURLConnection connection = null;
-                InputStream inputStream = null;
-                try {
-
-                    connection = NetworkTool.createSOAPConnection(CustomerProperties.SOAP_WL_URL_GET, GetWorkLogSOAP.SOAP_ACTION,String.format(GetWorkLogSOAP.getSoapPayload(ticketID), SettingsSingleton.getInstance().getUserName()));
-
-
-                    int responseCode = connection.getResponseCode();
-
-                    if (responseCode == 200) {
-                        inputStream = connection.getInputStream();
-                        List<WorkLog> workLogList = EntityMapper.transformWorkLogList(inputStream);
-                        emitter.onNext(workLogList);
-                        emitter.onComplete();
-                    } else {
-                        emitter.onError(new UIThrowable(R.string.error_network));
-                    }
-
-                } finally {
-                    if (connection != null) {
-                        if (inputStream != null){
-                            inputStream.close();
-                        }
-                        connection.disconnect();
-                    }
-                }
-            } catch (Exception ex) {
-                Log.e("", "---------->", ex);
-                emitter.onError(new UIThrowable(R.string.error_unknown));
-            }
-
-        });
-
-        return result.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
-    }
-
-    public Observable<List<Attachment>>  createAttachmentObservable(String ticketID){
+   public Observable<List<Attachment>>  createAttachmentObservable(String ticketID){
         Observable<List<Attachment>> result = Observable.create(emitter -> {
             try {
                 Log.d("------------------>"," Start GetAttachmentsSOAP Call");
@@ -844,5 +749,8 @@ public class TicketDetailsPresenterImpl implements TicketDetailsPresenter {
     }
 
 
+    @Override
+    public void onDestroy() {
 
+    }
 }

@@ -23,6 +23,8 @@ import butterknife.OnClick;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.WorkLog;
+import hu.d2.offsitesr.ui.view.base.BaseTab;
+import hu.d2.offsitesr.ui.view.base.helper.RemoteCallBack;
 import hu.d2.offsitesr.ui.view.component.AddWorkLogDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 import hu.d2.offsitesr.ui.view.component.WorklogDetailsDialog;
@@ -32,12 +34,12 @@ import hu.d2.offsitesr.ui.view.component.WorklogDetailsDialog;
  * This class is a fragment. Contains tasks of the specified ticket.
  * On this page there is a refresh layout.
  */
-public class TicketDetailsWorkLogTab extends Fragment {
+public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
 
     private AddWorkLogDialog addWorkLogDialog;
     private WorklogDetailsDialog showLongDescriptionDialog;
     private TicketDetailsWorkLogAdapter adapter;
-    private TicketDetailsPresenter presenter;
+    private TicketDetails.Tab presenter;
 
     private ServiceRequestEntity ticket;
     private List<WorkLog> workLogsList ;
@@ -63,7 +65,6 @@ public class TicketDetailsWorkLogTab extends Fragment {
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
         }
-        presenter = new TicketDetailsPresenterImpl();
     }
 
     /**
@@ -89,15 +90,14 @@ public class TicketDetailsWorkLogTab extends Fragment {
         showLongDescriptionDialog = new WorklogDetailsDialog();
 
         Log.d("---------------->","Load Worklog ");
-        presenter.setWorklogView(this);
-        presenter.getWorkLogList(ticket.getTicketId());
+        remoteGetWorkLogList();
 
         compSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Log.d("---------------->","Refresh Worklog " );
                 compSwipeRefreshLayout.setRefreshing(false);
-                presenter.getWorkLogList(ticket.getTicketId());
+                remoteGetWorkLogList();
                 compEmpty.setVisibility(ticket.getWorkLogs().isEmpty()?View.VISIBLE:View.GONE);
             }
         });
@@ -105,6 +105,16 @@ public class TicketDetailsWorkLogTab extends Fragment {
         adapter.setWorkLogs(ticket.getWorkLogs());
         compEmpty.setVisibility(ticket.getWorkLogs().isEmpty()?View.VISIBLE:View.GONE);
         return contentView;
+    }
+
+    private void remoteGetWorkLogList(){
+        presenter.getWorkLogList(ticket.getTicketId(), new RemoteCallBack<List<WorkLog>>() {
+            @Override
+            public void onSuccess(List<WorkLog> ticketWorklogList) {
+                workLogsList = ticketWorklogList;
+                adapter.setWorkLogsRefresh(workLogsList);
+            }
+        });
     }
 
 
@@ -117,14 +127,6 @@ public class TicketDetailsWorkLogTab extends Fragment {
         this.compWorkLogs.setLayoutManager(layoutManager);
         this.compWorkLogs.addItemDecoration(verticalSpaceItemDecoration);
         this.compWorkLogs.setAdapter(this.adapter);
-    }
-
-    /**
-     * @param ticketWorklogList - list with worklog details
-     */
-    public void loadWorklogList(List<WorkLog> ticketWorklogList){
-        this.workLogsList = ticketWorklogList;
-        adapter.setWorkLogsRefresh(this.workLogsList);
     }
 
 
@@ -157,4 +159,8 @@ public class TicketDetailsWorkLogTab extends Fragment {
         }
     }
 
+    @Override
+    public void setPresenter(TicketDetails.Tab presenter) {
+        this.presenter = presenter;
+    }
 }

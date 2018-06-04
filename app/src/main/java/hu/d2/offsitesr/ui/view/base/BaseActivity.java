@@ -11,7 +11,7 @@ import hu.d2.offsitesr.R;
  * Created by szidonia.laszlo on 2018. 02. 12..
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onUserLeaveHint() {
@@ -24,11 +24,12 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected abstract BaseViewPresenter getBasePresenter();
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // presenter.onDestroy();
+        getBasePresenter().onDestroy();
     }
 
     public void showErrorMessage(int messageID) {

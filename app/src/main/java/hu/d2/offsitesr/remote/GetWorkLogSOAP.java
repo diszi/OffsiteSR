@@ -1,16 +1,45 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
+import hu.d2.offsitesr.ui.model.WorkLog;
+import hu.d2.offsitesr.util.EntityMapper;
+import io.reactivex.ObservableEmitter;
+
 /**
  * Created by szidonia.laszlo on 2017. 12. 04..
  */
 
-public class GetWorkLogSOAP {
+public class GetWorkLogSOAP extends AbstractSOAP<List<WorkLog>> {
 
-    public static String SOAP_ACTION = "urn:processDocument";
+    private String ticketID;
 
-    public static String getSoapPayload(String tickedID){
+    public GetWorkLogSOAP(String ticketID) {
+        this.ticketID = ticketID;
+    }
+
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<List<WorkLog>> emitter) throws IOException, SAXException, ParserConfigurationException {
+        List<WorkLog> workLogList = EntityMapper.transformWorkLogList(inputStream);
+        emitter.onNext(workLogList);
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_WL_URL_GET;
+    }
+
+    public String getSOAPPayload(){
         StringBuffer whereCondition = new StringBuffer("");
-        whereCondition.append("recordkey='"+tickedID+"'");
+        whereCondition.append("recordkey='"+ticketID+"'");
 
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +

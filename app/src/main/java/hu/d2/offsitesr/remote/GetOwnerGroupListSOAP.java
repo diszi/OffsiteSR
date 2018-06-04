@@ -1,15 +1,42 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
+import hu.d2.offsitesr.ui.model.OwnerHolder;
+import hu.d2.offsitesr.util.EntityMapper;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Created by szidonia.laszlo on 2018. 01. 31..
  */
 
-public class GetOwnerGroupListSOAP {
-    public static String SOAP_ACTION = "urn:processDocument";
+public class GetOwnerGroupListSOAP <T extends OwnerHolder> extends AbstractSOAP<T>{
+    private List<String> ownerGroupList;
 
-    public static String getSoapPayload(List<String> ownerGroupList){
+    public GetOwnerGroupListSOAP(List<String> ownerGroupList) {
+        this.ownerGroupList = ownerGroupList;
+    }
+
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)EntityMapper.transformOwnerDataList(inputStream));
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_OWNER_URL;
+    }
+
+    @Override
+    public String getSOAPPayload(){
 
 
         StringBuffer whereCondition = new StringBuffer("");
