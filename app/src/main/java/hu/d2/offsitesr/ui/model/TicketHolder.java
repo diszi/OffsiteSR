@@ -19,6 +19,8 @@ public class TicketHolder implements Serializable {
     }
 
     public ServiceRequestEntity getEntity() {
+
+        System.out.println(" TICKETHOlder = "+entity.getTicketId());
         return entity;
     }
 

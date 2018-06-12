@@ -62,6 +62,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
     @Override
     public void onBindViewHolder(TicketListViewHolder holder, int position) {
         ServiceRequestEntity ticket = ticketList.get(position);
+        //System.out.println("===> adapter ==> "+ticket.getTicketId());
         holder.bind(ticket);
         holder.itemView.setOnClickListener((v)-> view.launchDetailsView(new TicketHolder(ticket,position)));
     }
@@ -103,7 +104,9 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
         public void bind(ServiceRequestEntity ticket){
             compStatusIcon.setImageResource(getStatusIcon(ticket.getStatus()));
 
+           // System.out.println(">>>>>>>>>>>>>> priority = "+ticket.getPriority());
             if (ticket.getPriority().equals("1")){ //1 = critical
+
                 compFirstRow.setTextColor(Color.RED);
             }else
             {

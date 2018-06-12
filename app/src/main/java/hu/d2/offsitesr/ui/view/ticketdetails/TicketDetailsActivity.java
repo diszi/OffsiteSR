@@ -6,18 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
+//import butterknife.ButterKnife;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
@@ -27,9 +27,7 @@ import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.view.base.BaseActivity;
 import hu.d2.offsitesr.ui.view.base.BaseViewPresenter;
 import hu.d2.offsitesr.ui.view.component.SavePictureDialog;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketList;
 import hu.d2.offsitesr.ui.view.ticketlist.TicketListActivity;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketListPresenter;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.FileUtils;
 
@@ -38,10 +36,12 @@ import hu.d2.offsitesr.util.FileUtils;
  * 	The ViewPager build from 4 fragments, the last fragment title is an icon.
  */
 
-public class TicketDetailsActivity extends BaseActivity implements TicketDetails.View, TicketDetails.Tab {
+public class TicketDetailsActivity extends BaseActivity implements TicketDetails.View {
 
 
 	private TicketDetails.Presenter presenter;
+
+
 	private ServiceRequestEntity ticket;
 	private TicketHolder ticketHolder;
 	private String syncDateString;
@@ -77,16 +77,19 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.e("---------------->", "TicketDetailsActivity");
 		ticketHolder =(TicketHolder) getIntent().getExtras()
 				.get(TicketHolder.SERIALIZABLE_NAME) ;
 		ticket = ticketHolder.getEntity();
 
+		//System.out.println(" --> ticket = "+ticket+" id = "+ticket.getTicketId());
 		setSyncDate();
 		setScreenLock();
 		EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
 		TimerSingleton.getInstance().setMyActivity(this);
 
 		setContentView(R.layout.activity_ticket_details);
+
 		ButterKnife.bind(this);
 
 		setSupportActionBar(compToolbar);
@@ -96,7 +99,10 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 
         compSyncDate.setText(syncDateString);
 
+
+
 		presenter = new TicketDetailsPresenterImpl(this);
+
 
 		compTabLayout.setupWithViewPager(compTabViewPager);
 		addTabFragmentsToViewPager(compTabViewPager);
@@ -105,6 +111,7 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 		loadTicketDetails(ticket);
 
 	}
+
 
 
 
@@ -127,17 +134,20 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 		adapter.addTab(ticketDetailsTab, getResources().getString(R.string.actDetails_title));
 
 		workLogTab = new TicketDetailsWorkLogTab();
+		workLogTab.setPresenter(presenter);
 		workLogTab.setArguments(bundle);
 		adapter.addTab(workLogTab, getString(R.string.actDetails_worklog) + " (" + (ticket.getWorkLogs().size())+ ")");
 
+
 		taskTab = new TicketDetailsTaskTab();
 		taskTab.setArguments(bundle);
-
 		adapter.addTab(taskTab, getString(R.string.actDetails_task) + " (" + ticket.getTasks().size() + ")");
 
 		attachmentTab = new TicketDetailsAttachmentTab();
+		attachmentTab.setPresenter(presenter);
 		attachmentTab.setArguments(bundle);
 		adapter.addTab(attachmentTab, null);
+
 
 		viewPager.setAdapter(adapter);
 	}
@@ -156,6 +166,7 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 
 		String encodedFile="", path="", fileName="";
 		Uri selectedFileUri=null;
+		//System.out.println("FILE ==>>>> "+requestCode+" - "+resultCode+" = "+data+ " > "+data.getData());
 
 		if (requestCode == 0 && resultCode == RESULT_OK && null != data && data.getData() != null) {
 			//UPLOAD FILE
@@ -179,11 +190,13 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 			}
 	}
 
-	@Override
+
+
+	/*@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		presenter.onDestroy();
-	}
+	}*/
 
 	/**
 	 * Called when the activity has detected the user's press of the back key.
@@ -205,14 +218,6 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 		TimerSingleton.getInstance().resetTimer();
 	}
 
-	/**
-	 * Called as part of the activity lifecycle when an activity is
-	 * about to go into the background as the result of user choice.
-	 */
-	@Override
-	protected void onUserLeaveHint() {
-		super.onUserLeaveHint();
-	}
 
 	@Override
 	protected BaseViewPresenter getBasePresenter() {
@@ -241,15 +246,7 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 	}
 
 
-	@Override
-	public void showErrorMessage(int messageID) {
-		Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
-	}
 
-	@Override
-	public void showSuccessMessage() {
-		Toast.makeText(this, getString(R.string.actDetails_saveSuccess), Toast.LENGTH_SHORT).show();
-	}
 
 
 	/**
@@ -258,6 +255,9 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 	public String getLoggedInUser() {
 		return SettingsSingleton.getInstance().getUserName();
 	}
+
+
+
 
 	@Override
 	public void updateStatusRemote(String status) {
@@ -269,6 +269,7 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 	public void updateTaskStatusRemote(String status,int pos,String wonum, String siteid){
 		presenter.updateTaskStatusRemote(ticket.getTicketId(),status,pos,wonum,siteid);
 	}
+
 	@Override
 	public void updateStatus(String newStatus) {
         ticket.setStatus(newStatus);
@@ -340,11 +341,11 @@ public class TicketDetailsActivity extends BaseActivity implements TicketDetails
 	 * @param urlname - file path
 	 *
 	 */
-	public void addFile(String generatedName ,String fileNameWithExtension,String encode, String urlname) {
+	public void addFile(String generatedName ,String fileNameWithExtension,String encode, String urlname) { //view
 		if (generatedName.length() > 20) {
 			generatedName = generatedName.substring(0, 19);
 		}
-		presenter.addFile(ticket.getTicketId(), generatedName, fileNameWithExtension, encode, urlname);
+		presenter.addFile(ticket.getTicketId(), generatedName, fileNameWithExtension, encode, urlname); //presenter
 	}
 
 

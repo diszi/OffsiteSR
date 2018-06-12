@@ -5,14 +5,19 @@ package hu.d2.offsitesr.ui.view.login;
  */
 
 public interface Login {
+   // interface View{
+        void showLoading();
 
-    void showLoading();
+        void hideLoading();
 
-    void hideLoading();
+        void launchListView();
 
-    void showErrorMessage(int messageID);
+        void setUserToContext(String userName);
+    //}
 
-    void launchListView();
 
-    void setUserToContext(String userName);
+
+  //  interface Presenter extends BaseViewPresenter{
+     //   void login(String userName, String password);
+   // }
 }

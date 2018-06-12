@@ -101,7 +101,7 @@ public class EntityMapper {
 			attachmentDocLinksList = transformTicketAttachmentDocLinks((Element) srNode.item(i), doclinksID);
 
 		}
-		System.out.println(" ENTITYMAPPER => "+attachmentDocLinksList.size());
+		//System.out.println(" ENTITYMAPPER => "+attachmentDocLinksList.size());
 		return attachmentDocLinksList;
 	}
 
@@ -132,9 +132,9 @@ public class EntityMapper {
 		for (int i=0;i<linkNode.getLength();i++){
 			DocLinks attachmentDoclink = transformAttachmentDocLinks((Element) linkNode.item(i),doclinksID);
 			attachmentDocLink.add(attachmentDoclink);
-			//System.out.println(" ---> Doclinks = "+doclinksID+" - "+attachmentDoclink.getDoclinksID()+" - "+attachmentDoclink.getWebURL());
+
 			if (attachmentDoclink.getDocumentData() != null){
-			//	System.out.println(" -> getDocumentData != null  ---> "+attachmentDocLink.size());
+
 				return attachmentDocLink;
 			}
 		}
@@ -152,7 +152,7 @@ public class EntityMapper {
 			attachmentDoc.setDocumentData(getNodeValue(element,"DOCUMENTDATA"));
 			attachmentDoc.setWebURL(getNodeValue(element,"WEBURL"));
 		}
-		//System.out.println(" ---- Doclink = "+attachmentDoc.getDoclinksID()+" ??? "+doclinksID+" ---> "+attachmentDoc.getWebURL());
+
 		return attachmentDoc;
 	}
 
@@ -163,6 +163,7 @@ public class EntityMapper {
 		List<Attachment> attachmentDocLink = new ArrayList<>();
 		for (int i=0;i<linkNode.getLength();i++){
 			Attachment attachmentDoclink = transformAttachment((Element) linkNode.item(i));
+			//System.out.println("EntityMapper ----> attachment = "+attachmentDoclink.getDoclinksID());
 			attachmentDocLink.add(attachmentDoclink);
 		}
 		return attachmentDocLink;
@@ -176,6 +177,8 @@ public class EntityMapper {
 		attachment.setWebURL(getNodeValue(element,"WEBURL"));
 		attachment.setDoclinksID(getNodeValue(element,"DOCLINKSID"));
 		attachment.setDescription(getNodeValue(element,"DESCRIPTION"));
+
+		System.out.println("After SET - Attachment info ==> "+attachment.getReference()+" | "+attachment.getWebURL()+" | "+attachment.getDescription()+" | "+attachment.getCreateBy());
 		return attachment;
 	}
 

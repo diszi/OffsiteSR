@@ -1,7 +1,5 @@
 package hu.d2.offsitesr.ui.view.component;
 
-import java.util.Map;
-
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +10,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +63,7 @@ public class ChoosePriorityDialog extends DialogFragment {
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
 
-				((TicketDetails)getActivity()).updatePriorityRemote(HolderSingleton.getInstance().getPriorityId(newData));
+				((TicketDetails.View)getActivity()).updatePriorityRemote(HolderSingleton.getInstance().getPriorityId(newData));
 
 				dismiss();
 			}

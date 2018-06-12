@@ -64,7 +64,7 @@ public class ChooseOwnerGroupDialog extends DialogFragment {
 			if (radioButton != null) {
 				String newData = radioButton.getText().toString();
 
-				((TicketDetails)getActivity()).updateOwnerGroupRemote(newData);
+				((TicketDetails.View)getActivity()).updateOwnerGroupRemote(newData);
 
 				dismiss();
 			}

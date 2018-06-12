@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketlist.TicketList;
 import hu.d2.offsitesr.util.UIThrowable;
 import io.reactivex.disposables.Disposable;
 
@@ -46,7 +44,7 @@ public class BasePresenter {
         disposableList.add(disposable);
     }
 
-    public void onComplate(){
+    public void onComplete(){
 
     }
 }

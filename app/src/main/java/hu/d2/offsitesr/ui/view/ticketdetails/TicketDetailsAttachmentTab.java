@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +18,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.ui.model.Attachment;
-
 import hu.d2.offsitesr.ui.model.DocLinks;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
+import hu.d2.offsitesr.ui.view.base.BaseTab;
+import hu.d2.offsitesr.ui.view.base.helper.RemoteCallBack;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
 
 /**
  * This class is a fragment. Contains attachments of the specified ticket.
  */
-public class TicketDetailsAttachmentTab extends Fragment {
+
+public class TicketDetailsAttachmentTab extends Fragment implements BaseTab{
 
 
     private TicketDetailsAttachmentAdapter adapter;
     private ServiceRequestEntity ticket;
     private List<Attachment> attachmentList;
-    private TicketDetailsPresenterImpl presenter;
+
+    private TicketDetails.Presenter presenter;
 
     @BindView(R.id.actDetails_attachmentList)
     RecyclerView compAttachments;
@@ -39,6 +43,7 @@ public class TicketDetailsAttachmentTab extends Fragment {
     TextView compEmpty;
 
     public TicketDetailsAttachmentTab() {
+
     }
 
 
@@ -50,11 +55,11 @@ public class TicketDetailsAttachmentTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("---------------->", "TicketDetailsAttachment Tab");
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
         }
-        presenter = new TicketDetailsPresenterImpl();
-        presenter.setView((TicketDetails)getActivity());
+
     }
 
     /**
@@ -72,8 +77,7 @@ public class TicketDetailsAttachmentTab extends Fragment {
         ButterKnife.bind(this, contentView);
 
         this.setupRecyclerView();
-        presenter.setViewAttachmentTab(this);
-        presenter.getAttachmentList(ticket.getTicketId());
+        remoteGetAttachmentList();
 
         adapter.setAttachments(ticket.getAttachments());
         compEmpty.setVisibility(ticket.getAttachments().isEmpty() ? View.VISIBLE : View.GONE);
@@ -81,6 +85,22 @@ public class TicketDetailsAttachmentTab extends Fragment {
         return contentView;
     }
 
+    private void remoteGetAttachmentList(){
+        presenter.getAttachmentList(ticket.getTicketId(), new RemoteCallBack<List<Attachment>>(){
+
+            @Override
+            public void onSuccess(List<Attachment> ticketAttachmentList) {
+                //System.out.println(" --> remoteGetAttachmentList ticketID = "+ticket.getTicketId()+" >> attachment list size = "+ticketAttachmentList.size());
+                /*compEmpty.setVisibility(attachmentList.isEmpty() ? View.VISIBLE : View.GONE);
+                attachmentList = ticketAttachmentList;
+                System.out.println(" list size = "+attachmentList.size());
+                adapter.setAttachments(attachmentList);*/
+                loadAttachmentRefreshList(ticketAttachmentList);
+            }
+
+
+        });
+    }
     /**
      * @param attachmentDocLinksList - is a list, contains attachment properties of ticket
      */
@@ -88,9 +108,7 @@ public class TicketDetailsAttachmentTab extends Fragment {
         adapter.setAttachmentDetails(attachmentDocLinksList);
     }
 
-    /**
-     * @param attachmentList - refresh attachment page
-     */
+
     public void loadAttachmentRefreshList(List<Attachment> attachmentList) {
         compEmpty.setVisibility(attachmentList.isEmpty() ? View.VISIBLE : View.GONE);
         this.attachmentList = attachmentList;
@@ -115,7 +133,18 @@ public class TicketDetailsAttachmentTab extends Fragment {
      * Call a method, which download attachment
      */
     public void setOnClickDownloadButton(String doclinksID) {
-        presenter.getFileDetails(ticket.getTicketId(), doclinksID);
+        presenter.getFileDetails(ticket.getTicketId(), doclinksID, new RemoteCallBack<List<DocLinks>>() {
+            @Override
+            public void onSuccess(List<DocLinks> attachmentDocLinkList) {
+               // System.out.println(" ---> setOnClick Download Btn -> "+ticket.getTicketId()+" - "+doclinksID);
+                adapter.setAttachmentDetails(attachmentDocLinkList);
+            }
+        });
     }
 
+
+    @Override
+    public void setPresenter(TicketDetails.Presenter presenter) {
+        this.presenter = presenter;
+    }
 }

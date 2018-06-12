@@ -1,23 +1,48 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Created by csabinko on 2017.09.19..
  */
 
-public class UpdateStatusSOAP {
+public class UpdateStatusSOAP<T extends String> extends AbstractSOAP<T> {
+
+    private String ticketID;
+    private String status;
 
     public static String SOAP_ACTION = "urn:processDocument";
 
 
-    public static String getSoapPayload(String ticketId,String status){
+    public UpdateStatusSOAP(String ticketID, String status){
+        this.ticketID = ticketID;
+        this.status = status;
+    }
 
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)status);
+        emitter.onComplete();
+    }
 
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_SR_URL_UPDATE;
+    }
 
+    @Override
+    protected String getSOAPPayload() {
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +
                 "   <soapenv:Header/>\n" +
@@ -40,7 +65,7 @@ public class UpdateStatusSOAP {
                 "\n" +
                 "      <max:STATUSDATE changed=\"true\">"+ EnvironmentTool.convertDate(new Date(), UIConstans.DATE_PATTERN_STANDARD)+"</max:STATUSDATE>\n" +
                 "\n" +
-                "  <max:TICKETID >"+ticketId+"</max:TICKETID>\n" +
+                "  <max:TICKETID >"+ticketID+"</max:TICKETID>\n" +
                 "\n" +
                 " \n" +
                 "\n" +
@@ -54,4 +79,10 @@ public class UpdateStatusSOAP {
                 "\n" +
                 "</soapenv:Envelope>";
     }
+
+
+
+
+
+
 }

@@ -2,16 +2,12 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.os.PowerManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
@@ -99,6 +95,8 @@ public class TicketDetailsAttachmentAdapter extends RecyclerView.Adapter<TicketD
     public void onBindViewHolder(AttachmentViewHolder holder, int position) {
 
         Attachment attachment = attachmentlist.get(position);
+
+        // System.out.println(" >> attachment adapter => "+attachmentlist.size());
         holder.bind(attachment);
         holder.btnDownloadFile.setOnClickListener(new View.OnClickListener() {
             @Override

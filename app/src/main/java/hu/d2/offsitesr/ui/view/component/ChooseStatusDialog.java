@@ -74,7 +74,7 @@ public class ChooseStatusDialog extends DialogFragment {
 				String newData = radioButton.getText().toString();
 				String sendData = newData.substring(0,newData.indexOf("-")-1);
 
-				((TicketDetails)getActivity()).updateStatusRemote(sendData);
+				((TicketDetails.View)getActivity()).updateStatusRemote(sendData);
 
 				dismiss();
 			}

@@ -39,6 +39,9 @@ public class AddWorkLogDialog extends DialogFragment {
     TextView title;
 
 
+
+
+
     /**
      * Gives the dialog content
      * @param inflater - The LayoutInflater object that can be used to inflate any views in the fragment
@@ -54,11 +57,13 @@ public class AddWorkLogDialog extends DialogFragment {
 
         ButterKnife.bind(this, contentView);
 
+
         saveButton.setOnClickListener((v -> {
             String shortDescText = shortDesc.getText().toString();
             String longDescText = longDesc.getText().toString();
 
-            ((TicketDetails)getActivity()).addWorkLogRemote(shortDescText,longDescText);
+
+            ((TicketDetails.View)getActivity()).addWorkLogRemote(shortDescText,longDescText);
 
             shortDesc.setText(null);
             longDesc.setText(null);
@@ -72,4 +77,5 @@ public class AddWorkLogDialog extends DialogFragment {
         title.setText(getString(R.string.dialogWorkLog_title));
         return contentView;
     }
+
 }

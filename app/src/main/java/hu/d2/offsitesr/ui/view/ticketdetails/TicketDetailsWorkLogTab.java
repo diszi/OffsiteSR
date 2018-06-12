@@ -3,7 +3,6 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +38,8 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
     private AddWorkLogDialog addWorkLogDialog;
     private WorklogDetailsDialog showLongDescriptionDialog;
     private TicketDetailsWorkLogAdapter adapter;
-    private TicketDetails.Tab presenter;
+
+    private TicketDetails.Presenter presenter;
 
     private ServiceRequestEntity ticket;
     private List<WorkLog> workLogsList ;
@@ -48,16 +48,18 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
     SwipeRefreshLayout compSwipeRefreshLayout;
     @BindView(R.id.actDetails_workLogList)
     RecyclerView compWorkLogs;
-    @BindView(R.id.actDetails_workLogAddButton)
-    FloatingActionButton compAddWorklogButton;
+    /*@BindView(R.id.actDetails_workLogAddButton)
+    FloatingActionButton compAddWorklogButton;*/
     @BindView(R.id.actDetails_emptyText)
     TextView compEmpty;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
-    public TicketDetailsWorkLogTab() {}
+*/
+    public TicketDetailsWorkLogTab() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,12 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
         }
+
+
     }
+
+
+
 
     /**
      *
@@ -77,6 +84,8 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
      * Called to have the fragment instantiate its user interface view.
      *
      */
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,7 +93,11 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
         View contentView = inflater.inflate(R.layout.tab_ticket_details_worklog, container, false);
         ButterKnife.bind(this,contentView);
 
+
+        Log.e("---------------->", "TicketDetailsWorklogTab");
         this.setupRecyclerView();
+
+
 
         addWorkLogDialog = new AddWorkLogDialog();
         showLongDescriptionDialog = new WorklogDetailsDialog();
@@ -102,15 +115,25 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
             }
         });
 
+
         adapter.setWorkLogs(ticket.getWorkLogs());
         compEmpty.setVisibility(ticket.getWorkLogs().isEmpty()?View.VISIBLE:View.GONE);
         return contentView;
     }
 
+    @Override
+    public void setPresenter(TicketDetails.Presenter presenter) {
+        //System.out.println(" -------> setPresenter >> "+presenter);
+        this.presenter = presenter;
+
+    }
+
     private void remoteGetWorkLogList(){
+      //  System.out.println(" --- remoteGetWorklogList ---- \n ---> presenter = "+presenter.toString()+" - "+ticket.getTicketId());
         presenter.getWorkLogList(ticket.getTicketId(), new RemoteCallBack<List<WorkLog>>() {
             @Override
             public void onSuccess(List<WorkLog> ticketWorklogList) {
+                System.out.println("worklogList size - "+ticketWorklogList.size());
                 workLogsList = ticketWorklogList;
                 adapter.setWorkLogsRefresh(workLogsList);
             }
@@ -159,8 +182,4 @@ public class TicketDetailsWorkLogTab extends Fragment implements BaseTab {
         }
     }
 
-    @Override
-    public void setPresenter(TicketDetails.Tab presenter) {
-        this.presenter = presenter;
-    }
 }

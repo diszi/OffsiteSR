@@ -1,14 +1,12 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import android.app.FragmentManager;
-
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import android.content.Context;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.ChooseTaskStatusDialog;
 import hu.d2.offsitesr.ui.view.component.VerticalSpaceItemDecoration;
-import hu.d2.offsitesr.util.EnvironmentTool;
 
 /**
  * This class is a fragment. Contains tasks of the specified ticket.
@@ -45,9 +42,12 @@ public class TicketDetailsTaskTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("---------------->", "TicketDetailsTask Tab");
+
         if (getArguments() != null) {
             ticket = (ServiceRequestEntity) getArguments().getSerializable(ServiceRequestEntity.SERIALIZABLE_NAME);
         }
+        //System.out.println("TICKET "+ticket.getTicketId()+" >> "+ticket.getTasks().size());
     }
 
     /**

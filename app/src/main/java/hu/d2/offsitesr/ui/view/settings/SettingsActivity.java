@@ -13,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
+import android.util.Log;
 import android.widget.Toast;
 
 import hu.d2.offsitesr.R;
@@ -31,7 +32,7 @@ import static hu.d2.offsitesr.R.string.SettingsMaxListItemsKey;
  *  to display the preferences of that header.
  */
 
-public class SettingsActivity extends PreferenceActivity  {
+public class   SettingsActivity extends PreferenceActivity  {
 
 
     @Override
@@ -40,6 +41,7 @@ public class SettingsActivity extends PreferenceActivity  {
 
         TimerSingleton.getInstance().setMyActivity(this);
 
+        Log.e("---------------->", "SettingsActivity");
         EnvironmentTool.setLanguage(this,SettingsSingleton.getInstance().getLanguage());
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainSettingsFragment()).commit();
         PreferenceManager.setDefaultValues(SettingsActivity.this, R.xml.act_settings_preferences,false);

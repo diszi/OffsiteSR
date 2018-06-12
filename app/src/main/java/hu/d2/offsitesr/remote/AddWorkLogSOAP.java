@@ -1,15 +1,49 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
+import io.reactivex.ObservableEmitter;
+
 /**
  * Created by csabinko on 2017.09.19..
  */
 
-public class AddWorkLogSOAP {
+public class AddWorkLogSOAP<T extends String> extends AbstractSOAP<T> {
 
     public static String SOAP_ACTION = "urn:processDocument";
 
+    private String ticketID;
+    private String user;
+    private String shortDesc;
+    private String longDesc;
 
-    public static String getSoapPayload(String ticketID, String user, String shortDesc,String longDesc){
+    public AddWorkLogSOAP(String ticketID, String user, String shortDesc,String longDesc){
+        this.ticketID = ticketID;
+        this.user = user;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
+    }
+
+
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)ticketID);
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_SR_URL_UPDATE;
+    }
+
+    @Override
+    protected String getSOAPPayload() {
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +
                 "   <soapenv:Header/>\n" +

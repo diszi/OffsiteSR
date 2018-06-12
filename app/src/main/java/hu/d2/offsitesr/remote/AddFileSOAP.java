@@ -1,20 +1,54 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
+import io.reactivex.ObservableEmitter;
 
 
 /**
  * Created by szidonia.laszlo on 2017. 11. 10..
  */
 
-public class AddFileSOAP {
+public class AddFileSOAP<T extends String> extends AbstractSOAP<T> {
 
 
     public static String SOAP_ACTION = "urn:processDocument";
+    private String ticketID;
+    private String generatedName;
+    private String fileNameWithExtension;
+    private String base64;
+    private String urlname;
 
+    public AddFileSOAP(String ticketID, String generatedName , String fileNameWithExtension, String base64, String urlname){
+        this.ticketID = ticketID;
+        this.generatedName = generatedName;
+        this.fileNameWithExtension = fileNameWithExtension;
+        this.base64 = base64;
+        this.urlname = urlname;
+    }
 
-    public static String getSoapPayload(String ticketID, String generatedName , String fileNameWithExtension, String base64, String urlname){
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)generatedName);
+        emitter.onComplete();
+    }
 
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_SR_URL_UPDATE;
+    }
+
+    @Override
+    protected String getSOAPPayload() {
+
+        System.out.println("SOAP \t => "+ticketID+" } "+fileNameWithExtension+" } "+urlname+" } "+generatedName);
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "   <soapenv:Header/>\n" +

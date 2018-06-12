@@ -142,7 +142,8 @@ public class SavePictureDialog extends DialogFragment {
                     e.printStackTrace();
             }
 
-            ((TicketDetails)getActivity()).addFile(file.getName(), pictureName,encodedImage,path);
+
+            ((TicketDetails.View)getActivity()).addFile(file.getName(), pictureName,encodedImage,path);
 
             dismiss();
         }));

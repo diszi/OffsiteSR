@@ -17,7 +17,7 @@ import io.reactivex.ObservableEmitter;
  * Created by szidonia.laszlo on 2017. 12. 04..
  */
 
-public class GetWorkLogSOAP extends AbstractSOAP<List<WorkLog>> {
+public class GetWorkLogSOAP<T extends List<WorkLog>> extends AbstractSOAP<T> {
 
     private String ticketID;
 
@@ -26,9 +26,8 @@ public class GetWorkLogSOAP extends AbstractSOAP<List<WorkLog>> {
     }
 
     @Override
-    protected void onSucces(InputStream inputStream, ObservableEmitter<List<WorkLog>> emitter) throws IOException, SAXException, ParserConfigurationException {
-        List<WorkLog> workLogList = EntityMapper.transformWorkLogList(inputStream);
-        emitter.onNext(workLogList);
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)EntityMapper.transformWorkLogList(inputStream));
         emitter.onComplete();
     }
 

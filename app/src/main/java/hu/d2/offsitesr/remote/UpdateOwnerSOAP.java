@@ -1,22 +1,48 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Created by csabinko on 2017.09.19..
  */
 
-public class UpdateOwnerSOAP {
+public class UpdateOwnerSOAP<T extends String> extends AbstractSOAP<T> {
 
     public static String SOAP_ACTION = "urn:processDocument";
 
+    private String ticketId;
+    private String owner;
 
-    public static String getSoapPayload(String ticketId,String owner){
+    public UpdateOwnerSOAP(String ticketId,String owner){
+        this.ticketId = ticketId;
+        this.owner = owner;
+    }
 
 
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)owner);
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_SR_URL_UPDATE;
+    }
+
+    @Override
+    protected String getSOAPPayload() {
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +
                 "   <soapenv:Header/>\n" +

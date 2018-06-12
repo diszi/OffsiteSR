@@ -77,8 +77,8 @@ public class ChooseTaskStatusDialog extends DialogFragment {
             if (radioButton != null) {
                 String newData = radioButton.getText().toString();
                 String sendData = newData.substring(0,newData.indexOf("-")-1);
-//                System.out.println(" DIALOG ===>>>> sendData = "+sendData+"   newData = "+newData+" --- wonu, = "+wonum+" "+siteId+" pos = "+pos);
-                ((TicketDetails)getActivity()).updateTaskStatusRemote(sendData,pos,wonum,siteId);
+
+                ((TicketDetails.View)getActivity()).updateTaskStatusRemote(sendData,pos,wonum,siteId);
 
                 dismiss();
             }

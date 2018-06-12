@@ -1,16 +1,48 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
+import hu.d2.offsitesr.ui.model.DocLinks;
+import hu.d2.offsitesr.util.EntityMapper;
+import io.reactivex.ObservableEmitter;
+
 /**
  * Created by szidonia.laszlo on 2017. 11. 28..
  */
 
-public class GetFileSOAP {
+public class GetFileSOAP<T extends List<DocLinks>> extends AbstractSOAP<T> {
 
     public static String SOAP_ACTION = "urn:processDocument";
+    private String ticketID;
+    private String docklinksID;
 
-    public static String getSoapPayload(String tickedID){
+    public GetFileSOAP(String ticketID,String doclinksID){
+        this.ticketID = ticketID;
+        this.docklinksID = doclinksID;
+    }
+
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)EntityMapper.transformAttachmentDocLinksList(inputStream,docklinksID));
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_DOC_URL_GET;
+    }
+
+    @Override
+    protected String getSOAPPayload() {
         StringBuffer whereCondition = new StringBuffer("");
-        whereCondition.append("ticketid='"+tickedID+"'");
+        whereCondition.append("ticketid='"+ticketID+"'");
 
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
@@ -29,5 +61,8 @@ public class GetFileSOAP {
                 "   </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
     }
+
+
+
 
 }

@@ -3,11 +3,12 @@ package hu.d2.offsitesr.ui.view.ticketdetails;
 
 import java.util.List;
 
+import hu.d2.offsitesr.ui.model.Attachment;
+import hu.d2.offsitesr.ui.model.DocLinks;
 import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.WorkLog;
 import hu.d2.offsitesr.ui.view.base.BaseViewPresenter;
 import hu.d2.offsitesr.ui.view.base.helper.RemoteCallBack;
-import io.reactivex.Observable;
 
 /**
  * Created by csabinko on 2017.09.17..
@@ -16,13 +17,13 @@ import io.reactivex.Observable;
 public interface TicketDetails {
 
     interface View {
+
+
         void showLoading();
 
         void hideLoading();
 
         void showErrorMessage(int messageID);
-
-        void showSuccessMessage();
 
         void loadTicketDetails(ServiceRequestEntity entity);
 
@@ -57,15 +58,8 @@ public interface TicketDetails {
 
     interface Presenter extends BaseViewPresenter {
 
+
         void getOwners(String owner);
-
-        void setViewAttachmentTab(TicketDetailsAttachmentTab view2);
-
-        void setWorklogView(TicketDetailsWorkLogTab view3);
-
-        void getFileDetails(String tickedID,String doclinksID);
-
-        void getAttachmentList(String ticketID);
 
         void updateStatusRemote(String ticketID, String status);
 
@@ -80,11 +74,16 @@ public interface TicketDetails {
         void addWorkLogRemote(String ticketID, String owner, String shortDesc, String longDesc);
 
         void addFile(String tickedID,String fileName, String fileNameWithoutExtension, String encode , String urlname );
+
+
+        void getWorkLogList(String ticketID, RemoteCallBack<List<WorkLog>> remoteCallBack);
+
+        void getAttachmentList(String ticketID, RemoteCallBack<List<Attachment>> remoteCallBack);
+
+        void getFileDetails(String ticketID, String docklinksID, RemoteCallBack<List<DocLinks>> remoteCallBack);
+
     }
 
-    interface Tab {
-        void getWorkLogList(String ticketID, RemoteCallBack<List<WorkLog>> remoteCallBack);
-    }
 
 
 

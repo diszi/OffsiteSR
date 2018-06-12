@@ -2,11 +2,8 @@ package hu.d2.offsitesr.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
@@ -22,16 +19,12 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 
 import hu.d2.offsitesr.BuildConfig;
 import hu.d2.offsitesr.app.OffsiteSRApplication;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetails;
-import hu.d2.offsitesr.ui.view.ticketdetails.TicketDetailsActivity;
 
 
 /**
@@ -146,7 +139,7 @@ public class EnvironmentTool {
     public static boolean deadLineVerification(String todayInString)  {
 
 
-        String deadlineInString = "2018.03.15. 11:59";
+        String deadlineInString = "2018.08.15. 11:59";
         Date today = null,deadline = null;
         DateFormat outFormat = new SimpleDateFormat(UIConstans.DATE_PATTERN_HU);
         try {

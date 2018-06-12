@@ -7,15 +7,10 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import hu.d2.offsitesr.R;
-import hu.d2.offsitesr.app.CustomerProperties;
-import hu.d2.offsitesr.app.singleton.SettingsSingleton;
-import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
-import hu.d2.offsitesr.util.EntityMapper;
 import hu.d2.offsitesr.util.NetworkTool;
 import hu.d2.offsitesr.util.UIThrowable;
 import io.reactivex.Observable;
@@ -71,4 +66,6 @@ public abstract class AbstractSOAP<T> {
     private String getSOAPAction(){
         return SOAP_ACTION;
     }
+
+
 }

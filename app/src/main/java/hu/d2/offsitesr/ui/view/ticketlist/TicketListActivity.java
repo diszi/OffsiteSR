@@ -3,10 +3,8 @@ package hu.d2.offsitesr.ui.view.ticketlist;
 
 import android.content.Context;
 import android.content.Intent;
-
-
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +30,6 @@ import hu.d2.offsitesr.ui.model.ServiceRequestEntity;
 import hu.d2.offsitesr.ui.model.TicketHolder;
 import hu.d2.offsitesr.ui.model.Version;
 import hu.d2.offsitesr.ui.view.base.BaseActivity;
-import hu.d2.offsitesr.ui.view.base.BasePresenter;
 import hu.d2.offsitesr.ui.view.base.BaseViewPresenter;
 import hu.d2.offsitesr.ui.view.component.ChooseStatusDialog;
 import hu.d2.offsitesr.ui.view.component.OnBackPressedDialog;
@@ -46,6 +43,7 @@ import hu.d2.offsitesr.ui.view.verifications.UpdateApp;
 import hu.d2.offsitesr.ui.view.verifications.VerificationPresenter;
 import hu.d2.offsitesr.ui.view.verifications.VerificationPresenterImpl;
 import hu.d2.offsitesr.util.EnvironmentTool;
+
 
 
 public class TicketListActivity extends BaseActivity implements  TicketList.View,UpdateApp{
@@ -86,7 +84,7 @@ public class TicketListActivity extends BaseActivity implements  TicketList.View
         setContentView(R.layout.activity_ticket_list);
 
 
-        Log.d("------------------>","Start Activity");
+        Log.e("------------------>","Start Activity - ticketListActivity");
         ButterKnife.bind(this);
 
         updateActivity = new UpdateActivity();
@@ -176,13 +174,13 @@ public class TicketListActivity extends BaseActivity implements  TicketList.View
 
     @Override
     public void showLoading() {
-        Log.d("------------------>"," Show Loading");
+        Log.d("------------------>"," Show Loading - ticketListActivity");
         compProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        Log.d("------------------>"," Hide Loading");
+        Log.d("------------------>"," Hide Loading - ticketListActivity");
         compProgressBar.setVisibility(View.GONE);
     }
 
@@ -191,16 +189,17 @@ public class TicketListActivity extends BaseActivity implements  TicketList.View
         return presenter;
     }
 
-    @Override
+    /*@Override
     public void showErrorMessage(int messageID) {
         Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
     }
-
+*/
     /**
      *  - loading the details of the ticket
      */
     @Override
     public void launchDetailsView(TicketHolder entityHolder) {
+        //System.out.println("---> launchDetailsView - "+entityHolder.getEntity().getTicketId()+" - "+entityHolder.getPosition());
         Intent intent = new Intent(this, TicketDetailsActivity.class);
         intent.putExtra(TicketHolder.SERIALIZABLE_NAME,entityHolder);
         startActivityForResult(intent,TICKET_REQUEST_CODE);
@@ -209,6 +208,7 @@ public class TicketListActivity extends BaseActivity implements  TicketList.View
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == TICKET_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 TicketHolder ticketHolder = (TicketHolder) data.getExtras().get(TicketHolder.SERIALIZABLE_NAME);
@@ -291,7 +291,7 @@ public class TicketListActivity extends BaseActivity implements  TicketList.View
                 this.launchLoginView();
                 return true;
             default:
-                this.showErrorMessage(R.string.error_noOption);
+                super.showErrorMessage(R.string.error_noOption);
         }
 
         return super.onOptionsItemSelected(item);

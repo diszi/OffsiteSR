@@ -1,8 +1,6 @@
 package hu.d2.offsitesr.ui.view.ticketdetails;
 
 
-import android.app.ProgressDialog;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +59,7 @@ public class TicketDetailsTaskAdapter extends RecyclerView.Adapter<TicketDetails
 	@Override
 	public void onBindViewHolder(TaskViewHolder holder, int position) {
 		Task task = tasks.get(position);
+		//System.out.println(" TASK ADAPTER ==> "+task.getSiteId()+"  ==  "+position);
         holder.bind(task);
         holder.btnEditStatus.setOnClickListener(new View.OnClickListener() {
             @Override

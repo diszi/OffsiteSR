@@ -1,19 +1,14 @@
 package hu.d2.offsitesr.ui.view.login;
 
-import io.reactivex.Observable;
-
-/**
- * Created by csabinko on 2017.09.14..
- */
+import  io.reactivex.Observable;
 
 public interface LoginPresenter {
 
-     void setView(Login view);
+    void setView(Login view);
 
-     void login(String userName, String password);
+    void login(String userName, String password);
 
-     void onDestroy();
+    void onDestroy();
 
-     Observable createObservable(String userName, String password);
-
+   Observable createObservable(String userName, String password);
 }

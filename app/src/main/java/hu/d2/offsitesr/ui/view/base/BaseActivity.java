@@ -1,8 +1,6 @@
 package hu.d2.offsitesr.ui.view.base;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import hu.d2.offsitesr.R;
@@ -36,5 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
     }
 
+    public void showSuccessMessage() {
+        Toast.makeText(this, getString(R.string.actDetails_saveSuccess), Toast.LENGTH_SHORT).show();
+    }
 
 }

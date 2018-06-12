@@ -1,21 +1,57 @@
 package hu.d2.offsitesr.remote;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import hu.d2.offsitesr.app.CustomerProperties;
 import hu.d2.offsitesr.util.EnvironmentTool;
 import hu.d2.offsitesr.util.UIConstans;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Created by szidonia.laszlo on 2018. 02. 02..
  */
 
-public class UpdateTaskStatusSOAP {
+public class UpdateTaskStatusSOAP<T extends String> extends AbstractSOAP<T>{
+
+    private String ticketID;
+    private String status;
+    private String wonum;
+    private String siteID;
 
     public static String SOAP_ACTION = "urn:processDocument";
 
 
-    public static String getSoapPayload(String ticketID, String status,String wonum, String siteID) {
+    public UpdateTaskStatusSOAP(String ticketID,String status,String wonum,String siteID){
+        this.ticketID = ticketID;
+        this.status = status;
+        this.wonum = wonum;
+        this.siteID = siteID;
 
+
+    }
+
+
+    @Override
+    protected void onSucces(InputStream inputStream, ObservableEmitter<T> emitter) throws IOException, SAXException, ParserConfigurationException {
+        emitter.onNext((T)status);
+        emitter.onComplete();
+    }
+
+    @Override
+    protected String getSOAPURL() {
+        return CustomerProperties.SOAP_SR_URL_UPDATE;
+    }
+
+    @Override
+    protected String getSOAPPayload() {
+
+       // System.out.println("---------> TASK status SOAP > task status = "+status);
 
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "\n" +

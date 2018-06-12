@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 
 import java.text.DateFormat;
@@ -45,6 +46,7 @@ public class UpdateActivity extends AppCompatActivity implements UpdateApp {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("---------------->", "UpdateActivity");
 
         presenter = new VerificationPresenterImpl();
         presenter.setUpdateView(this);

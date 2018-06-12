@@ -67,6 +67,8 @@ public class GetTicketListSOAP<T extends List<ServiceRequestEntity>> extends Abs
         whereConditionForSynchronization.append("and reportdate >= CURRENT_DATE-" + daySync + " DAYS");
         whereConditionForOwner.append("and owner='" + SettingsSingleton.getInstance().getUserName().toUpperCase() + "'");
 
+        //System.out.println(" \n SOAP wherecondition = "+whereConditionForStatus+ " " + whereConditionForSynchronization + " "+whereConditionForOwner);
+
         return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:max=\"http://www.ibm.com/maximo\">\n" +
                 "   <soapenv:Header/>\n" +
                 "   <soapenv:Body>\n" +

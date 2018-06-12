@@ -5,20 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import hu.d2.offsitesr.R;
 import hu.d2.offsitesr.app.singleton.HolderSingleton;
 import hu.d2.offsitesr.app.singleton.SettingsSingleton;
@@ -32,11 +31,14 @@ import hu.d2.offsitesr.util.UIConstans;
  * 	Login page
  * 	Access to the application requires authentication with the username and password.
  */
-public class LoginActivity extends AppCompatActivity implements Login {
+public class LoginActivity extends AppCompatActivity implements Login{
 
 
 	public static Context mContext;
+//	private Login.Presenter presenter;
+
 	private LoginPresenter presenter;
+
 
 	@BindView(R.id.actLogin_Name)
 	AutoCompleteTextView compLoginName;
@@ -57,12 +59,15 @@ public class LoginActivity extends AppCompatActivity implements Login {
 
 		this.mContext = getApplicationContext();
 
+		Log.e("---------------->", "LoginActivity");
 		ButterKnife.bind(this);
+
+		//presenter = new LoginPresenter(this);
 
 		presenter = new LoginPresenterImpl();
 		presenter.setView(this);
-
 		compVersion.setText(EnvironmentTool.getVersionApp());
+
 
 	}
 
@@ -85,6 +90,11 @@ public class LoginActivity extends AppCompatActivity implements Login {
 	protected void onResume() {
 		super.onResume();
 	}
+
+	/*@Override
+	protected BaseViewPresenter getBasePresenter() {
+		return presenter;
+	}*/
 
 	@Override
 	protected void onDestroy() {
@@ -136,10 +146,12 @@ public class LoginActivity extends AppCompatActivity implements Login {
 		compProgressBar.setVisibility(View.GONE);
 	}
 
-	@Override
+
+
+/*	@Override
 	public void showErrorMessage(int messageID) {
 		Toast.makeText(this, messageID, Toast.LENGTH_SHORT).show();
-	}
+	}*/
 
 
 	@Override
