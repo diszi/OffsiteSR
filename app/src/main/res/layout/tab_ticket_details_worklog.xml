@@ -8,29 +8,6 @@
     android:orientation="horizontal">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/actWorklog_swipeRefreshLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/actDetails_workLogList"
-            android:layout_width="match_parent"
-            android:layout_height="572dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp">
-            <!--android:clipToPadding="false"-->
-
-
-        </android.support.v7.widget.RecyclerView>
-
-
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="87dp"-->
@@ -45,6 +22,27 @@
             <!--android:inputType="textPersonName"-->
             <!--android:text="Name" />-->
     <!--</LinearLayout>-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/actWorklog_swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/actDetails_workLogList"
+            android:layout_width="match_parent"
+            android:layout_height="572dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp">
+            <!--android:clipToPadding="false"-->
+
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/actDetails_workLogAddButton"

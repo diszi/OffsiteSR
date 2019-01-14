@@ -41,9 +41,6 @@
                     android:layout_alignParentEnd="true"
 
                     android:backgroundTint="@android:color/transparent"
-
-
-
                     android:src="@android:drawable/ic_menu_camera" />
 
                 <LinearLayout
